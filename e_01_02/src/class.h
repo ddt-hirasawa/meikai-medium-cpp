@@ -11,6 +11,9 @@
 
 #include<iostream>
 
+//	1  2  3  4  5  6  7  8  9  10 11 12 月の末日
+const int dmax[] = {31,28,31,30,31,30,31,31,30,31,30,31};
+
 //時刻クラス
 class Date {
 public:
@@ -31,22 +34,32 @@ public:
 	{
 	}
 
+	//ゲッタ データメンバ 年を表示させる
 	int open_year() const {
 
 		return year;
 	}
 
+	//ゲッタ データメンバ 月を表示させる
 	int open_month() const {
 
 		return month;
 	}
 
+	//ゲッタ データメンバ 日を表示させる
 	int open_day() const {
 
 		return day;
 	}
-};
 
+	//今年がうるう年なのか判別します
+	static bool leap_year(int year) {
+
+		return ( (year % 4 == 0) && (year % 100 != 0) ) || (year % 400 == 0);
+	}
+
+};
+//抽出子 挿入子の定義
 std::ostream& operator << (std::ostream& stream,const Date& tmp);
 std::istream& operator >> (std::istream& stream,Date& tmp);
 
