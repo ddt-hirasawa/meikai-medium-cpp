@@ -22,11 +22,15 @@ unsigned lrotate(unsigned tmp, int num);		//左回り
 
 int main() {
 	unsigned tmp = 100;				//32個 0 1 の羅列を表現できる変数
+	unsigned tmp1;					//右にシフトした値を補完します
+	unsigned tmp2;					//左にシフトした値を補完します
 
-	unsigned sub1[32] = { 0 };	//
+	unsigned sub1[32] = { 0 };		//基準となる整数の2進数のbit 0 1 を補完します
+	unsigned sub2[32] = { 0 };		//基準となる整数の2進数のbit 0 1 を補完します
+	unsigned sub3[32] = { 0 };		//基準となる整数の2進数のbit 0 1 を補完します
 
 	//宣言 2進数表記
-	cout << "tmp : ";
+	cout << " tmp : ";
 
 	//関数の呼び出し部分 0 1 の羅列を表示
 	print_bits(tmp, sub1);
@@ -43,22 +47,42 @@ int main() {
 	//区切ります
 	cout << "\n";
 
-	unsigned tmo = rrotate(tmp,32);
+	tmp1 = lrotate(tmp,32);
 
 	//宣言 2進数表記
-	cout << "tmp : ";
+	cout << "tmp1 : ";
 
 	//関数の呼び出し部分 0 1 の羅列を表示
-	print_bits(tmo, sub1);
+	print_bits(tmp1, sub2);
 
 	//確認のため、配列の 0 1 を並べて表記します
 	for (int i = 31; i >= 0; i--) {
 
 		// 0 1 の値を表示し続ける
-		cout << sub1[i];
+		cout << sub2[i];
 	}
 	//10進数に戻した値を表示します
-	cout << " 10進数 : " << out_put(sub1);
+	cout << " 10進数 : " << out_put(sub2);
+
+	//区切ります
+	cout << "\n";
+
+	tmp2 = rrotate(tmp,32);
+
+	//宣言 2進数表記
+	cout << "tmp2 : ";
+
+	//関数の呼び出し部分 0 1 の羅列を表示
+	print_bits(tmp2, sub3);
+
+	//確認のため、配列の 0 1 を並べて表記します
+	for (int i = 31; i >= 0; i--) {
+
+		// 0 1 の値を表示し続ける
+		cout << sub3[i];
+	}
+	//10進数に戻した値を表示します
+	cout << " 10進数 : " << out_put(sub3);
 
 	//区切ります
 	cout << "\n";

@@ -8,10 +8,11 @@
  */
 
 #include<iostream>
+#include<math.h>
 
 using namespace std;
 
-//関数 n bit 分 左に回転した値を返却する
+//関数 n bit 分 右に回転した値を返却する
 //仮引数 回転する整数と回すbit数
 //返却値 回転したときの値
 
@@ -20,14 +21,44 @@ unsigned rrotate(unsigned tmp, int num) {
 	//bit数分シフトします
 	for (int i = 0; i < num; i++) {
 
-		if ((tmp >> 31) & 1U) {
+		//32ビットなので、探せる範囲は 0 ～ 31 まで
+		//先頭の bit がいならば 論理積により true になる
+		if ((tmp >> 0) & 1U) {
 
-			tmp <<= 1;
+			tmp >>= 1;		//右へ１つシフト
 
-			tmp += 1U;
+			tmp += pow(2,31);		//上位ビットのみ、１の値を加算する
+									//unsigned型は 32 bit 最も上位のbitは 2 の31乗です
+		//先頭のbit が1以外ならば
 		} else {
 
-			tmp <<= 1;
+			tmp >>= 1;		//右へ１つシフト
+		}
+	}
+	return tmp;
+}
+
+
+//関数 n bit 分 左に回転した値を返却する
+//仮引数 回転する整数と回すbit数
+//返却値 回転したときの値
+
+unsigned lrotate(unsigned tmp, int num) {
+
+	//bit数分シフトします
+	for (int i = 0; i < num; i++) {
+
+		//32ビットなので、探せる範囲は 0 ～ 31 まで
+		//先頭の bit がいならば 論理積により true になる
+		if ((tmp >> 31) & 1U) {
+
+			tmp <<= 1;		//左へ１つシフト
+
+			tmp += 1U;		//下位ビットのみ、１の値を加算する
+		//先頭のbit が1以外ならば
+		} else {
+
+			tmp <<= 1;		//左へ１つシフト
 		}
 	}
 	return tmp;
