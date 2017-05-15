@@ -43,7 +43,7 @@ int main() {
 	//‹æØ‚è‚Ü‚·
 	cout << "\n";
 
-	unsigned tmo = rrotate(tmp,27);
+	unsigned tmo = rrotate(tmp,32);
 
 	//éŒ¾ 2i”•\‹L
 	cout << "tmp : ";
