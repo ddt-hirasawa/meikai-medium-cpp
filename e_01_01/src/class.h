@@ -1,9 +1,9 @@
 /*
-‰‰K1-1 ƒNƒ‰ƒXHuman ‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğ‘‚«Š·‚¦AƒRƒ“ƒXƒgƒ‰ƒNƒ^‰Šú‰»q‚Ås‚¤‚æ‚¤‚É•ÏX‚¹‚æ
+æ¼”ç¿’1-1 ã‚¯ãƒ©ã‚¹Human ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’æ›¸ãæ›ãˆã€ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿åˆæœŸåŒ–å­ã§è¡Œã†ã‚ˆã†ã«å¤‰æ›´ã›ã‚ˆ
 
-ì¬“ú 2017”N5Œ15“ú
+ä½œæˆæ—¥ 2017å¹´5æœˆ15æ—¥
 
-ì¬Ò •½àVŒh‰î
+ä½œæˆè€… å¹³æ¾¤æ•¬ä»‹
 */
 
 #ifndef CLASS_H_
@@ -11,42 +11,42 @@
 
 #include<string>
 
-//ƒNƒ‰ƒXlŠÔ
+//ã‚¯ãƒ©ã‚¹äººé–“
 class Human {
 
-	std::string full_name;			//“–l‚Ì–¼‘O
+	std::string full_name;			//å½“äººã®åå‰
 
-	float height;					//g’·
+	float height;					//èº«é•·
 
-	float weight;					//‘Ìd
+	float weight;					//ä½“é‡
 
 public:
 
-	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^ ‰‰K•”•ª ƒRƒ“ƒXƒgƒ‰ƒNƒ^‰Šú‰»q
+	//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ æ¼”ç¿’éƒ¨åˆ† ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿åˆæœŸåŒ–å­
 	Human(std::string name,float height_,float weight_) :
 		full_name(name),height(height_),weight(weight_)
 	{
-		//ƒRƒ“ƒXƒgƒ‰ƒNƒ^“à•” ‹ó
+		//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿å†…éƒ¨ ç©º
 	}
 
-	//ƒQƒbƒ^
+	//ã‚²ãƒƒã‚¿
 	std::string open_name() const {
 
-		//©•ª‚Ì–¼‘O‚ğ•\¦‚µ‚Ü‚·
+		//è‡ªåˆ†ã®åå‰ã‚’è¡¨ç¤ºã—ã¾ã™
 		return full_name;
 	}
 
-	//ƒQƒbƒ^
+	//ã‚²ãƒƒã‚¿
 	float open_height() const {
 
-		//©•ª‚Ìg’·‚ğ•\¦‚µ‚Ü‚·
+		//è‡ªåˆ†ã®èº«é•·ã‚’è¡¨ç¤ºã—ã¾ã™
 		return height;
 	}
 
-	//ƒQƒbƒ^
+	//ã‚²ãƒƒã‚¿
 	float open_weight() const {
 
-		//©•ª‚Ìg’·‚ğ•\¦‚µ‚Ü‚·
+		//è‡ªåˆ†ã®èº«é•·ã‚’è¡¨ç¤ºã—ã¾ã™
 		return weight;
 	}
 };

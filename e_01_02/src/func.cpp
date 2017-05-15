@@ -1,9 +1,9 @@
 /*
- ���K1-2 �N���XDate �ł��肦�Ȃ����ɂ����������悤�ɂ��Ă�������
+ 演習1-2 クラスDate でありえない日にちを訂正するようにしてください
 
- �쐬�� 2017�N5��15��
+ 作成日 2017年5月15日
 
- �쐬�� ���V�h��
+ 作成者 平澤敬介
  */
 
 #include<iostream>
@@ -11,82 +11,82 @@
 
 using namespace std;
 
-//�}���q ���݂̓��t��\�����܂�
+//挿入子 現在の日付を表示します
 ostream& operator <<(ostream& stream, const Date& tmp) {
 
-	//stream ���琼�� �� �� �̏��Ԃɕ\�����s���܂�
-	return stream << "����" << tmp.open_year() << "�N" << tmp.open_month() << "��"
-			<< tmp.open_day() << "��\n";
+	//stream から西暦 月 日 の順番に表示を行います
+	return stream << "西暦" << tmp.open_year() << "年" << tmp.open_month() << "月"
+			<< tmp.open_day() << "日\n";
 }
 
-//���o�q ���t����͂��f�[�^�����o�ɉ����܂�
+//抽出子 日付を入力しデータメンバに加えます
 istream& operator >>(istream& stream, Date& tmp) {
 
-	//�����␳���ē��͂��s���܂�
+	//西暦を補正して入力を行います
 	do {
 
-		//�錾 1900�N�`2100�N�͈̔�
-		std::cout << "1900����2100�N�܂�\n";
-		std::cout << "���� : ";
-		//�f�[�^�����o year ����͂��܂�
+		//宣言 1900年～2100年の範囲
+		std::cout << "1900から2100年まで\n";
+		std::cout << "西暦 : ";
+		//データメンバ year を入力します
 		stream >> tmp.year;
 
-		//�͈͊O�̐���͎󂯕t���܂���
+		//範囲外の西暦は受け付けません
 		if (tmp.year < 1900 || 2100 < tmp.year) {
 
-			//�錾 �R���\�[���ɕ\�����Ĕ͈͓��̓��͂𑣂��܂�
-			cout << "�͈͊O�ł�\n";
+			//宣言 コンソールに表示して範囲内の入力を促します
+			cout << "範囲外です\n";
 		}
-		//�͈͊O�̏ꍇ�Ado���̏��߂ɖ߂�ŏ������蒼���܂�
+		//範囲外の場合、do文の初めに戻り最初からやり直します
 	} while (tmp.year > 1900 && 2100 < tmp.year);
 
-	//�錾 1���`12���͈̔�
+	//宣言 1月～12月の範囲
 	do {
 
-		//�錾 1���`12���͈̔�
-		std::cout << "1������12���܂�\n";
-		std::cout << "���� : ";
-		//�f�[�^�����o month ����͂��܂�
+		//宣言 1月～12月の範囲
+		std::cout << "1月から12月まで\n";
+		std::cout << "何月 : ";
+		//データメンバ month を入力します
 		stream >> tmp.month;
 
-		//�͈͊O�̌��͎󂯕t���܂���
+		//範囲外の月は受け付けません
 		if (tmp.month < 1 || 12 < tmp.month) {
 
-			//�錾 �R���\�[���ɕ\�����Ĕ͈͓��̓��͂𑣂��܂�
-			cout << "���̌��͂���܂���\n";
+			//宣言 コンソールに表示して範囲内の入力を促します
+			cout << "その月はありません\n";
 		}
-		//�͈͊O�̏ꍇ�Ado���̏��߂ɖ߂�ŏ������蒼���܂�
+		//範囲外の場合、do文の初めに戻り最初からやり直します
 	} while (tmp.month > 1 && 12 < tmp.month);
 
-	int max_day = dmax[tmp.month - 1];		//�w�b�_�Œ�`���Ă��錎���Ƃ̖���
-											//���i�[���Ă���z����g���܂�
+	int max_day = dmax[tmp.month - 1];		//ヘッダで定義している月ごとの末日
+											//を格納している配列を使います
 
-	//2���͂��邤�N�ŉe�������邽�ߏ������s���܂�
+	//2月はうるう年で影響があるため処理を行います
 	if (tmp.month == 2) {
 
-		//���ɂ��A���邤�N�̎� true ���ԋp�����̂�
+		//式により、うるう年の時 true が返却されるので
 		if (tmp.leap_year(tmp.year)) {
 
-			max_day++;						//1�������Ȃ�܂�
+			max_day++;						//1日長くなります
 		}
 
 	}
-	//�錾 1���`���̌��̖����܂ł͈̔�
+	//宣言 1日～その月の末尾までの範囲
 	do {
 
-		//�錾 1���`���̌��̖����܂ł͈̔�
-		std::cout << "1������" << max_day << "���܂�\n";
-		std::cout << "���� : ";
-		//�f�[�^�����o day ����͂��܂�
+		//宣言 1日～その月の末尾までの範囲
+		std::cout << "1日から" << max_day << "日まで\n";
+		std::cout << "何日 : ";
+		//データメンバ day を入力します
 		stream >> tmp.day;
 
-		//�͈͊O�̓��͎󂯕t���܂���
+		//範囲外の日は受け付けません
 		if (tmp.day < 1 || max_day < tmp.day) {
 
-			//�錾 �R���\�[���ɕ\�����Ĕ͈͓��̓��͂𑣂��܂�
-			cout << "���̓��͂���܂���\n";
+			//宣言 コンソールに表示して範囲内の入力を促します
+			cout << "その日はありません\n";
 		}
-	//�͈͊O�̏ꍇ�Ado���̏��߂ɖ߂�ŏ������蒼���܂�
+	//範囲外の場合、do文の初めに戻り最初からやり直します
 	} while (tmp.day > 1 && max_day < tmp.day);
 
 	return stream;

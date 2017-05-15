@@ -1,9 +1,9 @@
 /*
-‰‰K1-1 ƒNƒ‰ƒXHuman ‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ð‘‚«Š·‚¦AƒRƒ“ƒXƒgƒ‰ƒNƒ^‰Šú‰»Žq‚Ås‚¤‚æ‚¤‚É•ÏX‚¹‚æ
+æ¼”ç¿’1-1 ã‚¯ãƒ©ã‚¹Human ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’æ›¸ãæ›ãˆã€ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿åˆæœŸåŒ–å­ã§è¡Œã†ã‚ˆã†ã«å¤‰æ›´ã›ã‚ˆ
 
-ì¬“ú 2017”N5ŒŽ15“ú
+ä½œæˆæ—¥ 2017å¹´5æœˆ15æ—¥
 
-ì¬ŽÒ •½àVŒh‰î
+ä½œæˆè€… å¹³æ¾¤æ•¬ä»‹
 */
 
 #include<iostream>
@@ -11,32 +11,32 @@
 
 using namespace std;
 
-//ŠÖ”éŒ¾
+//é–¢æ•°å®£è¨€
 void open(Human *ptr);
 
 int main()
 {
-	//•½àVŒh‰î Ž„‚Å‚·
+	//å¹³æ¾¤æ•¬ä»‹ ç§ã§ã™
 	Human keisuke("Hirasawa",173.5,65.5);
 
-	//ŠÖ”ŒÄ‚Ño‚µ•”•ª •\Ž¦‚³‚ê‚Ü‚·
+	//é–¢æ•°å‘¼ã³å‡ºã—éƒ¨åˆ† è¡¨ç¤ºã•ã‚Œã¾ã™
 	open(&keisuke);
 
 	return 0;
 }
 
-//ŠÖ” ƒNƒ‰ƒX‚ÌƒQƒbƒ^‚ð‡‚ÉŒÄ‚Ño‚µ‚Ü‚·
-//‰¼ˆø” ƒNƒ‰ƒXƒIƒuƒWƒFƒNƒg ƒ|ƒCƒ“ƒ^‚ðŽg‚¢‚Ü‚·
-//•Ô‹p’l –³‚µ
+//é–¢æ•° ã‚¯ãƒ©ã‚¹ã®ã‚²ãƒƒã‚¿ã‚’é †ã«å‘¼ã³å‡ºã—ã¾ã™
+//ä»®å¼•æ•° ã‚¯ãƒ©ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ ãƒã‚¤ãƒ³ã‚¿ã‚’ä½¿ã„ã¾ã™
+//è¿”å´å€¤ ç„¡ã—
 
 void open(Human *ptr)
 {
-	//ƒNƒ‰ƒX“à‚ÌƒQƒbƒ^‚ð‚·‚×‚Ä•\Ž¦‚³‚¹‚Ü‚·
-	cout << "–¼‘O : " << ptr -> open_name() << "\n"
-			<< "g’· : " << ptr -> open_height() << "cm\n"
-			<< "‘Ìd : " << ptr -> open_weight() << "kg\n";
+	//ã‚¯ãƒ©ã‚¹å†…ã®ã‚²ãƒƒã‚¿ã‚’ã™ã¹ã¦è¡¨ç¤ºã•ã›ã¾ã™
+	cout << "åå‰ : " << ptr -> open_name() << "\n"
+			<< "èº«é•· : " << ptr -> open_height() << "cm\n"
+			<< "ä½“é‡ : " << ptr -> open_weight() << "kg\n";
 }
 
 /*
- * ƒRƒ“ƒXƒgƒ‰ƒNƒ^‰Šú‰»Žq‚É‚æ‚èA‰Šú‰»‚ªs‚í‚êƒNƒ‰ƒX‚Ìƒf[ƒ^ƒƒ“ƒo‚ªŒˆ‚Ü‚è‚Ü‚µ‚½
+ * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿åˆæœŸåŒ–å­ã«ã‚ˆã‚Šã€åˆæœŸåŒ–ãŒè¡Œã‚ã‚Œã‚¯ãƒ©ã‚¹ã®ãƒ‡ãƒ¼ã‚¿ãƒ¡ãƒ³ãƒãŒæ±ºã¾ã‚Šã¾ã—ãŸ
  */
