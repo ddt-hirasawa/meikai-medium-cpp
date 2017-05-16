@@ -115,6 +115,10 @@ int main() {
 	return 0;
 }
 
+//関数 整数の中の '1' であるbitを検出します
+//仮引数 bit 数を検出したい整数
+//返却値 せの整数に '1' がある個数
+
 int count_bits(unsigned tmp) {
 
 	int bits = 0;		//カウンタ bit は 0 か 1 0で初期化子カウントします
