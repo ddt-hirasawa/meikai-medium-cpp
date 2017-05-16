@@ -27,7 +27,7 @@ int main()
 
 	int serch[num] = {0};	            //配列 0 ～ 99 の100個用意します
 
-	int** idx = '\0';				//探索条件にかからない場合はポインタはNULLを指します
+	int* idx = '\0';					//探索条件にかからない場合はポインタはNULLを指します
 
 	//配列を乱数で埋め尽くします
 	for(int i=0; i < num; i++) {
@@ -45,7 +45,7 @@ int main()
 		cout << "serch[" << i << "] = " << serch[i] << "\n";
 	}
 
-	int answer = serch_if_all(serch,num,cond1,cond2,cond3,idx);	//関数呼び出し部分 関数を3つ定義します
+	int answer = serch_if_all(serch,num,cond1,cond2,cond3,&idx);	//関数呼び出し部分 関数を3つ定義します
 
 	//見つからなかったときの返却値は 0 なので  0 -> false になる
 	if(answer) {
@@ -82,9 +82,7 @@ int main()
 
 int serch_if_all(const int a[],int num,bool (*cond1)(int),bool (*cond2)(int,int),bool (*cond3)(int,int),int** idx) {
 
-	int answer = 0;				//返却値 ない場合のことを考え 0
-
-	int select;					//任意で探索条件を変えるための変数
+	int select = 0;					//任意で探索条件を変えるための変数
 
 	//探索条件を表示します 頭の 1 2 3 で選択します
 	cout << "探索条件\n"
@@ -93,16 +91,16 @@ int serch_if_all(const int a[],int num,bool (*cond1)(int),bool (*cond2)(int,int)
 		<< "3.前後の要素の差が10以上かの探索\n";
 
 	//1 2 3以外が入力されたときやり直し
-	/*do{
+	do{
 
 		cin >> select;	//探索条件の決定
 
 	//1 2 3以外の時入力しなおし
-	}while(select < 0 || 3 < select);*/
+	}while(select < 0 || 3 < select);
 
 	int serch_ = 0;//探索結果を補完する配列を走査するための変数
 
-	switch(2) {
+	switch(select) {
 
 	case 1 : //偶数の探索
 
@@ -114,8 +112,6 @@ int serch_if_all(const int a[],int num,bool (*cond1)(int),bool (*cond2)(int,int)
 
 				result[serch_] = i;	//探索結果を格納する配列に添字を格納
 
-				//見つかったのでカウントワン
-				answer++;
 				//探索結果を格納する配列を次に進めます
 				serch_++;
 			}
@@ -135,8 +131,6 @@ int serch_if_all(const int a[],int num,bool (*cond1)(int),bool (*cond2)(int,int)
 
 				result[serch_] = i;	//探索結果を格納する配列に添字を格納
 
-				//見つかったのでカウントワン
-				answer++;
 				//探索結果を格納する配列を次に進めます
 				serch_++;
 			}
@@ -156,8 +150,6 @@ int serch_if_all(const int a[],int num,bool (*cond1)(int),bool (*cond2)(int,int)
 
 				result[serch_] = i;	//探索結果を格納する配列に添字を格納
 
-				//見つかったのでカウントワン
-				answer++;
 				//探索結果を格納する配列を次に進めます
 				serch_++;
 			}
@@ -168,12 +160,12 @@ int serch_if_all(const int a[],int num,bool (*cond1)(int),bool (*cond2)(int,int)
 	}
 
 	//1つでも要素が発見で来たのならば
-	if(0 < answer) {
+	if(0 < serch_) {
 
-		**idx = *(result + 0);	//ポインタのアドレスを探索結果を格納している配列の先頭にします
+		*idx = result;	//ポインタのアドレスを探索結果を格納している配列の先頭にします
 	}
 
-	return answer;
+	return serch_;
 }
 
 //関数 偶数なのかどうかを判別します
