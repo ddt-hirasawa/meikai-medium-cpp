@@ -18,31 +18,42 @@ int addition(int,int);
 
 int main()
 {
-	// テンプレート化 型名 Output  引数 int int 返却値 int
-	typedef int (*output)(int,int);
 
-	output select[] = { integration, addition };
+	typedef int (*Func)(int i,int j);						//関数のポインタの配列の宣言 返却値 int 仮引数 int int の関数の配列
 
-	output Select;
+	const Func func_array[] = { integration,addition };		//関数の配列 0 1 で呼び出せる
 
+	Func func_select;										//宣言した関数のポインタの配列の仮置き場
 
-	int select_;
+	int select;												//キーボードから乗算 加算を選択します
 
+	//入力を制限します 0 1 のみです
 	do{
 
+	//0  1  にそれぞれ 乗算 加算 の意味を持たせます
+	cout << "九九の乗算 加算 どちらですか？ 0 - > 乗算 1 -> 加算";
 
-		cin >> select_;
+	//キーボードからの値でどちらを選ぶか決定します
+	cin >> select;
 
+	//0 1 以外ならばやり直しです
+	}while(select != 0 && select != 1);
 
-		if(select_ == 0 || select_ == 1) {
+	//List3-8 に準じます
+	if(select == 0) {
 
-			Select = static_cast<output>(select_);
+		//関数配列の0番目を代入します 乗算
+		func_select = func_array[0];
 
-			output(Select);
-		}
+		//1のときの処理
+	} else {
 
+		//関数配列の1番目を代入します 加算
+		func_select = func_array[1];
+	}
 
-	}while(select_ != 9999);
+	//中身は 乗算 加算に分かれます
+	output(func_select);
 
 	return 0;
 }
@@ -52,8 +63,6 @@ int main()
 //返却値 無し
 
 void output(int calc(int,int)) {
-
-	cout << "九九の乗算表\n";
 
 	cout << "  |";
 
