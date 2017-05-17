@@ -28,6 +28,7 @@ int main()
 	int serch[num] = {0};	            //配列 0 ～ 99 の100個用意します
 
 	int* idx = '\0';					//探索条件にかからない場合はポインタはNULLを指します
+										//int* idx;でint型のポインタ
 
 	//配列を乱数で埋め尽くします
 	for(int i=0; i < num; i++) {
@@ -45,6 +46,7 @@ int main()
 		cout << "serch[" << i << "] = " << serch[i] << "\n";
 	}
 
+																	//*idx で定義してるから ポインタのアドレスを渡す
 	int answer = serch_if_all(serch,num,cond1,cond2,cond3,&idx);	//関数呼び出し部分 関数を3つ定義します
 
 	//見つからなかったときの返却値は 0 なので  0 -> false になる
@@ -163,6 +165,8 @@ int serch_if_all(const int a[],int num,bool (*cond1)(int),bool (*cond2)(int,int)
 	if(0 < serch_) {
 
 		*idx = result;	//ポインタのアドレスを探索結果を格納している配列の先頭にします
+						//ポインタのポインタとして扱っているので * 1つで ポインタのアドレスを
+						//配列の先頭に変更する
 	}
 
 	return serch_;
