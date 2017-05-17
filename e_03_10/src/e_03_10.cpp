@@ -1,10 +1,10 @@
 /*
- 演習3-9 binsearch関数を作成せよ
+演習3-10 binsearchx 関数を作成せよ
 
- 作成日 2017年5月17日
+作成日 2017年5月17日
 
- 作成者 平澤敬介
- */
+作成者 平澤敬介
+*/
 
 #include<iostream>
 #include<cstdlib>
@@ -33,9 +33,9 @@ int main() {
 	//要素数分乱数を発生させるためループ開始
 	for (int i = 0; i < max; i++) {
 
-		search_array[i] = i;//rand() % 50;		//0～49の間で乱数を発生 させた場合オーバーフロー
+		search_array[i] = i;//rand() % 50;		//0～49の間で乱数を発生 させた場合、乱数のためオーバーフロー
 
-		//発生させた乱数を表示　させるのではなkう 0～49まで降順
+		//発生させた乱数を表示	ではなく	0　～　49まで降順
 		cout << "array[" << setw(2) << i << "] = " << setw(2) << search_array[i]
 				<< "\n";
 	}
@@ -120,6 +120,18 @@ void* binsearch(const void* key, const void* base, size_t nmenb, size_t size,
 
 			//関数により発見したことがわかりました
 			if(comp == 0) {
+
+				//先頭の要素を探すため
+				for(; pl < pc; pc--) {
+
+					//関数で 0 が返却されて来ればループが終了します
+					if(!compar(key,reinterpret_cast<const void*>(&tmp[pc * size]))) {
+
+						//先頭の要素を探すループから脱却
+						break;
+					}
+
+				}
 
 				//先頭の要素のポインタが代入されます
 				ptr = const_cast<void*>(reinterpret_cast<const void*>(&tmp[pc * size]));
