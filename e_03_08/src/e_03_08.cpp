@@ -24,11 +24,11 @@ int main() {
 	//乱数の種を生成
 	srand(time(NULL));
 
-	const int max = 100;		//配列の要素数を 100 に設定
+	const int max = 10;		//配列の要素数を 100 に設定
 
 	int key;				//探す数字 0
 
-	int search_array[max];		//関数を使って探す配列を作成
+	/*int search_array[max];		//関数を使って探す配列を作成
 
 	//要素数分乱数を発生させるためループ開始
 	for (int i = 0; i < max; i++) {
@@ -39,6 +39,10 @@ int main() {
 		cout << "array[" << setw(2) << i << "] = " << setw(2) << search_array[i]
 				<< "\n";
 	}
+	const_cast<const int>(search_array);*/
+
+	const int search_array[max] = {0,1,2,3,4,5,6,7,8,9};
+
 	//コンソールに表示される値を見て決めます
 	cout << "探す値 : ";
 
@@ -47,13 +51,13 @@ int main() {
 
 	//int型のポインタ を関数から返却されてくるからポインタを強制キャストで変換します
 
-	int* search_ptr = reinterpret_cast<int*>(seqsearch(&key, &search_array, max,
+	int* search_ptr = reinterpret_cast<int*>(seqsearch(&key, search_array, max,
 			sizeof(int),
 
 			//比較関数も返却値を強制キャストで変換しint型にします
 			reinterpret_cast<int (*)(const void*, const void*)>(int_result)));
 
-	cout << (search_ptr - *search_array);
+	cout << *(search_ptr - *search_array);
 
 }
 
@@ -97,8 +101,7 @@ void* seqsearch(const void* key, const void* base, size_t nmenb, size_t size,
 		if (!compar(key, reinterpret_cast<const void*>(&tmp[i * size]))) {
 
 			//返却値を定置属性を外した配列の要素の1つとします
-			result = const_cast<void*>(reinterpret_cast<const void*>(&tmp[i
-					* size]));
+			result = const_cast<void*>(reinterpret_cast<const void*>(&tmp[i * size]));
 
 			//発見されたので終了します
 			break;
