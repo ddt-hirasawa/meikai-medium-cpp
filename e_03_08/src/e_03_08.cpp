@@ -95,6 +95,8 @@ void* seqsearch(const void* key, const void* base, size_t nmenb, size_t size,
 	//探すオブジェクトを強制キャストでポインタの文字列として変換した先頭とする
 	const char* tmp = reinterpret_cast<const char*>(base);
 
+	void* ptr = NULL;		//返却用のポインタ
+
 	//範囲が指定されている部分すべてを操作し一致する要素を探します
 	for (size_t i = 0; i < nmenb; i++) {
 
@@ -102,10 +104,10 @@ void* seqsearch(const void* key, const void* base, size_t nmenb, size_t size,
 		if (compar(key, reinterpret_cast<const void*>(&tmp[i * size]))) {
 
 			//返却値を定置属性を外した配列の要素の1つとします
-			return const_cast<void*>(reinterpret_cast<const void*>(&tmp[i * size]));
+			ptr = const_cast<void*>(reinterpret_cast<const void*>(&tmp[i * size]));
 		}
 	}
 
 	//発見された場合は その部分へのポインタ ない場合はNULLを返却する
-	return NULL;
+	return ptr;
 }
