@@ -85,7 +85,7 @@ int int_result(const int* tmp1, const int* tmp2) {
 	return answer;
 }
 
-//関数 比較関数 tmp1 tmp2 で大きい 小さい 同じを判別して返却します
+//関数 線形探索関数
 //仮引数 一致するかどうか探す要素 key オブジェクトの先頭要素のポインタ base その要素数 nmenb 変数の型の大きさ 比較関数
 //返却値 なし
 void* seqsearch(const void* key, const void* base, size_t nmenb, size_t size,
