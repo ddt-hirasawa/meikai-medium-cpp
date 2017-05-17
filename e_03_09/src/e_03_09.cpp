@@ -121,18 +121,6 @@ void* binsearch(const void* key, const void* base, size_t nmenb, size_t size,
 			//関数により発見したことがわかりました
 			if(comp == 0) {
 
-				//先頭の要素を探すため
-				for(; pl < pc; pc--) {
-
-					//関数で 0 が返却されて来ればループが終了します
-					if(!compar(key,reinterpret_cast<const void*>(&tmp[pc * size]))) {
-
-						//先頭の要素を探すループから脱却
-						break;
-					}
-
-				}
-
 				//先頭の要素のポインタが代入されます
 				ptr = const_cast<void*>(reinterpret_cast<const void*>(&tmp[pc * size]));
 
