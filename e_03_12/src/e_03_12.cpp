@@ -17,6 +17,11 @@ using namespace std;
 void mergesort(void* base, size_t nmenb, size_t size,
 		int (*compar)(const void*, const void*));
 int int_result(const int* tmp1, const int* tmp2);
+namespace {
+//マージソート用
+void memswap(void* tmp1, void* tmp2, size_t num);
+
+}
 
 int main() {
 	srand(time(NULL));
@@ -40,7 +45,8 @@ int main() {
 
 	//クイックソート呼び出し
 
-	mergesort(&array, max, sizeof(int),reinterpret_cast<int (*)(const void*, const void*)>(int_result));
+	mergesort(&array, max, sizeof(int),
+			reinterpret_cast<int (*)(const void*, const void*)>(int_result));
 
 			//ソート後
 cout	<< "ソート後\n";
@@ -54,6 +60,28 @@ cout	<< "ソート後\n";
 	}
 
 	return 0;
+}
+
+namespace {
+//入れ替え関数
+//仮引数 共通のオブジェクトを指すポインタ 2つ オブジェクトの要素数
+//返却値 無し
+
+void memswap(void* tmp1, void* tmp2, size_t num) {
+	unsigned char* obj1 = reinterpret_cast<unsigned char*>(tmp1);//変数を仮に unsigned char型のポインタに置き換える
+	unsigned char* obj2 = reinterpret_cast<unsigned char*>(tmp2);//変数を仮に unsigned char型のポインタに置き換える
+
+	//要素数が0になるまで続く その間 ポインタは それぞれ進む
+	for (; num--; obj1++, obj2++) {
+
+		unsigned char obj3 = *obj1;	//ポインタの仮置き場
+
+		*obj1 = *obj2;				//obj1 と obj2を入れ替え
+
+		*obj2 = obj3;				//obj2 に保管していた値 obj3を代入する
+	}
+
+}
 }
 
 //関数 比較関数 tmp1 tmp2 で同じかを判別して返却します
@@ -89,45 +117,78 @@ void mergesort(void* base, size_t nmenb, size_t size,
 	//要素数が1以上のときのみソートを行います
 	if (0 < nmenb) {
 
-		char* ptr = reinterpret_cast<char*>(base);//先頭要素を変更しない宣言をして char 型のポイントにする
+		const char* ptr = reinterpret_cast<const char*>(base);//先頭要素を変更しない宣言をして char 型のポイントにする
 
-		size_t point_l = 0;								//左カーソル
-		size_t point_r = nmenb - 1;						//右カーソル
-		size_t point_ml = (point_l + point_r) / 2;		//中央値 左用
-		size_t point_mr = point_ml;						//中央値 右用
+		size_t p_left = 0;						//左カーソル
+		size_t p_right = nmenb - 1;				//右カーソル
+		size_t p_med = (p_left + p_right) / 2;	//枢軸の更新値
 
-		char** array_ptr = new char*[nmenb + 1];				//前半と後半で分けた要素を個別に指します 0 -> 前半 1 -> 後半
+		char** merge = new char*[nmenb * size];
 
-		//前半部分
-		//先頭要素の番号と中間の要素の番号が等しくなるまで継続
-		for (; point_l != point_ml;) {
+		size_t cnt = 0;
 
-			int cnt = 0;			//割った回数をカウント
+		size_t p_left1 = p_left;						//左カーソル コピー
+		size_t p_right1 = p_left;						//右カーソル コピー
+		size_t p_med1 = p_med;							//枢軸の更新値 コピー
+		size_t p_med2 = p_med;							//枢軸の更新値 コピー
 
-			do{
+		for (; p_left1 < p_med1;) {
 
-			point_ml /= 2;			//細分化するため、中間点を半分にし続けます
+			if (ptr[p_left1 * size] <= ptr[p_med1 * size]) {
 
-			cnt++;					//回数をカウント
+				**(merge + cnt) = ptr[p_left1];
 
-			//先頭要素の 0 になるまで続けます
-			}while(point_l != point_ml);
-/*
-			for(int i=0; i < 25 ; i++) {
+				p_left1++;
 
-				**(array_ptr + i) = ptr[i];
+			} else {
+
+				**(merge + cnt) = ptr[p_med1];
+
+				p_med1++;
 			}
 
-			for(int i=25; i < 50 ; i++) {
+			cnt++;
+		}
 
-				**(array_ptr + i) = ptr[i];
-			}*/
+		for (; p_med2 <= p_right1;) {
 
-			for(int i=0; i < 25 ; i++ )  {
+			if (ptr[p_med2 * size] <= ptr[p_med2 * size]) {
 
-				ptr[i] = **(array_ptr +i) ;
+				**(merge + cnt) = ptr[p_med2];
+
+				p_med2++;
+
+			} else {
+
+				**(merge + cnt) = ptr[p_right1];
+
+				p_right1--;
 			}
 		}
 
+		memswap(
+				const_cast<void*>(reinterpret_cast<const void*>(&ptr[p_left
+						* size])),
+
+				const_cast<void*>(reinterpret_cast<const void*>(&ptr[p_right
+						* size])), size);
 	}
+
+	//右カーソルが1以上の時
+	if (0 < p_right) {
+
+		//クイックソートの呼び出し 先頭の要素と右カーソルの指す要素　比較
+		mergesort(const_cast<void*>(reinterpret_cast<const void*>(&ptr[0])),
+				p_right + 1, size, compar);
+	}
+
+	//左カーソルが 要素以下を指しているとき
+	else if (p_left < nmenb - 1) {
+
+		//クイックソートの呼び出し 左カーソルの指すの要素と要素数と左カーソルの差分を指す要素
+		mergesort(
+				const_cast<void*>(reinterpret_cast<const void*>(&ptr[p_left
+						* size])), nmenb - p_left, size, compar);
+	}
+}
 }
