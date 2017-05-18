@@ -16,7 +16,7 @@ using namespace std;
 
 //関数宣言
 void quicksort(void* base,size_t nmenb,size_t size,int(*compar)(const void*,const void*));
-
+int int_result(const int* tmp1, const int* tmp2);
 namespace {
 
 void memswap(void* tmp1, void* tmp2, size_t num);
@@ -25,9 +25,9 @@ void memswap(void* tmp1, void* tmp2, size_t num);
 
 int main()
 {
-	//srand(time(NULL));
+	srand(time(NULL));
 
-	int max = 100;		//要素数を50で固定
+	int max = 50;		//要素数を50で固定
 
 	int array[max];			//ソートする配列を定義
 
@@ -37,7 +37,7 @@ int main()
 	//要素数分 乱数を発生させ表示します
 	for(int i=0; i < max; i++) {
 
-		array[i] = i*i-1;//rand() % 100;		//0 ～ 99 の間で乱数を発生
+		array[i] = rand() % 100;		//0 ～ 99 の間で乱数を発生
 
 		//配列の要素をすべて表示します
 		cout << "array[" << setw(2) << i << "] = " << setw(2) << array[i] << "\n";
@@ -45,7 +45,7 @@ int main()
 
 	//クイックソート呼び出し
 
-	quicksort(array,max,sizeof(array[0]),reinterpret_cast<int (*)(const void*,const void*)>(memswap));
+	quicksort(&array,max,sizeof(int),reinterpret_cast<int (*)(const void*,const void*)>(int_result));
 
 	//ソート後
 	cout << "ソート後\n";
@@ -58,6 +58,30 @@ int main()
 	}
 
 	return 0;
+}
+
+//関数 比較関数 tmp1 tmp2 で同じかを判別して返却します
+//仮引数 整数2つ
+//返却値  0 -> 同じ 1
+
+int int_result(const int* tmp1, const int* tmp2) {
+
+	int answer = 0;		//返却値 同じ場合は 0
+
+	//tmp1 が大きい場合
+	if (*tmp2 < *tmp1) {
+
+		answer = 1;		//1を代入し,tmp1が大きいことにする
+
+	//tmp2 が大きい場合
+	} else if(*tmp2 > *tmp1) {
+
+
+		answer = -1;	//-1を代入し,tmp2が大きいことにする
+	}
+
+	//いずれにしても 1 0 -1どれかが返却される
+	return answer;
 }
 
 namespace {
@@ -102,7 +126,6 @@ void quicksort(void* base,size_t nmenb,size_t size,int(*compar)(const void*,cons
 		size_t point_v = nmenb;					//枢軸
 		size_t point_new = (point_l + point_r) / 2;	//枢軸の更新値
 
-		do {
 			const char* ptr_v;						//枢軸へのポインタ
 
 			//枢軸 と 枢軸の更新値 が異なる場合
@@ -116,6 +139,7 @@ void quicksort(void* base,size_t nmenb,size_t size,int(*compar)(const void*,cons
 						ptr_v) < 0) {
 
 					point_l++;	//左カーソルを進める
+
 				}
 
 				//比較関数により、-1 が返却される限り続く
@@ -123,6 +147,7 @@ void quicksort(void* base,size_t nmenb,size_t size,int(*compar)(const void*,cons
 						reinterpret_cast<const void*>(&ptr[point_r * size]),ptr_v) > 0) {
 
 					point_r--;	//右カーソルを戻す
+
 				}
 
 				//左カーソルと右カーソルが同じか、右カーソルの方が進んでいるとき
@@ -150,8 +175,7 @@ void quicksort(void* base,size_t nmenb,size_t size,int(*compar)(const void*,cons
 
 				point_r--; //右カーソルを戻す
 			}
-			//右カーソルが左カーソルより先にある限り続きます
-		} while (point_l <= point_r);
+
 
 		//右カーソルが1以上の時
 		if (0 < point_r) {
