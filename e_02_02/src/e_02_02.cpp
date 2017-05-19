@@ -30,7 +30,7 @@ int main() {
 	unsigned sub3[32] = { 0 };		//基準となる整数の2進数のbit 0 1 を補完します
 
 	//宣言 2進数表記
-	cout << " tmp : ";
+	cout << "tmp  : ";
 
 	//関数の呼び出し部分 0 1 の羅列を表示
 	print_bits(tmp, sub1);
