@@ -40,7 +40,7 @@ int main()
 	}while(select != 0 && select != 1);
 
 	//List3-8 に準じます
-	if(select == 0) {
+	if(!select) {
 
 		//関数配列の0番目を代入します 乗算
 		func_select = func_array[0];
