@@ -15,7 +15,7 @@
 //関数宣言
 void* seqsearch(const void* key, const void* base, size_t nmenb, size_t size,
 		int (*compar)(const void*, const void*));
-int int_result(const int*, const int*);
+int int_compar(const int*, const int*);
 
 using namespace std;
 
@@ -52,7 +52,7 @@ int main() {
 			sizeof(int),
 
 			//比較関数も返却値を強制キャストで変換しint型にします
-			reinterpret_cast<int (*)(const void*, const void*)>(int_result)));
+			reinterpret_cast<int (*)(const void*, const void*)>(int_compar)));
 
 	//ナル文字以外を指しているとき
 	if (search_ptr != NULL) {
@@ -71,7 +71,7 @@ int main() {
 //仮引数 整数2つ
 //返却値  1 -> 同じ
 
-int int_result(const int* tmp1, const int* tmp2) {
+int int_compar(const int* tmp1, const int* tmp2) {
 
 	int answer = 0;		//返却値 同じ場合は 0
 
