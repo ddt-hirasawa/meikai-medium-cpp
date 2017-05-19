@@ -32,7 +32,7 @@ int main()
 	unsigned sub4[32] = {0};	//bit を10進数に変換するための配列 関数 inverse の値を補完します
 
 	//宣言 2進数表記
-	cout << " tmp : ";
+	cout << "tmp  : ";
 
 	//関数の呼び出し部分 0 1 の羅列を表示
 	print_bits(tmp, sub1);
@@ -84,7 +84,7 @@ int main()
 		cout << sub3[i];
 	}
 	//10進数に戻した値を表示します
-	cout << " 10進数 : " << out_put(sub3);
+	cout << " 10進数 :  " << out_put(sub3);
 
 	//区切ります
 	cout << "\n";
@@ -104,7 +104,7 @@ int main()
 		cout << sub4[i];
 	}
 	//10進数に戻した値を表示します
-	cout << " 10進数 : " << out_put(sub4);
+	cout << " 10進数 :  " << out_put(sub4);
 
 	//区切ります
 	cout << "\n";
