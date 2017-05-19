@@ -12,7 +12,7 @@
 using namespace std;
 
 //関数宣言
-void open(Human *ptr);
+void open(Human *humanptr);
 
 int main()
 {
@@ -29,12 +29,12 @@ int main()
 //仮引数 クラスオブジェクト ポインタを使います
 //返却値 無し
 
-void open(Human *ptr)
+void open(Human *humanptr)
 {
 	//クラス内のゲッタをすべて表示させます
-	cout << "名前 : " << ptr -> open_name() << "\n"
-			<< "身長 : " << ptr -> open_height() << "cm\n"
-			<< "体重 : " << ptr -> open_weight() << "kg\n";
+	cout << "名前 : " << humanptr -> open_name() << "\n"
+			<< "身長 : " << humanptr -> open_height() << "cm\n"
+			<< "体重 : " << humanptr -> open_weight() << "kg\n";
 }
 
 /*
