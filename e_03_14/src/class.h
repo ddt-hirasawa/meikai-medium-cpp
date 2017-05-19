@@ -16,9 +16,11 @@ class Person {
 
 public:
 
-	char* name;	 //名前
+	const char* name;	 //名前
 	int height;		//身長
 	int weight;		//体重
+
+
 };
 
 
