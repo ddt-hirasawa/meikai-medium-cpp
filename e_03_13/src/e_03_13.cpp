@@ -32,6 +32,8 @@ int main()
 
 		int diff_y,diff_m,diff_d;		//データメンバとの差 年月日
 
+		int cnt = 10;					//テキストですと正解するまで続く  しかし、困るので10回で止めます
+
 		//コンストラクタにより誕生日を設定
 		const SimpleDate birthday(1990,10,11);
 
@@ -39,7 +41,7 @@ int main()
 		cout << "誕生日は ? : ";
 
 		//当てるまで延々と続きます
-		while(true){
+		while(0 <= cnt--){
 
 			//誕生日はいつですか？
 			cout << "西暦 何月 何日 ? \n";
