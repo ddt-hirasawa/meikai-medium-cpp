@@ -12,41 +12,37 @@
 using namespace std;
 
 //関数宣言
-void output(int calc(int,int));
-int integration(int,int);
-int addition(int,int);
+void output(int calc(int, int));
+int integration(int, int);
+int addition(int, int);
 
-int main()
-{
+int main() {
 
-	typedef int (*Func)(int i,int j);						//関数のポインタの配列の宣言 返却値 int 仮引数 int int の関数の配列
+	typedef int (*Func)(int i, int j);//関数のポインタの配列の宣言 返却値 int 仮引数 int int の関数の配列
 
-	const Func func_array[] = { integration,addition };		//関数の配列 0 1 で呼び出せる
+	const Func func_array[] = { integration, addition };	//関数の配列 0 1 で呼び出せる
 
-	Func func_select;										//宣言した関数のポインタの配列の仮置き場
+	Func func_select;									//宣言した関数のポインタの配列の仮置き場
 
 	int select;												//キーボードから乗算 加算を選択します
 
 	//入力を制限します 0 1 のみです
-	do{
+	do {
 
-	//0  1  にそれぞれ 乗算 加算 の意味を持たせます
-	cout << "九九の乗算 加算 どちらですか？ 0 - > 乗算 1 -> 加算";
+		//0  1  にそれぞれ 乗算 加算 の意味を持たせます
+		cout << "九九の乗算 加算 どちらですか？ 0 - > 乗算 1 -> 加算";
 
-	//キーボードからの値でどちらを選ぶか決定します
-	cin >> select;
+		//キーボードからの値でどちらを選ぶか決定します
+		cin >> select;
 
-	//0 1 以外ならばやり直しです
-	}while(select != 0 && select != 1);
+		//0 1 以外ならばやり直しです
+	} while (select != 0 && select != 1);
+
+	//関数配列の0番目を代入します 乗算
+	func_select = func_array[0];
 
 	//List3-8 に準じます
-	if(!select) {
-
-		//関数配列の0番目を代入します 乗算
-		func_select = func_array[0];
-
-		//1のときの処理
-	} else {
+	if (select) {
 
 		//関数配列の1番目を代入します 加算
 		func_select = func_array[1];
@@ -62,7 +58,7 @@ int main()
 //仮引数 乗算 加算 をそれぞれ行う関数
 //返却値 無し
 
-void output(int calc(int,int)) {
+void output(int calc(int, int)) {
 
 	cout << "  |";
 
@@ -93,10 +89,10 @@ void output(int calc(int,int)) {
 		cout << i << " |";
 
 		//列分演算する値を提供します
-		for(int j=1; j <= 9; j++) {
+		for (int j = 1; j <= 9; j++) {
 
 			//演算部分
-			cout << setw(3) << calc(i,j);
+			cout << setw(3) << calc(i, j);
 		}
 
 		//次の列に移ります
@@ -109,8 +105,7 @@ void output(int calc(int,int)) {
 //仮引数 行 列 の整数
 //返却値 乗算値
 
-int integration(int i,int j) {
-
+int integration(int i, int j) {
 
 	return i * j;
 }
@@ -119,8 +114,7 @@ int integration(int i,int j) {
 //仮引数 行 列 の整数
 //返却値 加算値
 
-int addition(int i,int j) {
-
+int addition(int i, int j) {
 
 	return i + j;
 }
