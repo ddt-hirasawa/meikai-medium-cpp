@@ -25,5 +25,9 @@ int main()
 	//抽出子により、不正値を省いた値がデータメンバとなり表示されます
 	cout << now;
 
+	Date no_macth(2000,-10,32);
+
+	cout << no_macth;
+
 	return 0;
 }
