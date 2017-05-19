@@ -11,81 +11,52 @@
 
 using namespace std;
 
-
 int count_bits(unsigned tmp);
 int int_bits();
-void print_bits(unsigned tmp,unsigned* sub);
 
 //関数の宣言 func.cppに順にまとめます
-int out_put(unsigned*);
+void out_put(unsigned);
 
 int main()
 {
-	unsigned tmp;				//32個 0 1 の羅列を表現できる変数
+	unsigned tmp = 40;				//32個 0 1 の羅列を表現できる変数
 
-	unsigned sub[100] = {0};	//01 の値を演算に使いたいので格納します。
+	//基準となる10進数の数字の表示
+	cout << "10進数 : " << tmp;
 
-	unsigned sub1[100] = {0};	//01 の値を演算に使いたいので格納します。
+	//宣言 2進数 bitを表示します
+	cout << " 2進数 : ";
 
-	unsigned sub2[100] = {0};	//01 の値を演算に使いたいので格納します。
+	//関数呼び出し 整数のbitを表示します
+	out_put(tmp);
 
-	tmp = 100;					//仮に10進数で20とします
+	//左シフトで 乗算になります
+	cout << "\n左シフト\n";
 
-	//宣言 20の2進数表記
-	cout << "tmp : ";
+	tmp <<= 1;		//2倍になります
 
-	//関数の呼び出し部分 0 1 の羅列を表示
-	print_bits(tmp,sub);
+	//基準となる10進数の数字の表示
+	cout << "10進数 : " << tmp;
 
-	//確認のため、配列の 0 1 を並べて表記します
-	for(int i=15; i >= 0; i--) {
+	//宣言 2進数 bitを表示します
+	cout << " 2進数 : ";
 
-		// 0 1 の値を表示し続ける
-		cout << sub[i];
-	}
-	//10進数に戻した値を表示します
-	cout << " 10進数 : " << out_put(sub);
+	//関数呼び出し 整数のbitを表示します
+	out_put(tmp);
 
-	//区切ります
-	cout << "\n";
+	//右シフトで 徐算になります
+	cout << "\n右シフト\n";
 
-	tmp <<= 1;					//左に１つbitをシフトします
+	tmp >>= 2;		//1 / 4になります
 
-	//宣言 20の2のべき乗での乗算の2進数表記
-	cout << "tmp : ";
+	//基準となる10進数の数字の表示
+	cout << "10進数 : " << tmp;
 
-	//関数の呼び出し部分 0 1 の羅列を表示
-	print_bits(tmp,sub1);
+	//宣言 2進数 bitを表示します
+	cout << " 2進数 : ";
 
-	//確認のため、配列の 0 1 を並べて表記します
-	for(int i=15; i >= 0; i--) {
-
-		// 0 1 の値を表示し続ける
-		cout << sub1[i];
-	}
-	//10進数に戻した値を表示します
-	cout << " 10進数 : " << out_put(sub1);
-	//区切ります
-	cout << "\n";
-
-	tmp >>= 2;					//右に2つbitをシフトします
-
-	//宣言 20の2のべき乗での除算の2進数表記
-	cout << "tmp : ";
-
-	//関数の呼び出し部分 0 1 の羅列を表示
-	print_bits(tmp,sub2);
-
-	//確認のため、配列の 0 1 を並べて表記します
-	for(int i=15; i >= 0; i--) {
-
-		// 0 1 の値を表示し続ける
-		cout << sub2[i];
-	}
-	//10進数に戻した値を表示します
-	cout << " 10進数 : " << out_put(sub2);
-	//区切ります
-	cout << "\n";
+	//関数呼び出し 整数のbitを表示します
+	out_put(tmp);
 
 	return 0;
 }
@@ -124,21 +95,4 @@ int count_bits(unsigned tmp) {
 int int_bits() {
 
 	return count_bits(~0U);
-}
-
-//関数 整数 tmp のbit構成を表示
-//仮引数 調べたい整数 tmp
-//返却値 無し
-
-void print_bits(unsigned tmp,unsigned* sub) {
-
-	int max = int_bits() - 1;		//ビットの個数を変数としてもらいます。
-									//-1 は 数値は 0 ～ 999 で1000通りと考えるから
-
-	//全ビット数分走査するためループします
-	for(; max >= 0; max--) {
-
-		//表示するとき、bit で 1 を指すとき コンソールに1を表示
-		sub[max] = ((tmp >> max) & 1U ? 1 : 0);
-	}
 }
