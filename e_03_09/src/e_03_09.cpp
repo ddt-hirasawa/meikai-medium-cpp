@@ -28,7 +28,7 @@ int main() {
 
 	int key;				//探す数字 0
 
-	int search_array[max];
+	int search_array[max] = {0};
 
 	//要素数分乱数を発生させるためループ開始
 	for (int i = 0; i < max; i++) {
@@ -113,7 +113,9 @@ void* binsearch(const void* key, const void* base, size_t nmenb, size_t size,
 		//先端と後端が異なる限り続きます
 		for(;pl != pr;) {
 
+
 			pc = (pl + pr) / 2;		//オブジェクトの中央付近
+
 
 			int comp = compar(key,reinterpret_cast<const void*>(&tmp[pc * size]));	//ループごとに関数を呼び出し、0で発見したことに
 																					//なります
@@ -122,12 +124,38 @@ void* binsearch(const void* key, const void* base, size_t nmenb, size_t size,
 			if(comp == 0) {
 
 				//先頭の要素のポインタが代入されます
+
 				ptr = const_cast<void*>(reinterpret_cast<const void*>(&tmp[pc * size]));
 
 				//探索のループから脱却
 				break;
 
-			//先頭と後端が等しくなった時
+			//先頭と後端が等しくなった時 探す範囲を広げます 1つ後ろ
+			} else if(0 == compar(key,reinterpret_cast<const void*>(&tmp[(pc + 1) * size]))) {
+
+
+				pc++;			//中央値を後ろに進めます
+
+				//先頭の要素のポインタが代入されます
+
+				ptr = const_cast<void*>(reinterpret_cast<const void*>(&tmp[pc * size]));
+
+				//探索のループから脱却
+				break;
+
+			//先頭と後端が等しくなった時　 探す範囲を広げます 1つ前
+			} else if(0 == compar(key,reinterpret_cast<const void*>(&tmp[(pc - 1) * size]))) {
+
+				pc--;			//中央値を前に進めます
+
+			//先頭の要素のポインタが代入されます
+
+			ptr = const_cast<void*>(reinterpret_cast<const void*>(&tmp[pc * size]));
+
+			//探索のループから脱却
+			break;
+
+
 			} else if(pl == pr){
 
 				//探索のループから脱却　失敗
@@ -139,7 +167,7 @@ void* binsearch(const void* key, const void* base, size_t nmenb, size_t size,
 				pl = pc + 1;		//中央値を1つ後ろに進めます
 
 			//後端要素が大きかった場合
-			} else {
+			} else if(comp < 0){
 
 				pr = pc - 1;		//中央値を1つ前に進めます
 			}
