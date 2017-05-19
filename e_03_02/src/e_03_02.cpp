@@ -13,7 +13,8 @@
 using namespace std;
 
 //関数宣言 mainの下にまとめます
-int serch_if(const int a[],int num,bool (*cond1)(int),bool (*cond2)(int,int),bool (*cond3)(int,int));
+int serch_if(const int a[],int num,bool (*cond)(int));
+int serch_if(const int a[],int num,bool (*cond)(int,int));
 bool cond1(int num);
 bool cond2(int num1,int num2);
 bool cond3(int num1,int num2);
@@ -42,7 +43,43 @@ int main()
 		cout << "serch[" << i << "] = " << serch[i] << "\n";
 	}
 
-	int answer = serch_if(serch,num,cond1,cond2,cond3);	//関数呼び出し部分 関数を3つ定義します
+	int answer;			//返却値 ない場合のことを考え -1
+
+	int select;					//任意で探索条件を変えるための変数
+
+	//探索条件を表示します 頭の 1 2 3 で選択します
+	cout << "探索条件\n"
+		<< "1.偶数の探索\n"
+		<< "2.前後で同じ要素になっているかの探索\n"
+		<< "3.前後の要素の差が10以上かの探索\n";
+
+	//1 2 3以外が入力されたときやり直し
+	do{
+
+		cin >> select;	//探索条件の決定
+
+	//1 2 3以外の時入力しなおし
+	}while(select < 0|| 3 < select);
+
+	switch(select) {
+
+	case 1 : //偶数の探索
+
+		answer = serch_if(serch,num,cond1);	//関数呼び出し部分 関数を1つ定義します
+
+		break;
+
+	case 2 : //前後で同じ数字かどうかの判別
+
+		answer = serch_if(serch,num,cond2);	//関数呼び出し部分 関数を1つ定義します
+
+		break;
+
+	case 3 : //前後で差が10以上かどうかの判別
+
+		answer = serch_if(serch,num,cond3);	//関数呼び出し部分 関数を1つ定義します
+
+	}
 
 	//見つからなかったときの返却値は -1 なので +1 すれば 0 -> false になる
 	if(answer + 1) {
@@ -64,81 +101,39 @@ int main()
 //仮引数 探す配列 要素数 判定する関数 3つ
 //返却値 検出した値のある添字　ない場合は-1
 
-int serch_if(const int a[],int num,bool (*cond1)(int),bool (*cond2)(int,int),bool (*cond3)(int,int)) {
+int serch_if(const int a[],int num,bool (*cond)(int)) {
 
-	int answer = -1;			//返却値 ない場合のことを考え -1
+	int answer = -1;			//返却値 ないことに備え -1 で初期化
 
-	int select;					//任意で探索条件を変えるための変数
+	for(int i=1; i < num; i++) {
 
-	//探索条件を表示します 頭の 1 2 3 で選択します
-	cout << "探索条件\n"
-		<< "1.偶数の探索\n"
-		<< "2.前後で同じ要素になっているかの探索\n"
-		<< "3.前後の要素の差が10以上かの探索\n";
+		//関数の条件に当てはまる要素があれば
+		if((*cond)(a[i])) {
 
-	//1 2 3以外が入力されたときやり直し
-	do{
+			answer = i;			//配列の展示を返却します
 
-		cin >> select;	//探索条件の決定
-
-	//1 2 3以外の時入力しなおし
-	}while(select < 0|| 3 < select);
-
-
-	switch(select) {
-
-	case 1 : //偶数の探索
-
-		//全要素すべてを判別します
-		for(int i=0; i < num; i++) {
-
-			//偶数を発見したならば
-			if((*cond1)(a[i])) {
-
-				answer = i;			//配列の展示を返却します
-
-				i = num;			//ループから抜けます
-			}
+			i = num;			//ループから抜けます
 		}
+	}
+	return answer;
+}
 
-		//switch文から出ます
-		break;
+//関数 指定された要素を満たす要素を配列から線形探索する
+//仮引数 探す配列 要素数 判定する関数 3つ
+//返却値 検出した値のある添字　ない場合は-1
 
-	case 2 : //前後で同じ数字かどうかの判別
+int serch_if(const int a[],int num,bool (*cond)(int,int)) {
+	int answer = -1;			//返却値 ないことに備え -1 で初期化
 
-		//全要素すべてを判別します
-		//先頭要素は除きます
-		for(int i=1; i < num; i++) {
+	for(int i=1; i < num; i++) {
 
-			//前後で同じ数字ならば
-			if((*cond2)(a[i],a[i-1])) {
+		//関数の条件に当てはまる要素があれば
+		if((*cond)(a[i],a[i-1])) {
 
-				answer = i;			//配列の展示を返却します
+			answer = i;			//配列の展示を返却します
 
-				i = num;			//ループから抜けます
-			}
+			i = num;			//ループから抜けます
 		}
-
-		//switch文から出ます
-		break;
-
-	case 3 : //前後で差が10以上かどうかの判別
-
-		//全要素すべてを判別します
-		//先頭要素は除きます
-		for(int i=1; i < num; i++) {
-
-			//前後で差が10以上ならば
-			if((*cond3)(a[i],a[i-1])) {
-
-				answer = i;			//配列の展示を返却します
-
-				i = num;			//ループから抜けます
-			}
-		}
-
-		//switch文から出ます
-		break;
 	}
 	return answer;
 }
