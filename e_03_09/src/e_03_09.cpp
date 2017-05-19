@@ -96,6 +96,10 @@ int int_result(const int* tmp1, const int* tmp2) {
 //関数 2分探索関数
 //仮引数 一致するかどうか探す要素 key オブジェクトの先頭要素のポインタ base その要素数 nmenb 変数の型の大きさ 比較関数
 //返却値 なし
+
+/*
+ * 変更点 ループごとに 探索する値の前後を else if で探索値がないか探すように変更しました
+*/
 void* binsearch(const void* key, const void* base, size_t nmenb, size_t size,
 		int (*compar)(const void*, const void*)) {
 
