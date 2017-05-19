@@ -8,7 +8,6 @@
  */
 
 #include<iostream>
-#include<math.h>
 
 using namespace std;
 
@@ -20,21 +19,25 @@ unsigned change_unsigned(char* tmp_int) {
 
 	unsigned answer = 0;		//返却する unsigned型の変数を定義します 加算するので 0 で初期化
 
+	unsigned add = 0;			//シフト演算により加算する変数
+
 	//int型の bit が格納されている文字列を使います
 	//31 -> 上位ビット 0 -> 下位ビット です
 	//上位から下位ビットまで繰り返します
-	for (int i = 0; i < 32; i++) {
-
-		unsigned select = 0;	//bitの判別を行います
+	for (int i = 0; i < 31; i++) {
 
 		//仮に、今見ているbitが 1 のとき
 		//1を代入します
-		if (tmp_int[31 - i] == '1') {
+		if (tmp_int[i] == '1') {
 
-			select = 1;			//演算を行うので1の時2の累乗が加算されます
+			add++;			//bit を 0001  の状態にする
+
+			add <<= 31 - i;	//指定するbit 位置まで移動
 		}
 
-		answer += pow(2, i) * select;	//bit から整数に戻します
+		answer += add;		//返却値に加算していく
+
+		add = 0;			//次の値に備え 0 を代入
 	}
 	return answer;
 }
@@ -45,23 +48,27 @@ unsigned change_unsigned(char* tmp_int) {
 
 short change_short(char* tmp_int) {
 
-	short answer = 0;
+	short answer = 0;			//返却する short型の変数を定義します 加算するので 0 で初期化
+
+	short add = 0;				//シフト演算により加算する変数
 
 	//int型の bit が格納されている文字列を使います
-	//31 -> 上位ビット 0 -> 下位ビット です
-	//上位から下位ビットまで繰り返します
-	for (int i = 0; i < 16; i++) {
-
-		short select = 0;	//bitの判別を行います
+	//0 -> 上位ビット 31 -> 下位ビット です
+	//上位から下位ビットまで繰り返し加算します
+	for (int i = 16; i < 31; i++) {
 
 		//仮に、今見ているbitが 1 のとき
 		//1を代入します
-		if (tmp_int[i + 16] == '1') {
+		if (tmp_int[i] == '1') {
 
-			select = 1;			//演算を行うので1の時2の累乗が加算されます
+			add++;			//bit を 0001  の状態にする
+
+			add <<= 31 - i;	//指定するbit 位置まで移動
 		}
 
-		answer += pow(2, i) * select;	//bit から整数に戻します
+		answer += add;		//返却値に加算していく
+
+		add = 0;			//次の値に備え 0 を代入
 	}
 	return answer;
 }
@@ -74,33 +81,39 @@ long long change_long_long(char* tmp_int) {
 
 	long long answer = 0;		//返却する long long型の変数を定義します 加算するので 0 で初期化
 
-	//int型の bit が格納されている文字列を使います
-	//64 -> 上位ビット 0 -> 下位ビット です
-	//下位ビット分繰り返します
+	long long add = 0;			//シフト演算により加算する変数
+
+	//変更しない下位ビットの演算を行います
+	//変換するのは 32bit int型なので
+	//配列の 0 -> 上位ビット 31 -> が下位ビットです
 	for (int i = 0; i < 32; i++) {
 
-		long long select = 0;	//bitの判別を行います
+		//配列の文字が 1 の時
+		if(tmp_int[i] == '1') {
 
-		//仮に、今見ているbitが 1 のとき
-		//1を代入します
-		if (tmp_int[31 - i] == '1') {
+			add++;			//bit を 0001  の状態にする
 
-			select = 1;			//演算を行うので1の時2の累乗が加算されます
+			add <<= 31 - i;	//指定するbit 位置まで移動
 		}
 
-		answer += pow(2, i) * select;	//bit から整数に戻します
+		answer += add;		//返却値に加算していく
+
+		add = 0;			//次の値に備え 0 を代入
 	}
 
-	//長いビットへの変換のため、32番目のbitの 0 1 により値が変わります
-	//32ビット目が 1 なら 上位ビットはすべて 1 で埋められ
-	//32ビット目が 0 ばら 上位ビットはすべて 0 で埋められます
-	if (tmp_int[31] == '1') {
+	//int型の最上位のbit が1の時,それ以降のbitすべてを0にします
+	if(tmp_int[31] == '1') {
 
-		//上位ビット以降のビットを 0 から 1にすべて変換します
-		for (int i = 32; i < 64; i++) {
+		for (int i = 32; i < 63; i++) {
 
-			answer += pow(2, i);		//ビットを1に変換するため 2の累乗を加算します
+			add++;			//bit を 0001  の状態にする
+
+			add <<= i;		//指定するbit 位置まで移動
 		}
+
+		answer += add;		//返却値に加算していく
+
+		add = 0;			//次の値に備え 0 を代入
 	}
 
 	return answer;
