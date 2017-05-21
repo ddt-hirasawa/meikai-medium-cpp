@@ -3,7 +3,7 @@
 
  作成日 2017年5月17日
 
- 編集日 2017年5月19日
+ 編集日 2017年5月21日
 
  作成者 平澤敬介
  */
@@ -117,50 +117,20 @@ void* binsearch(const void* key, const void* base, size_t nmenb, size_t size,
 		size_t pc = (pl + pr) / 2;		//オブジェクトの中央付近
 
 		//先端と後端が異なる限り続きます
-		for(;pl != pr;) {
-
+		for(;pc != pr || pl != pc;) {
 
 			pc = (pl + pr) / 2;		//オブジェクトの中央付近
 
-
 			int comp = compar(key,reinterpret_cast<const void*>(&tmp[pc * size]));	//ループごとに関数を呼び出し、0で発見したことに
 																					//なります
-
 			//関数により発見したことがわかりました
 			if(comp == 0) {
 
 				//先頭の要素のポインタが代入されます
-
 				ptr = const_cast<void*>(reinterpret_cast<const void*>(&tmp[pc * size]));
 
 				//探索のループから脱却
 				break;
-
-			//先頭と後端が等しくなった時 探す範囲を広げます 1つ後ろ
-			} else if(0 == compar(key,reinterpret_cast<const void*>(&tmp[(pc + 1) * size]))) {
-
-
-				pc++;			//中央値を後ろに進めます
-
-				//先頭の要素のポインタが代入されます
-
-				ptr = const_cast<void*>(reinterpret_cast<const void*>(&tmp[pc * size]));
-
-				//探索のループから脱却
-				break;
-
-			//先頭と後端が等しくなった時　 探す範囲を広げます 1つ前
-			} else if(0 == compar(key,reinterpret_cast<const void*>(&tmp[(pc - 1) * size]))) {
-
-				pc--;			//中央値を前に進めます
-
-			//先頭の要素のポインタが代入されます
-
-			ptr = const_cast<void*>(reinterpret_cast<const void*>(&tmp[pc * size]));
-
-			//探索のループから脱却
-			break;
-
 
 			} else if(pl == pr){
 
