@@ -18,11 +18,13 @@ int main() {
 	const int min = 10;				//集合の下限値を設定
 
 	VecBitset tmp1(min,max);		//クラスオブジェクトの生成 空オブジェクト
-
 	VecBitset tmp2(min, max);		//tmp2 は 配列の値とその要素数から構成
+	VecBitset tmp3(min, max);		//tmp3 は 配列の値とその要素数から構成
+	VecBitset tmp4(min, max);		//tmp4 は 配列の値とその要素数から構成
+	VecBitset tmp5(min, max);		//tmp5 は 配列の値とその要素数から構成
+	VecBitset tmp6(min, max);		//tmp6 は 配列の値とその要素数から構成
 
 	int select;						//任意のビットを削除するための変数
-
 
 	//集合に任意のビットを追加する
 	for(int i=min; i <= max; i++) {
@@ -52,6 +54,83 @@ int main() {
 
 	//削除した結果を表示
 	cout << "tmp2 : " << tmp2 << "\n" << "	" << tmp2.bit_string() << "\n";
+
+	//空集合に任意のビットを追加する
+	for(int i=min; i <= max; i++) {
+
+		tmp1.add(i+10,min,max-10);			//論理積のテスト用 重なる部分を作る
+	}
+
+	//論理積を表示
+	cout << "tmp1 : " << tmp1 << "\n" << "	" << tmp1.bit_string() << "\n";
+
+	//演算子関数 &=のテスト 論理積なので両方1の部分が1になる
+	tmp1 &= tmp2;
+
+	cout << "tmp1 と tmp2 の論理積\n";
+	//論理積を表示
+	cout << "tmp1 : " << tmp1 << "\n" << "	" << tmp1.bit_string() << "\n";
+
+	//集合に任意のビットを追加する
+	for(int i=10; i < 30; i++) {
+
+		//最小値から始まる変数に30を加え集合に加えられる範囲の値を
+		//追加する
+		tmp3.add(i,min,max);
+	}
+
+	//集合に任意のビットを追加する
+	for(int i=30; i <= 40; i++) {
+
+		//最小値から始まる変数に30を加え集合に加えられる範囲の値を
+		//追加する
+		tmp4.add(i,min,max);
+	}
+	//論理和を求めるため集合を生成します
+	cout << "tmp3 : " << tmp3 << "\n" << "	" << tmp3.bit_string() << "\n";
+	cout << "tmp4 : " << tmp4 << "\n" << "	" << tmp4.bit_string() << "\n";
+
+	cout << "tmp3 と tmp4の論理和\n";
+
+	//演算子関数 |=のテスト 論理和なのでどちらかが1の部分が1になる
+	tmp3 |= tmp4;
+
+	cout << "tmp3 : " << tmp3 << "\n" << "	" << tmp3.bit_string() << "\n";
+
+	//論理和を求めるため集合を生成します
+	cout << "tmp3 : " << tmp3 << "\n" << "	" << tmp3.bit_string() << "\n";
+	cout << "tmp4 : " << tmp4 << "\n" << "	" << tmp4.bit_string() << "\n";
+
+	cout << "tmp3 と tmp4の排他的論理和\n";
+
+	//演算子関数 ^=のテスト 排他的論理和なので片方が1の部分が1になる
+	tmp3 ^= tmp4;
+
+	cout << "tmp3 : " << tmp3 << "\n" << "	" << tmp3.bit_string() << "\n";
+
+	//等しいかを判別するため集合を表示します
+	cout << "tmp5 : " << tmp5 << "\n" << "	" << tmp5.bit_string() << "\n";
+	cout << "tmp6 : " << tmp6 << "\n" << "	" << tmp6.bit_string() << "\n";
+
+	//集合の判別を行います
+	cout << "集合tmp5 tmp6 は" << (tmp5 == tmp6 ? "等しいです\n" : "異なります\n");
+	cout << "集合tmp5 tmp6 は" << (!(tmp5 != tmp6) ? "等しいです\n" : "異なります\n");
+
+	//集合に任意のビットを追加する
+	for(int i=10; i < 30; i++) {
+
+		//最小値から始まる変数に30を加え集合に加えられる範囲の値を
+		//追加する
+		tmp5.add(i,min,max);
+	}
+
+	//等しいかを判別するため集合を表示します
+	cout << "tmp5 : " << tmp5 << "\n" << "	" << tmp5.bit_string() << "\n";
+	cout << "tmp6 : " << tmp6 << "\n" << "	" << tmp6.bit_string() << "\n";
+
+	//集合の判別を行います
+	cout << "集合tmp5 tmp6 は" << (tmp5 == tmp6 ? "等しいです\n" : "異なります\n");
+	cout << "集合tmp5 tmp6 は" << (!(tmp5 != tmp6) ? "等しいです\n" : "異なります\n");
 
 	return 0;
 }

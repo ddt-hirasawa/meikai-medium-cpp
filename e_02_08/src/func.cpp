@@ -29,7 +29,7 @@ void VecBitset::add(int tmp,int min,int max) {
 	//unsigned型の bit 以上の値の場合
 	if (UNSIGNED <= tmp) {
 
-		int tmp1 = tmp;			//値を一時的に保管し
+		int tmp1 = tmp;			//値を一時的に保管する
 
 		//判別のループ開始
 		do{
@@ -53,12 +53,15 @@ void VecBitset::add(int tmp,int min,int max) {
 //引数として与えた値を集合に削除する関数
 void VecBitset::remove(int tmp,int min,int max) {
 
-	int cnt = 1;
+	int cnt = 1;				//引数として与えた値が配列のどの部分に該当するのか判別
+								//するためのカウンタ
 
+	//集合に該当するかの判定
 	if (is_valid(tmp,min,max)) {
 
-		int tmp1 = tmp;
+		int tmp1 = tmp;			//値を一時的に保管する
 
+		//unsigned型の bit 以上の値の場合
 		if(UNSIGNED <= tmp) {
 
 			//判別のループ開始
@@ -72,54 +75,46 @@ void VecBitset::remove(int tmp,int min,int max) {
 			}while(tmp1 >= UNSIGNED);
 		}
 
-		bits[cnt] &= ~set_of(tmp);
+		bits[cnt] &= ~set_of(tmp);	//ビットの配列の任意のビットを削除
 	}
 }
 
 //集合が空の集合なのか判別する関数
 bool VecBitset::empty() {
 
-	bool answer = false;
+	bool answer = false;			//返却値 デフォルトは空集合
 
+	//生成したビットの配列のすべてを判断します
 	for(int i=1; i <= element; i++) {
 
+		//一部でも1があれば OK
 		if(bits[i]) {
 
-			answer = true;
+			answer = true;			//返却値を集合に変化させる
 		}
 	}
 	return answer;;
 }
 
-//集合に含まる要素数を求める関数
-int VecBitset::size() const {
-
-	int cnt = 0;			//要素数を求めるためのカウンタ
-
-	unsigned tmp = *bits;	//符号なしのビットを変数として異議
-
-	//tmp -> 0 falseにならない限り続く
-	while (tmp) {
-
-		tmp &= tmp - 1;		//論理積による減算
-
-		cnt++;				//カウンタを加算
-	}
-	return cnt;				//カウンタの値 -> 要素数を返却
-}
-
 //集合 tmp との論理積の集合に更新する
 VecBitset& VecBitset::operator&=(const VecBitset& tmp) {
 
-	bits[0] &= tmp.bits[0];		//集合にtmp を論理積
+	//生成したビットの配列すべてを論理積にかける
+	for(int i=1; i <= element; i++) {
 
+		bits[i] &= tmp.bits[i];		//集合にtmp を論理積
+	}
 	return *this;
 }
 
 //集合 tmp と論理和の集合に更新する
 VecBitset& VecBitset::operator|=(const VecBitset& tmp) {
 
-	bits[0] |= tmp.bits[0];		//集合にtmp を論理和
+	//生成したビットの配列すべてを論理和にかける
+	for(int i=1; i <= element; i++) {
+
+		bits[i] |= tmp.bits[i];		//集合にtmp を論理和
+	}
 
 	return *this;
 }
@@ -127,7 +122,11 @@ VecBitset& VecBitset::operator|=(const VecBitset& tmp) {
 //集合 tmp と排他的論理和の集合に更新する
 VecBitset& VecBitset::operator^=(const VecBitset& tmp) {
 
-	bits[0] ^= tmp.bits[0];		//差分を集合とする
+	//生成したビットの配列すべてを排他的論理和にかける
+	for(int i=1; i <= element; i++) {
+
+		bits[i] ^= tmp.bits[i];		//集合の差分になる
+	}
 
 	return *this;
 }
@@ -135,13 +134,37 @@ VecBitset& VecBitset::operator^=(const VecBitset& tmp) {
 //集合tmpと等しいかの判別関数
 bool VecBitset::operator==(const VecBitset& tmp) {
 
-	return bits[0] == tmp.bits[0];
+	bool answer = true;			//返却値 デフォルトは等しい
+
+	//生成したビットの配列のすべてを判断します
+	for(int i=1; i <= element; i++) {
+
+		//一部でも異なっていれば判定される
+		if(bits[i] != tmp.bits[i]) {
+
+			answer = false;			//返却値を異なるに変更
+		}
+	}
+
+	return answer;
 }
 
 //集合tmpと異なるかの判別関数
 bool VecBitset::operator!=(const VecBitset& tmp) {
 
-	return bits[0] != tmp.bits[0];
+	bool answer = false;			//返却値 デフォルトは等しい
+
+	//生成したビットの配列のすべてを判断します
+	for(int i=1; i <= element; i++) {
+
+		//一部でもでも異なっていれば判定される
+		if(bits[i] != tmp.bits[i]) {
+
+			answer = true;			//返却値を異なるに変化させる
+		}
+	}
+
+	return answer;
 }
 
 //文字列の表現にして表示するための関数
