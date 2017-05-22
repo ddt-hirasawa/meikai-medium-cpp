@@ -40,11 +40,14 @@ int main()
 
 void senior_only(Member& tmp) {
 
+	//dynamic_cast を使うにあたって ランタイムの設定が必要なようです
+	//設定の方法を探しています
+	//コメントアウトしている部分を外して実行すると異常終了します
 
-	Member& reference = dynamic_cast<SeniorMember*>(tmp);
+	//Member& reference = dynamic_cast<SeniorMember&>(tmp);
 
-	if(*reference != NULL) {
+	//if(*reference != NULL) {
 
-		reference.print();
-	}
+		//reference.print();
+	//}
 }
