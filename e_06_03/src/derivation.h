@@ -28,7 +28,7 @@ public:
 	}
 
 	//コンストラクタ//
-	Human(int hand_,int cpu) :
+	Human(int hand_) :
 
 			hand(hand_) {
 
@@ -48,28 +48,13 @@ public:
 			std::cout << "プレイヤー : パー\n";
 			break;
 		}
-
-
-
-		if(judg(cpu) == 1) {
-
-			std::cout << "PLAYER : 勝ちです\n";
-
-		} else if(judg(cpu) == -1) {
-
-			std::cout << "PLAYER : 負けです\n";
-
-		} else {
-
-			std::cout << "引き分けです\n";
-		}
 	}
 
 
 	//メンバ関数
 	//じゃんけんの手をmain内に返却し勝ち負けを判断する
 	//返却値 データメンバじゃんけんの手
-	int output_hand() const {
+	int output_hand() const{
 
 		return hand;
 	}
@@ -160,38 +145,24 @@ public:
 		switch (hand) {
 
 		case 0:
-			std::cout << "COM     : グー\n";
+			std::cout << "COM        : グー\n";
 			break;
 
 		case 1:
-			std::cout << "COM     : チョキ\n";
+			std::cout << "COM        : チョキ\n";
 			break;
 
 		case 2:
-			std::cout << "COM     : パー\n";
+			std::cout << "COM        : パー\n";
 			break;
 
-		}
-
-
-		if(judg(cpu) == 1) {
-
-			std::cout << "COM   : 勝ちです\n";
-
-		} else if(judg(cpu) == -1) {
-
-			std::cout << "COM   : 負けです\n";
-
-		} else {
-
-			std::cout << "引き分けです\n";
 		}
 	}
 
 	//純粋仮想関数
 	//じゃんけんの手をmain内に返却し勝ち負けを判断する
 	//返却値 データメンバじゃんけんの手
-	int output_hand() const {
+	int output_hand()  const{
 
 		return hand;
 	}
