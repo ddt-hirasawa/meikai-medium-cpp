@@ -1,0 +1,258 @@
+/*
+ 演習6-3 じゃんけん のプレーヤー を表す抽象クラスを作成せよ
+
+ 作成日 2017年5月23日
+
+ 作成者 平澤敬介
+ */
+
+#ifndef DERIVATION_H_
+#define DERIVATION_H_
+
+#include<iostream>
+#include<cstdlib>
+#include<ctime>
+#include"class.h"
+
+class Human: public Player {
+
+	int hand;			//じゃんけんの手
+
+public:
+
+	//デフォルトコンストラクタ 最初はグー
+	Human() :
+			hand(0) {
+
+		std::cout << "最初はグー\n";
+	}
+
+	//コンストラクタ//
+	Human(int hand_,int cpu) :
+
+			hand(hand_) {
+
+		//クラスオブジェクトが生成されたとき
+		//自分の手を表示します
+		switch (hand) {
+
+		case 0:
+			std::cout << "プレイヤー : グー\n";
+			break;
+
+		case 1:
+			std::cout << "プレイヤー : チョキ\n";
+			break;
+
+		case 2:
+			std::cout << "プレイヤー : パー\n";
+			break;
+		}
+
+
+
+		if(judg(cpu) == 1) {
+
+			std::cout << "PLAYER : 勝ちです\n";
+
+		} else if(judg(cpu) == -1) {
+
+			std::cout << "PLAYER : 負けです\n";
+
+		} else {
+
+			std::cout << "引き分けです\n";
+		}
+	}
+
+
+	//メンバ関数
+	//じゃんけんの手をmain内に返却し勝ち負けを判断する
+	//返却値 データメンバじゃんけんの手
+	int output_hand() const {
+
+		return hand;
+	}
+
+	//メンバ関数 プレイヤーの勝ち負けを判定
+	//仮引数 相手の手
+	//返却値 勝ち負け引き分けを 1 -1 0で返却
+
+	int judg(int tmp) const {
+
+		int answer;
+
+		//あいこの場合
+		if (tmp == hand) {
+
+			answer = 0;			//あいこ -> 0 を代入
+		//あいこ以外の時
+		} else {
+
+			switch (hand) {
+
+			//こちらがグーの時、相手がチョキなら
+			case 0:
+				if (tmp == 1) {
+
+					answer = 1;		//勝ち -> 1 を代入
+
+				} else {
+
+					answer = -1;	//負け -> -1 を代入
+				}
+				break;
+
+				//こちらがチョキの時、相手がパーなら
+			case 1:
+				if (tmp == 2) {
+
+					answer = 1;		//勝ち -> 1 を代入
+
+				} else {
+
+					answer = -1;	//負け -> -1 を代入
+				}
+				break;
+
+				//こちらがパーの時、相手がグーなら
+			case 2:
+				if (tmp == 0) {
+
+					answer = 1;		//勝ち -> 1 を代入
+
+				} else {
+
+					answer = -1;	//負け -> -1 を代入
+				}
+				break;
+
+			}
+		}
+
+		return answer;
+	}
+
+};
+
+class Computer: public Player {
+
+	int hand;			//じゃんけんの手
+
+public:
+
+	//デフォルトコンストラクタ 最初はグー
+	Computer() :
+			hand(0){
+
+		std::cout << "じゃんけん\n";
+	}
+
+	//コンストラクタ//
+	Computer(int cpu) {
+
+		srand(time(NULL));
+
+		hand = rand() % 3;
+
+		//クラスオブジェクトが生成されたとき
+		//自分の手を表示します
+		switch (hand) {
+
+		case 0:
+			std::cout << "COM     : グー\n";
+			break;
+
+		case 1:
+			std::cout << "COM     : チョキ\n";
+			break;
+
+		case 2:
+			std::cout << "COM     : パー\n";
+			break;
+
+		}
+
+
+		if(judg(cpu) == 1) {
+
+			std::cout << "COM   : 勝ちです\n";
+
+		} else if(judg(cpu) == -1) {
+
+			std::cout << "COM   : 負けです\n";
+
+		} else {
+
+			std::cout << "引き分けです\n";
+		}
+	}
+
+	//純粋仮想関数
+	//じゃんけんの手をmain内に返却し勝ち負けを判断する
+	//返却値 データメンバじゃんけんの手
+	int output_hand() const {
+
+		return hand;
+	}
+
+	//メンバ関数 プレイヤーの勝ち負けを判定
+	//仮引数 相手の手
+	//返却値 勝ち負け引き分けを 1 -1 0で返却
+
+	int judg(int tmp) const {
+
+		int answer;
+
+		//あいこの場合
+		if (tmp == hand) {
+
+			answer = 0;			//あいこ -> 0 を代入
+		//あいこ以外の時
+		} else {
+
+			switch (hand) {
+
+			//こちらがグーの時、相手がチョキなら
+			case 0:
+				if (tmp == 1) {
+
+					answer = 1;		//勝ち -> 1 を代入
+
+				} else {
+
+					answer = -1;	//負け -> -1 を代入
+				}
+				break;
+
+				//こちらがチョキの時、相手がパーなら
+			case 1:
+				if (tmp == 2) {
+
+					answer = 1;		//勝ち -> 1 を代入
+
+				} else {
+
+					answer = -1;	//負け -> -1 を代入
+				}
+				break;
+
+				//こちらがパーの時、相手がグーなら
+			case 2:
+				if (tmp == 0) {
+
+					answer = 1;		//勝ち -> 1 を代入
+
+				} else {
+
+					answer = -1;	//負け -> -1 を代入
+				}
+				break;
+
+			}
+		}
+		return answer;
+	}
+};
+
+#endif /* DERIVATION_H_ */
