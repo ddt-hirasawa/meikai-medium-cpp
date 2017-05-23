@@ -194,10 +194,10 @@ public:
 	void draw() const {
 
 		//高さ分の表示を行うループ処理
-		for(int i=0; i < height; i++) {
+		for(int i=1; i <= height; i++) {
 
 			//幅分の表示を行うループ処理
-			for(int j=0; i < width; j++) {
+			for(int j=1; j <= width; j++) {
 
 				//1cm -> * となる
 				std::cout << '*';
