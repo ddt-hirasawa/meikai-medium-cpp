@@ -16,7 +16,7 @@
 #include<typeinfo>
 
 //図形クラス 基底クラス
-class Geometry {
+class  Geometry{
 
 public:
 
