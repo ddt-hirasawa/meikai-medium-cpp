@@ -1,9 +1,10 @@
 /*
- * derivation1.h
- *
- *  Created on: 2017/05/22
- *      Author: admin
- */
+演習6-2 テキストで挙げている図形クラス群をすべてテストするプログラムの作成
+
+作成日 2017年5月23日
+
+作成者 平澤敬介
+*/
 
 #ifndef DERIVATION1_H_
 #define DERIVATION1_H_
@@ -50,6 +51,7 @@ public:
 //直線 クラス
 class Line : public Geometry {
 
+public:
 	int length;
 
 public:
@@ -198,7 +200,7 @@ public:
 			for(int j=0; i < width; j++) {
 
 				//1cm -> * となる
-				std::cout << "*";
+				std::cout << '*';
 			}
 
 			std::cout << "\n";
@@ -229,6 +231,7 @@ public:
 
 };
 
+//挿入子
 inline std::ostream& operator << (std::ostream& stream , const Geometry& tmp) {
 
 	return stream << tmp.to_string();
