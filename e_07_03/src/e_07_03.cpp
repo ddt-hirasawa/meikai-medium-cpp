@@ -6,3 +6,6 @@
 作成者 平澤敬介
 */
 
+#include"class.h"
+#include"derivation1.h"
+#include"derivation2.h"

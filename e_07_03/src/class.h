@@ -46,10 +46,12 @@ public:
 	}
 };
 
+//純粋仮想デストラクタ
 inline Geometry::~Geometry() {
 
 }
 
+//デバッグ用情報の表示 純粋仮想関数
 inline void Geometry::debug() const {
 
 	std::cout << "--デバッグ情報--\n";
