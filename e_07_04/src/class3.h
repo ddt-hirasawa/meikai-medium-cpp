@@ -27,7 +27,7 @@ public:
 	Cube(double wid,double len,double hit) :
 
 		//コンストラクタ初期化子で初期化
-		width(wid), height(hit),length(len) {}
+		width(wid),length(len), height(hit) {}
 
 	//クローン 同じオブジェクトを 確保しそのポインタを返却
 	Cube* clone() const {

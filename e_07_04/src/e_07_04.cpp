@@ -13,21 +13,38 @@
 #include"three.h"
 #include"stereo.h"
 #include<istream>
-#define LEN 10
 
 using namespace std;
 
 int main() {
-	//図形 クラスの三角形 抽象クラスでまとめます
+
+	const double radius = 3.3;		//立体の体積を出すにあたって使う変数群
+	const double width = 4.5;		//それぞれ上から 半径 横幅 縦幅 高さ
+	const double length = 6.9;		//演算の値がdoubleなので引数も doubleにします
+	const double height = 5.7;		//
+
+
+	//立体  抽象クラスでまとめます
 	Stereo* select[] = {
 
+			new Sphere(radius),						//球体クラス
+			new Cone(radius,height),				//円錐クラス
+			new Cube(width,length,height),			//立方体クラス
+			new Cylinder(radius,height)				//円柱クラス
 			};
 
-	const int element = sizeof(select) / sizeof(select[0]);	//図形の種類をsizeof演算子により出す
+	const int element = sizeof(select) / sizeof(select[0]);	//立体の種類をsizeof演算子により出す
 
-	//図形分表示を行うので要素数分繰り返します
+	//立体の情報を表示するためループ処理します
 	for (int i = 0; i < element; i++) {
 
+		//デバッグ情報の表示 名称など
+		select[i]->debug();
+
+		//クロスキャストにより変換し体積を表示する紺数を呼び出す
+		cout << "体積 : " << dynamic_cast<ThreeDimensional*>(select[i])->get_region();
+
+		cout << "\n";
 	}
 
 	//確保している領域を解放し処理を終える
