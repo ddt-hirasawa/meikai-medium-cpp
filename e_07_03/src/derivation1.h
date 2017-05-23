@@ -9,6 +9,8 @@
 #ifndef DERIVATION1_H_
 #define DERIVATION1_H_
 
+#include<iostream>
+
 //2次元抽象クラス
 class TwoDimensional{
 public:
@@ -23,6 +25,7 @@ public:
 //純粋仮想デストラクタ
 inline TwoDimensional::~TwoDimensional() {
 
+	std::cout << "TWO確認\n";
 }
 
 #endif /* DERIVATION1_H_ */

@@ -29,8 +29,10 @@ public:
 		length(length_) {
 	}
 
+	//面積を求める関数 三角形の公式
 	double get_area() const {
 
+		//短辺 * 短辺 / 2 = 面積
 		return length * length / 2;
 	}
 
@@ -44,7 +46,7 @@ public:
 	//コンストラクタ
 	Tri_left_under(int length_) :
 
-		length(length_) {
+		Triangle(length_) {
 
 	}
 
@@ -98,7 +100,7 @@ public:
 	//コンストラクタ
 	Tri_left_up(int length_) :
 
-		length(length_) {
+		Triangle(length_) {
 
 	}
 
@@ -113,13 +115,6 @@ public:
 
 		//高さ分表示を行うためのループ
 		for(int i=1; i <= length; i++) {
-
-			//幅分表示を行うためのループ
-			for(int j=1; j < i; j++) {
-
-				//1cm -> * とする
-				std::cout << ' ';
-			}
 
 			//幅分表示を行うためのループ
 			for(int j=1; j <= length - i + 1; j++) {
@@ -159,7 +154,7 @@ public:
 	//コンストラクタ
 	Tri_right_under(int length_) :
 
-		length(length_){
+		Triangle(length_){
 
 	}
 
@@ -210,20 +205,18 @@ public:
 		//基底クラスのデバッグの呼び出し
 		Geometry::debug();
 
-		std::cout << "wlength  : " << length << "\n";
+		std::cout << "length  : " << length << "\n";
 	}
 };
 
 //三角形クラス 右上2等辺三角形
 class Tri_right_up : public Triangle {
 
-	int length;
-
 public:
 	//コンストラクタ
 	Tri_right_up(int length_) :
 
-		length(length_){
+		Triangle(length_) {
 
 	}
 

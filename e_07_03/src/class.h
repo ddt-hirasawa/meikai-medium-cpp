@@ -49,6 +49,7 @@ public:
 //純粋仮想デストラクタ
 inline Geometry::~Geometry() {
 
+	std::cout << "GEO確認\n";
 }
 
 //デバッグ用情報の表示 純粋仮想関数
