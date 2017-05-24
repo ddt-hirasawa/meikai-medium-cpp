@@ -9,14 +9,20 @@
 #include<iostream>
 #include<cstdlib>
 #include<ctime>
+#include<cstring>
 #include<iomanip>
 
 using namespace std;
 
 //関数宣言
 void mergesort(void* base, size_t nmenb, size_t size,int (*compar)(const void*, const void*));
+void merge(void* base, size_t nmenb, size_t size,int (*compar)(const void*, const void*));
 int int_result(const int* tmp1, const int* tmp2);
+namespace {
 
+void memswap(void* tmp1, void* tmp2, size_t num);
+
+}
 
 int main()
 {
@@ -39,7 +45,7 @@ int main()
 	}
 
 	//マージソート呼び出し
-	mergesort(&array, max, sizeof(int),reinterpret_cast<int (*)(const void*, const void*)>(int_result));
+	mergesort(&array, max, sizeof(int),reinterpret_cast<int (*)(const void*,const void*)>(int_result));
 
 			//ソート後
 	cout	<< "ソート後\n";
@@ -52,6 +58,25 @@ int main()
 	}
 
 	return 0;
+}
+
+//入れ替え関数
+//仮引数 共通のオブジェクトを指すポインタ 2つ オブジェクトの要素数
+//返却値 無し
+
+void memswap(void* tmp1, void* tmp2, size_t num) {
+	unsigned char* obj1 = reinterpret_cast<unsigned char*>(tmp1);//変数を仮に unsigned char型のポインタに置き換える
+	unsigned char* obj2 = reinterpret_cast<unsigned char*>(tmp2);//変数を仮に unsigned char型のポインタに置き換える
+
+	//要素数が0になるまで続く その間 ポインタは それぞれ進む
+	for (; num--; obj1++, obj2++) {
+
+		unsigned char obj3 = *obj1;	//ポインタの仮置き場
+
+		*obj1 = *obj2;				//obj1 と obj2を入れ替え
+
+		*obj2 = obj3;				//obj2 に保管していた値 obj3を代入する
+	}
 }
 
 //関数 比較関数 tmp1 tmp2 で同じかを判別して返却します
@@ -67,8 +92,9 @@ int int_result(const int* tmp1, const int* tmp2) {
 
 		answer = 1;		//1を代入し,tmp1が大きいことにする
 
-		//tmp2 が大きい場合
-	} else if (*tmp2 > *tmp1) {
+	//tmp2 が大きい場合
+	} else if(*tmp2 > *tmp1) {
+
 
 		answer = -1;	//-1を代入し,tmp2が大きいことにする
 	}
@@ -77,7 +103,7 @@ int int_result(const int* tmp1, const int* tmp2) {
 	return answer;
 }
 
-//関数 クイックソート
+//関数 マージソート
 //仮引数 オブジェクトの先頭要素のポインタ base,オブジェクトの要素数、オブジェクトの型の大きさ size,比較関数
 //返却値 無し
 
@@ -99,11 +125,28 @@ void mergesort(void* base, size_t nmenb, size_t size,int (*compar)(const void*, 
 	//マージソートを実行するため 中央値を出し 配列を分割し　左側 右側をそれぞれ整列させます
 
 	//配列の左側 のソート		先頭から中央までをソート
-	qsort(const_cast<void*>(reinterpret_cast<const void*>(&left_p[point_l * size])), point_m + 1,size, compar);
+	merge(const_cast<void*>(reinterpret_cast<const void*>(&left_p[point_l * size])), point_m + 1,size,compar);
+	//													//		左側から真ん中	//	中央まで　　比較関数
+}
 
-	//配列の右側 のソート		中央から後尾までソート
-	qsort(const_cast<void*>(reinterpret_cast<const void*>(&right_p[point_l * size])), point_r ,size, compar);
+//関数マージ
+//
+//
 
-	//配列の先頭から後尾までソート
-	qsort(const_cast<void*>(reinterpret_cast<const void*>(&ptr[point_l * size])), point_r ,size, compar);
+void merge(void* base, size_t nmenb, size_t size,int (*compar)(const void*, const void*)) {
+
+	const char* ptr = reinterpret_cast<const char*>(base);//先頭要素を変更しない宣言をして char 型のポイントにする
+
+	//配列の先頭から任意の位置までポインタで個別にさせるのでバラバラになっていると言える
+
+
+
+
+
+
+
+
+
+
+
 }
