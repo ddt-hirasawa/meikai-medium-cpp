@@ -19,8 +19,6 @@ void mergesort(void* base, size_t nmenb, size_t size,
 		int (*compar)(const void*, const void*));
 void merge1(void* base, size_t nmenb, size_t size,
 		int (*compar)(const void*, const void*));
-void merge2(void* base, size_t nmenb, size_t size,
-		int (*compar)(const void*, const void*));
 int int_result(const int* tmp1, const int* tmp2);
 
 namespace {
@@ -135,8 +133,9 @@ void mergesort(void* base, size_t nmenb, size_t size,
 	//マージソートを実行するため 中央値を出し 配列を分割し　左側 右側をそれぞれ整列させます
 
 	//配列の左側 のソート		先頭から中央までをソート
-	merge1(const_cast<void*>(reinterpret_cast<const void*>(&left_p[point_l * size])), point_m, size, compar);
-	merge2(const_cast<void*>(reinterpret_cast<const void*>(&left_p[point_l * size])), point_m, size, compar);
+	merge1(
+			const_cast<void*>(reinterpret_cast<const void*>(&left_p[point_l
+					* size])), point_m, size, compar);
 
 }
 
@@ -145,12 +144,9 @@ void mergesort(void* base, size_t nmenb, size_t size,
 //
 
 void merge1(void* base, size_t nmenb, size_t size,
-		int (*compar)(const void*, const void*))  {
+		int (*compar)(const void*, const void*)) {
 
-
-	const char* ptr = reinterpret_cast<const char*>(base);//先頭要素を変更しない宣言をして char 型のポイントにする
-
-
+	char* ptr = reinterpret_cast<char*>(base);//変更するのでconstを外します char 型のポイントにする
 
 	//配列の先頭から任意の位置までポインタで個別にさせるのでバラバラになっていると言える
 
@@ -158,6 +154,7 @@ void merge1(void* base, size_t nmenb, size_t size,
 
 	size_t point_r = nmenb;				//右カーソル		任意の位置 配列の中間もしくは終端
 
+	char* copy = new char[nmenb * size];				//与えられる配列をそのままコピー
 
 	//左カーソルが右カーソルに追いついたら終了 それまでは繰り返し
 	//最初のマージなので要素を1つずつ比較しマージ
@@ -166,53 +163,58 @@ void merge1(void* base, size_t nmenb, size_t size,
 		//今見ている要素の１つ後ろが大きい場合
 		if (compar(reinterpret_cast<const char*>(&ptr[point_l * size]),
 
-				//比較関数で拾い要素を入れ替える
-				reinterpret_cast<const char*>(&ptr[(point_l + 1) * size])) > 0) {
+		//比較関数で拾い要素を入れ替える
+				reinterpret_cast<const char*>(&ptr[(point_l + 1) * size]))
+				> 0) {
 			//入れ替え関数の呼び出し
 			memswap(
-				//引数 左カーソルの指す要素
-				const_cast<void*>(reinterpret_cast<const void*>(&ptr[point_l * size])),
+			//引数 左カーソルの指す要素
+					const_cast<void*>(reinterpret_cast<const void*>(&ptr[point_l
+							* size])),
 					//引数 左カーソルの指す要素の1つ後ろ
-					const_cast<void*>(reinterpret_cast<const void*>(&ptr[(point_l + 1) * size])), size);
+					const_cast<void*>(reinterpret_cast<const void*>(&ptr[(point_l
+							+ 1) * size])), size);
 		}
+
+		*(copy + point_l) = *(ptr + point_l);
+		*(copy + point_l + 1) = *(ptr + point_l + 1);
 	}
 	//マージ第一段階終了
-}
 
-//関数マージ
-//
-//
+	point_l = 0;		//左カーソルを初期値に戻す
 
-void merge2(void* base, size_t nmenb, size_t size,
-		int (*compar)(const void*, const void*))  {
+	//左カーソルが右カーソルと同じ部分を指すまで継続
+	for (; point_l <= point_r; point_l++) {
 
+		for (size_t i = 0; i < point_l; i++) {
+			//仮に今左カーソルが指す値が比較して大きい場合
 
-	const char* ptr = reinterpret_cast<const char*>(base);//先頭要素を変更しない宣言をして char 型のポイントにする
+			if (compar(reinterpret_cast<const char*>(&copy[i * size]),
 
+			reinterpret_cast<const char*>(&copy[point_l * size])) > 0) {
 
-
-	//配列の先頭から任意の位置までポインタで個別にさせるのでバラバラになっていると言える
-
-	size_t point_l = 0;					//左カーソル		任意の位置 配列の先頭もしくは中間
-
-	size_t point_r = nmenb;				//右カーソル		任意の位置 配列の中間もしくは終端
+				for (size_t j = 0; j < i; j++) {
 
 
-	//左カーソルが右カーソルに追いついたら終了 それまでは繰り返し
-	//最初のマージなので要素を1つずつ比較しマージ
-	for (; point_l <= point_r; point_l += 2) {
+					size_t select = i + j;
 
-		//今見ている要素の１つ後ろが大きい場合
-		if (compar(reinterpret_cast<const char*>(&ptr[point_l * size]),
+					if(0 <= select  && select < nmenb) {
 
-				//比較関数で拾い要素を入れ替える
-				reinterpret_cast<const char*>(&ptr[(point_l + 1) * size])) > 0) {
-			//入れ替え関数の呼び出し
-			memswap(
-				//引数 左カーソルの指す要素
-				const_cast<void*>(reinterpret_cast<const void*>(&ptr[point_l * size])),
-					//引数 左カーソルの指す要素の1つ後ろ
-					const_cast<void*>(reinterpret_cast<const void*>(&ptr[(point_l + 1) * size])), size);
+					copy[select * size] = copy[(select - 1) * size];
+
+					}
+				}
+			}
+			copy[(point_l + 1) * size] = ptr[i * size];
 		}
 	}
+
+	point_l = 0;		//左カーソルを初期値に戻す
+
+	//並べ替えた配列に更新します
+	for (; point_l <= point_r; point_l++) {
+
+		(*(ptr + point_l)) = *(copy + point_l);
+	}
 }
+
