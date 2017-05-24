@@ -105,9 +105,9 @@ void memswap(void* tmp1, void* tmp2, size_t num)
 
 		*obj2 = obj3;				//obj2 に保管していた値 obj3を代入する
 	}
+}
+}
 
-}
-}
 
 
 //関数 クイックソート
