@@ -154,11 +154,11 @@ void merge1(void* base, size_t nmenb, size_t size,
 
 	size_t point_r = nmenb;				//右カーソル		任意の位置 配列の中間もしくは終端
 
-	char* copy = new char[nmenb * size];				//与えられる配列をそのままコピー
+	char* copy = new char[(nmenb + 1) * size];				//与えられる配列をそのままコピー
 
 	//左カーソルが右カーソルに追いついたら終了 それまでは繰り返し
 	//最初のマージなので要素を1つずつ比較しマージ
-	for (; point_l <= point_r; point_l += 2) {
+	for (; point_l < point_r; point_l += 2) {
 
 		//今見ている要素の１つ後ろが大きい場合
 		if (compar(reinterpret_cast<const char*>(&ptr[point_l * size]),
@@ -184,7 +184,7 @@ void merge1(void* base, size_t nmenb, size_t size,
 	point_l = 0;		//左カーソルを初期値に戻す
 
 	//左カーソルが右カーソルと同じ部分を指すまで継続
-	for (; point_l <= point_r; point_l++) {
+	for (; point_l < point_r; point_l++) {
 
 		for (size_t i = 0; i < point_l; i++) {
 			//仮に今左カーソルが指す値が比較して大きい場合
@@ -193,28 +193,24 @@ void merge1(void* base, size_t nmenb, size_t size,
 
 			reinterpret_cast<const char*>(&copy[point_l * size])) > 0) {
 
-				for (size_t j = 0; j < i; j++) {
+				for(size_t j = i; j < point_r; j++) {
 
 
-					size_t select = i + j;
+					copy[j * size] = copy[ (j - 1) * size];
+				}
 
-					if(0 <= select  && select < nmenb) {
+				copy[i * size] = ptr[ point_l * size];
 
-					copy[select * size] = copy[(select - 1) * size];
 
-					}
+				if(compar(reinterpret_cast<const char*>(&copy[i * size]),
+
+						reinterpret_cast<const char*>(&copy[point_l * size])) > 0) {
+
+				merge1(const_cast<void*>(reinterpret_cast<const void*>(&copy[point_l
+								* size])), point_r, size, compar);
 				}
 			}
-			copy[(point_l + 1) * size] = ptr[i * size];
 		}
-	}
-
-	point_l = 0;		//左カーソルを初期値に戻す
-
-	//並べ替えた配列に更新します
-	for (; point_l <= point_r; point_l++) {
-
-		(*(ptr + point_l)) = *(copy + point_l);
 	}
 }
 
