@@ -17,7 +17,9 @@ using namespace std;
 //関数宣言
 void mergesort(void* base, size_t nmenb, size_t size,
 		int (*compar)(const void*, const void*));
-void merge(void* base, size_t nmenb, size_t size,
+void merge1(void* base, size_t nmenb, size_t size,
+		int (*compar)(const void*, const void*));
+void merge2(void* base, size_t nmenb, size_t size,
 		int (*compar)(const void*, const void*));
 int int_result(const int* tmp1, const int* tmp2);
 
@@ -72,6 +74,7 @@ namespace {
 //返却値 無し
 
 void memswap(void* tmp1, void* tmp2, size_t num) {
+
 	unsigned char* obj1 = reinterpret_cast<unsigned char*>(tmp1);//変数を仮に unsigned char型のポインタに置き換える
 	unsigned char* obj2 = reinterpret_cast<unsigned char*>(tmp2);//変数を仮に unsigned char型のポインタに置き換える
 
@@ -132,42 +135,84 @@ void mergesort(void* base, size_t nmenb, size_t size,
 	//マージソートを実行するため 中央値を出し 配列を分割し　左側 右側をそれぞれ整列させます
 
 	//配列の左側 のソート		先頭から中央までをソート
-	merge(
-			const_cast<void*>(reinterpret_cast<const void*>(&left_p[point_l
-					* size])), point_m + 1, size, compar);
-	//													//		左側から真ん中	//	中央まで　　比較関数
+	merge1(const_cast<void*>(reinterpret_cast<const void*>(&left_p[point_l * size])), point_m, size, compar);
+	merge2(const_cast<void*>(reinterpret_cast<const void*>(&left_p[point_l * size])), point_m, size, compar);
+
 }
 
 //関数マージ
 //
 //
 
-void merge(void* base, size_t nmenb, size_t size,
-		int (*compar)(const void*, const void*)) {
+void merge1(void* base, size_t nmenb, size_t size,
+		int (*compar)(const void*, const void*))  {
+
 
 	const char* ptr = reinterpret_cast<const char*>(base);//先頭要素を変更しない宣言をして char 型のポイントにする
 
+
+
 	//配列の先頭から任意の位置までポインタで個別にさせるのでバラバラになっていると言える
+
 	size_t point_l = 0;					//左カーソル		任意の位置 配列の先頭もしくは中間
+
 	size_t point_r = nmenb;				//右カーソル		任意の位置 配列の中間もしくは終端
 
-	for (; point_l < point_r; point_l += 2) {
 
+	//左カーソルが右カーソルに追いついたら終了 それまでは繰り返し
+	//最初のマージなので要素を1つずつ比較しマージ
+	for (; point_l <= point_r; point_l += 2) {
+
+		//今見ている要素の１つ後ろが大きい場合
 		if (compar(reinterpret_cast<const char*>(&ptr[point_l * size]),
 
+				//比較関数で拾い要素を入れ替える
 				reinterpret_cast<const char*>(&ptr[(point_l + 1) * size])) > 0) {
-
-			size_t point_l_if = 0;					//左カーソル		任意の位置 配列の先頭もしくは中間
-
+			//入れ替え関数の呼び出し
 			memswap(
-					const_cast<void*>(reinterpret_cast<const void*>(&ptr[point_l * size])),
-
+				//引数 左カーソルの指す要素
+				const_cast<void*>(reinterpret_cast<const void*>(&ptr[point_l * size])),
+					//引数 左カーソルの指す要素の1つ後ろ
 					const_cast<void*>(reinterpret_cast<const void*>(&ptr[(point_l + 1) * size])), size);
+		}
+	}
+	//マージ第一段階終了
+}
 
-			for(;point_l_if <= point_l; point_l_if++) {
+//関数マージ
+//
+//
 
-					merge(const_cast<void*>(reinterpret_cast<const void*>(&ptr[point_l_if * size])), point_l_if, size, compar);
-			}
+void merge2(void* base, size_t nmenb, size_t size,
+		int (*compar)(const void*, const void*))  {
+
+
+	const char* ptr = reinterpret_cast<const char*>(base);//先頭要素を変更しない宣言をして char 型のポイントにする
+
+
+
+	//配列の先頭から任意の位置までポインタで個別にさせるのでバラバラになっていると言える
+
+	size_t point_l = 0;					//左カーソル		任意の位置 配列の先頭もしくは中間
+
+	size_t point_r = nmenb;				//右カーソル		任意の位置 配列の中間もしくは終端
+
+
+	//左カーソルが右カーソルに追いついたら終了 それまでは繰り返し
+	//最初のマージなので要素を1つずつ比較しマージ
+	for (; point_l <= point_r; point_l += 2) {
+
+		//今見ている要素の１つ後ろが大きい場合
+		if (compar(reinterpret_cast<const char*>(&ptr[point_l * size]),
+
+				//比較関数で拾い要素を入れ替える
+				reinterpret_cast<const char*>(&ptr[(point_l + 1) * size])) > 0) {
+			//入れ替え関数の呼び出し
+			memswap(
+				//引数 左カーソルの指す要素
+				const_cast<void*>(reinterpret_cast<const void*>(&ptr[point_l * size])),
+					//引数 左カーソルの指す要素の1つ後ろ
+					const_cast<void*>(reinterpret_cast<const void*>(&ptr[(point_l + 1) * size])), size);
 		}
 	}
 }
