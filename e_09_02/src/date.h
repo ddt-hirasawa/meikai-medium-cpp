@@ -11,13 +11,16 @@
 
 #include<iostream>
 #include<ctime>
+#include"class.h"
 
 //	1  2  3  4  5  6  7  8  9  10 11 12 月の末日
 const int dmax[] = {31,28,31,30,31,30,31,31,30,31,30,31};
 
 //時刻クラス
 class Date {
+
 public:
+
 	int year;		//データメンバ 西暦
 	int month;		//データメンバ 月
 	int day;		//データメンバ 日
