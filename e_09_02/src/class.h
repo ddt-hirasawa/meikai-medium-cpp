@@ -13,28 +13,26 @@
 #include<algorithm>
 #include<cstring>
 #include<iostream>
-#include"date.h"
-
 
 //テンプレートクラス
 template <class Type> class Twin {
 
 	Type tmp1;		//型の指定をしない変数
+	Type tmp2;		//型の指定をしない変数
+
 
 public:
 
 	//テンプレートクラスのコンストラクタ
 	//初期化子を含めすべて Type 表記
-	Twin(const Type& tmp1_ = Type()) :
+	Twin(const Type& tmp1_ = Type() , const Type& tmp2_ = Type()) :
 
 		//初期化子は変化なし
-		tmp1(tmp1_) {
+		tmp1(tmp1_) ,tmp2(tmp2_){
 	}
 
 	//デストラクタ
 	~Twin(){
-
-		std::cout << "テンプレートクラス破棄されました\n";
 	}
 
 	//第一データメンバのゲッタ
@@ -43,17 +41,22 @@ public:
 		return tmp1;
 	}
 
-	//第一データメンバのゲッタ
-	Type first_char_get() const {
 
-		return tmp1;
+	//第一データメンバのゲッタ
+	Type second_get() const {
+
+		return tmp2;
 	}
 };
 
+
+
 //挿入子
+
 template <class Type> inline std::ostream& operator << (std::ostream& stream,const Twin<Type>& tmp) {
 
 	return stream << "[" << tmp.first_get() << "," << tmp.second_get() << "]\n";
 }
+
 
 #endif /* CLASS_H_ */

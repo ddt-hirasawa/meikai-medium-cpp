@@ -14,11 +14,12 @@ using namespace std;
 
 int main()
 {
-	//Date< Twin<int> > now( Twin<int>(1,1) , Twin<int>(1,1), Twin<int>(1,1));
+	Date<int> tmp1(-1);				//テンプレートクラス化した日付クラスの呼び出し 現在時刻
+	Date<int> tmp2(2018,12,31);				//
 
-	//Date<Twin<int> > now();
+	Twin<Date<int > >  now(Date<int> tmp1 , Date<int> tmp2);
 
-	//cout << now;
+	cout << now;
 
 	return 0;
 }
