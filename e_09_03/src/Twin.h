@@ -31,14 +31,6 @@ public:
 		tmp1(tmp1_),tmp2(tmp2_) {
 	}
 
-	//テンプレートクラスのコピーコンストラクタ
-	Twin(const Twin<Type>& tmp) :
-
-		//テンプレートクラスのゲッタで決定
-		tmp1(tmp.first_get(),tmp2(tmp.second_get())){
-
-	}
-
 	//デストラクタ
 	~Twin(){
 
@@ -99,12 +91,20 @@ public:
 			std::swap(tmp1,tmp2);
 		}
 	}
+
+	Twin operator + (Twin<Twin<Type> >& tmp) {
+
+		tmp1 += tmp.tmp1;
+		tmp2 += tmp.tmp2;
+
+		return tmp;
+	}
 };
 
 //挿入子
 template <class Type> inline std::ostream& operator << (std::ostream& stream,const Twin<Type>& tmp) {
 
-	return stream << "[" << tmp.first_get() << "," << tmp.second_get() << "]\n";
+	return stream << "[ " << tmp.first_get() << "," << tmp.second_get() << " ]";
 }
 
 #endif /* TWIN_H_ */

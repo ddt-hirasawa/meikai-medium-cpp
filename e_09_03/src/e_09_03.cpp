@@ -11,22 +11,26 @@
 #include"array.h"
 #include"Twin.h"
 
+
 using namespace std;
 
 int main()
 {
-	int num = 10;
+	const int num = 10;						//要素数
 
-	Array<Twin<int> >  tmp1[num];
+	Array<Twin<Twin<int> > >  tmp1(num);	//配列の1つの要素が 1 ->   Twin<int> , Twin<int> にする
 
-	//for(int i=0; i < num; i++) {
+	cout << "tmp1\n";
 
-		//tmp1[i] = Twin<Twin<int> > obj(i,i + 1);
+	//全要素数で代入と表示を行う
+	for(int i=0; i < num; i++) {
 
+		//配列の1つの要素 = クラス < クラス < 型名 > >( クラス名＜型名＞(引数,引数) , クラス名＜型名＞(引数,引数))
+		tmp1[i] = Twin<Twin<int > >(Twin<int>(i,i + 1) , Twin<int>(i + 2,i + 3));
 
-		//cout << tmp1[i] << "\n";
-	//}
-
+		//各要素の表示を行います
+		cout << tmp1[i] << "\n";
+	}
 
 
 	return 0;

@@ -34,7 +34,7 @@ public:
 	public:
 
 		//コンストラクタ
-		IdxRngErr(const Array* ptr, int idx_) :
+		IdxRngErr(Array* ptr, int idx_) :
 
 			ident(ptr),idx(idx_) {
 		}
@@ -118,6 +118,7 @@ public:
 		//代入後返却する
 		return *this;
 	}
+
 
 	//添字演算子
 	Type& operator [] (int i) {
