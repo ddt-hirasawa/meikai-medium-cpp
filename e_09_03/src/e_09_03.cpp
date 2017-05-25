@@ -17,12 +17,15 @@ int main()
 {
 	int num = 10;
 
-	Array< Element > tmp1(num);
+	Array<Twin<int> >  tmp1[num];
 
-	for(int i=0; i < num; i++) {
+	//for(int i=0; i < num; i++) {
 
-		cout << tmp1[i];
-	}
+		//tmp1[i] = Twin<Twin<int> > obj(i,i + 1);
+
+
+		//cout << tmp1[i] << "\n";
+	//}
 
 
 

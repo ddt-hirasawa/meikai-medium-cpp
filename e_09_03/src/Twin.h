@@ -14,13 +14,10 @@
 #include<cstring>
 #include<iostream>
 
-//派生クラス
-template <class Type> class Element : public Twin {
-};
-
 //テンプレートクラス
-template <class Type> class Twin {
 
+
+template <class Type> class Twin {
 	Type tmp1;		//型の指定をしない変数
 	Type tmp2;		//Typeをデータメンバとして定義
 
