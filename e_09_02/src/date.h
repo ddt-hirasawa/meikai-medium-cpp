@@ -15,10 +15,9 @@
 //	1  2  3  4  5  6  7  8  9  10 11 12 月の末日
 const int dmax[] = {31,28,31,30,31,30,31,31,30,31,30,31};
 
-//派生　時刻クラス
+//時刻クラス
 template <class Type>
-
-class Date : public Twin {
+class Date {
 
 public:
 	Type year;		//データメンバ 西暦
@@ -31,7 +30,7 @@ public:
 	Date();
 
 	//コンストラクタ
-	Date(Type year_ = Type(),Type month_ = Type(),Type day_ = Type()) :
+	Date(Type year_ = Type() ,Type month_ = Type(),Type day_ = Type()) :
 
 		//コンストラクタ初期化子で初期化します
 		year(year_),month(month_),day(day_)
@@ -67,7 +66,7 @@ public:
 	}
 
 	//今年がうるう年なのか判別します
-	static bool leap_year(Type year) {
+	static bool leap_year(int year) {
 
 		return ( (year % 4 == 0) && (year % 100 != 0) ) || (year % 400 == 0);
 	}
@@ -75,20 +74,8 @@ public:
 };
 //抽出子 挿入子の定義
 template <class Type>
-inline std::ostream& operator << (std::ostream& stream,const Type& tmp) {
-
-	//stream から西暦 月 日 の順番に表示を行います
-	return stream << tmp.open_year() << tmp.open_month() << tmp.open_day();
-}
-
-//抽出子 挿入子の定義
-template <>
-inline std::ostream& operator << (std::ostream& stream,const Date<int>& tmp) {
-
-	//stream から西暦 月 日 の順番に表示を行います
-	return stream << tmp.open_year() << tmp.open_month() << tmp.open_day();;
-}
+std::ostream& operator << (std::ostream& stream,const Type& tmp);
 
 template <class Type>
-inline std::istream& operator >> (std::istream& stream,Type& tmp);
+std::istream& operator >> (std::istream& stream,Type& tmp);
 

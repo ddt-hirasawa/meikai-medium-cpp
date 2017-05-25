@@ -15,7 +15,9 @@
 #include<iostream>
 
 //テンプレートクラス
-template <class Type> class Twin {
+template <class Type>
+
+class Twin {
 
 	Type tmp1;		//型の指定をしない変数
 	Type tmp2;		//型の指定をしない変数

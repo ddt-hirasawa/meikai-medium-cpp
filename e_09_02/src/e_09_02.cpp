@@ -19,7 +19,7 @@ int main()
 
 	Twin<Date<int > >  now(Date<int> tmp1 , Date<int> tmp2);
 
-	cout << now;
+	//cout << now;
 
 	return 0;
 }
