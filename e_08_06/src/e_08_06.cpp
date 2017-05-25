@@ -26,6 +26,7 @@ int main()
 		cout << "加算した値は " << add(tmp1,tmp2) << "です\n";
 
 	//ロジックエラー 引数が範囲外であるときに使用
+	//変更部分 logic error -> const exception に変更
 	} catch (const exception& tmp) {
 
 		//out_of_range -> what に投げられる
