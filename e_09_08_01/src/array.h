@@ -6,6 +6,8 @@
 作成者 平澤敬介
 */
 
+#include<utility>
+#include<algorithm>
 #include<iostream>
 #include<cstdlib>
 
@@ -22,6 +24,24 @@ template <class Type> class Array {
 
 public:
 
+	//明示的コンストラクタ
+	explicit Array(int size,const Type& ptr);
+
+	//コピーコンストラクタ
+	Array(const Array<Type>& tmp);
+
+	//デストラクタ
+	~Array();
+
+	//要素数を返却するメンバ関数
+	int size() const;
+
+	//代入演算子
+	Array& operator = (const Array<Type>& tmp);
+
+	//添字演算子
+	Type& operator [] (int i);
+
 	//例外クラス
 	class IdxRngErr {
 
@@ -33,7 +53,7 @@ public:
 		//コンストラクタ
 		IdxRngErr(Array* ptr, int idx_) :
 
-			ident(ptr),idx(idx_) {
+				ident(ptr), idx(idx_) {
 		}
 
 		//メンバ関数
@@ -43,25 +63,6 @@ public:
 			return idx;
 		}
 	};
-
-	//明示的コンストラクタ
-	explicit Array(int size,const Type& ptr = Type()){}
-
-	//コピーコンストラクタ
-	Array(const Array<Type>& tmp) {}
-
-	//デストラクタ
-	~Array() {}
-
-	//要素数を返却するメンバ関数
-	int size() const;
-
-	//代入演算子
-	Array& operator = (const Array<Type>& tmp);
-
-
-	//添字演算子
-	Type& operator [] (int i);
 };
 
 #include"array_include.h"
