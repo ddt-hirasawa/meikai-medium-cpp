@@ -44,7 +44,7 @@ public:
 	}
 
 
-	//第一データメンバのゲッタ
+	//第二データメンバのゲッタ
 	Type second_get() const {
 
 		return tmp2;
@@ -55,9 +55,9 @@ public:
 
 //挿入子
 
-template <class Type> inline std::ostream& operator << (std::ostream& stream,const Twin<Type>& tmp) {
+template <class Type> inline std::ostream& operator << (std::ostream& stream,const Twin<Type> & tmp) {
 
-	return stream << "[" << tmp.first_get() << "," << tmp.second_get() << "]\n";
+	return stream << "[ " << tmp.first_get() << "," << tmp.second_get() << " ]";
 }
 
 

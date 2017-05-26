@@ -30,7 +30,7 @@ public:
 	Date();
 
 	//コンストラクタ
-	Date(Type year_ = Type() ,Type month_ = Type(),Type day_ = Type()) :
+	Date(Type year_ ,Type month_ = Type(),Type day_ = Type()) :
 
 		//コンストラクタ初期化子で初期化します
 		year(year_),month(month_),day(day_)
@@ -74,8 +74,12 @@ public:
 };
 //抽出子 挿入子の定義
 template <class Type>
-std::ostream& operator << (std::ostream& stream,const Type& tmp);
+inline std::ostream& operator << (std::ostream& stream,const Date<Type>& tmp) {
+
+	//stream から西暦 月 日 の順番に表示を行います
+	return stream << "西暦"<< tmp.open_year() << "年" << tmp.open_month() << "月" << tmp.open_day() << "日";
+}
 
 template <class Type>
-std::istream& operator >> (std::istream& stream,Type& tmp);
+inline std::istream& operator >> (std::istream& stream,Type& tmp);
 

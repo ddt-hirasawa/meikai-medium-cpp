@@ -14,14 +14,6 @@
 
 using namespace std;
 
-//挿入子 現在の日付を表示します
-template <class Type>
-ostream& operator <<(ostream& stream, const Type& tmp) {
-
-	//stream から西暦 月 日 の順番に表示を行います
-	return stream << tmp.open_year() << tmp.open_month() << tmp.open_day();
-}
-
 //抽出子 日付を入力しデータメンバに加えます
 template <class Type>
 istream& operator >>(istream& stream, Type& tmp) {
