@@ -1,15 +1,8 @@
-//============================================================================
-// Name        : e_09_08_02.cpp
-// Author      : 
-// Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
-//============================================================================
+/*
+演習9-8 Array<bool> をインクルードモデル化せよ
 
-#include <iostream>
-using namespace std;
+作成日 2017年5月26日
 
-int main() {
-	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
-	return 0;
-}
+作成者 平澤敬介
+*/
+
