@@ -31,6 +31,14 @@ class Array<bool> {
 
 public:
 
+	//メンバ関数 bool型を格納するためのBYTE型配列の要素数を返却する
+	//仮引数無し
+	//返却値 bool型を格納するためのBYTE型配列の要素数
+	int get_vsize() const {
+
+		return num_bool;
+	}
+
 	//bitベクトル
 	class BitOfByteRef {
 
@@ -94,6 +102,8 @@ public:
 
 	//明示的コンストラクタ
 	explicit Array(int sz,bool v = bool()) :
+	//依存する部分 long long型は64bitなので 8byte の配列にナル
+	//explicit Array(long long sz,bool v = bool()) :
 
 		//コンストラクタ初期化子によりbool型の配列の要素数とその配列を格納する配列の要素数を初期化
 		num(sz),num_bool(sizeof(sz)) {
@@ -173,8 +183,10 @@ public:
 			return *this;
 		}
 
+		//添字演算子関数
 		BitOfByteRef operator [] (int i) {
 
+			//例外発生 のとき 例外を投げる
 			if(i < 0 || num <= i) {
 
 				throw IdxRngArray(this,i);
@@ -182,8 +194,10 @@ public:
 			return BitOfByteRef(ptr[i / CHAR_BITS] , (i & (CHAR_BITS - 1)));
 		}
 
+		//添字演算子関数 bool 版
 		bool operator [] (int i) const {
 
+			//例外発生 のとき 例外を投げる
 			if(i < 0 || num <= i) {
 
 				throw IdxRngArray(this,i);
