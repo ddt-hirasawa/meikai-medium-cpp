@@ -55,7 +55,6 @@ int& Array<bool>::set_size(int num_) {
 }
 
 //bitベクトル
-template<class Array>
 class BitOfByteRef {
 
 	BYTE& vec;		//参照先BYTE

@@ -1,31 +1,28 @@
 /*
-演習9-8 Array<> クラスをインクルードモデルにせよ
+ 演習9-8 Array<> クラスをインクルードモデルにせよ
 
-作成日 2017年5月26日
+ 作成日 2017年5月26日
 
-作成者 平澤敬介
-*/
+ 作成者 平澤敬介
+ */
 
 #include<utility>
 #include<algorithm>
 #include<iostream>
 #include<cstdlib>
 
-template <class Type> class Array {
+template<class Type> class Array {
 
 	int num;				//配列の要素数
 	Type* array_ptr;		//配列の先頭を指すポインタ
 
 	//配列として要素数の範囲に収まるか同化の判別
-	bool is_valid_index(int idx) {
-
-		return 0 <= idx && idx < num;
-	}
+	bool is_valid_index(int idx);
 
 public:
 
 	//明示的コンストラクタ
-	explicit Array(int size,const Type& ptr);
+	explicit Array(int size, const Type& ptr);
 
 	//コピーコンストラクタ
 	Array(const Array<Type>& tmp);
@@ -37,10 +34,10 @@ public:
 	int size() const;
 
 	//代入演算子
-	Array& operator = (const Array<Type>& tmp);
+	Array& operator =(const Array<Type>& tmp);
 
 	//添字演算子
-	Type& operator [] (int i);
+	Type& operator [](int i);
 
 	//例外クラス
 	class IdxRngErr {
@@ -58,10 +55,7 @@ public:
 
 		//メンバ関数
 		//配列の添字を返却
-		int Index() const {
-
-			return idx;
-		}
+		int Index() const;
 	};
 };
 

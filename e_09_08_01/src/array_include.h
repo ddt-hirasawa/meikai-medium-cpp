@@ -11,6 +11,13 @@
 #include<iostream>
 #include<cstdlib>
 
+//配列として要素数の範囲に収まるか同化の判別
+template<class Type>
+bool Array<Type>::is_valid_index(int idx) {
+
+	return 0 <= idx && idx < num;
+}
+
 //明示的コンストラクタ
 template<class Type>
 Array<Type>::Array(int size, const Type& ptr = Type()) :
@@ -100,5 +107,15 @@ Type& Array<Type>::operator [](int i) {
 	}
 	//問題なければ返却
 	return array_ptr[i];
+}
+
+
+//メンバ関数
+//配列の添字を返却
+template<class Type>
+//配列クラスの中の例外クラスの中のメンバ関数
+int Array<Type>::IdxRngErr::Index() const {
+
+	return idx;
 }
 
