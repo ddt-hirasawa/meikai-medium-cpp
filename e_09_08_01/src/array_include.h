@@ -6,6 +6,9 @@
  作成者 平澤敬介
  */
 
+#ifndef ARRAY_INCLUDE_H_
+#define ARRAY_INCLUDE_H_
+
 #include<utility>
 #include<algorithm>
 #include<iostream>
@@ -119,3 +122,4 @@ int Array<Type>::IdxRngErr::Index() const {
 	return idx;
 }
 
+#endif /* ARRAY_INCLUDE_H_ */
