@@ -18,16 +18,11 @@ using namespace std;
 void mergesort(void* base,void* copy,size_t p_zero ,size_t nmenb,size_t size,
 		int (*compar)(const void*, const void*));
 int int_result(const int* tmp1, const int* tmp2);
-namespace {
-
-void sub_stitution(void* tmp1, void* tmp2, size_t num);
-
-}
 
 int main() {
 	srand(time(NULL));
 
-	int max = 20;		//要素数を50で固定
+	int max = 10;		//要素数を50で固定
 
 	int array[max];			//ソートする配列を定義
 
@@ -42,6 +37,7 @@ int main() {
 		array[i] = rand() % 20;		//0 ～ 99 の間で乱数を発生
 
 		copy[i] = array[i];
+
 		//配列の要素をすべて表示します
 		cout << "array[" << setw(2) << i << "] = " << setw(2) << array[i] << "\n";
 	}
@@ -62,25 +58,6 @@ int main() {
 	}
 
 	return 0;
-}
-
-namespace {
-
-//入れ替え関数
-//仮引数 共通のオブジェクトを指すポインタ 2つ オブジェクトの要素数
-//返却値 無し
-
-void sub_stitution(void* tmp1, void* tmp2, size_t num)
-{
-	unsigned char* obj1 = reinterpret_cast<unsigned char*>(tmp1);	//変数を仮に unsigned char型のポインタに置き換える
-	unsigned char* obj2 = reinterpret_cast<unsigned char*>(tmp2);	//変数を仮に unsigned char型のポインタに置き換える
-
-	//要素数が0になるまで続く その間 ポインタは それぞれ進む
-	for(; num--; obj1++,obj2++) {
-
-		*obj1 = *obj2;				//obj1 と obj2を入れ替え
-	}
-}
 }
 
 //関数 比較関数 tmp1 tmp2 で同じかを判別して返却します
@@ -118,7 +95,7 @@ void mergesort(void* base,void* copy,size_t p_zero ,size_t nmenb,size_t size,
 	char* copy_p = reinterpret_cast<char*>(copy);//先頭要素を変更しない宣言をして char 型のポイントにする
 
 	size_t point_l = p_zero;							//左カーソル
-	size_t point_r = nmenb;							//右カーソル
+	size_t point_r = nmenb - 1;							//右カーソル
 
 	if(point_l >= point_r) {
 
@@ -139,16 +116,18 @@ void mergesort(void* base,void* copy,size_t p_zero ,size_t nmenb,size_t size,
 
 			point_m+1,point_r,size,compar);
 
-	for (size_t i = point_l; i <= point_m; i++) {
+	for(size_t i = p_zero; i <= point_m; i++ ) {
 
-		*(copy_p + i) = *(ptr + i);
+		*(copy_p + i * size) = *(ptr + i * size);
 	}
 
 	size_t j = nmenb;
 
-	for (size_t i = point_m + 1; i <= point_r; i++, j--) {
+	for(size_t i = point_m + 1 ; i < nmenb; i++ ) {
 
-		*(copy_p + i) = *(ptr + j);
+		*(copy_p + i * size) = *(ptr + j * size);
+
+		j--;
 	}
 
 	size_t select_l = p_zero; /* i とj は作業領域のデーターを */
@@ -156,18 +135,21 @@ void mergesort(void* base,void* copy,size_t p_zero ,size_t nmenb,size_t size,
 
 	for (size_t set = p_zero; set < nmenb; set++) {
 
-		if (compar(reinterpret_cast<const char*>(&copy_p[(select_l)]),
+		if (compar(reinterpret_cast<const char*>(&*(copy_p + select_l * size)),
 
 				//比較関数で拾い要素を入れ替える
 
-						reinterpret_cast<const char*>(&copy_p[(select_r)])) >= 0) {
+						reinterpret_cast<const char*>(&*(copy_p + select_r * size))) > 0) {
 
-			//ptr[set * size] = copy_p[(select_l++) * size];
+			*(ptr + set * size) = *(copy_p + (select_l) * size);
+
+			select_l++;
 
 		} else {
 
-			//ptr[set * size] = copy_p[(select_r--) * size];
+			*(ptr + set * size) = *(copy_p + (select_r) * size);
 
+			select_r--;
 		}
 	}
 }
