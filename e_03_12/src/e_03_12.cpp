@@ -15,18 +15,24 @@
 using namespace std;
 
 //関数宣言
-void mergesort(void* base,void* copy,size_t p_zero ,size_t nmenb,size_t size,
+static void mergesort(void* base,void* copy,size_t p_zero ,size_t nmenb,size_t size,
 		int (*compar)(const void*, const void*));
 int int_result(const int* tmp1, const int* tmp2);
+namespace {
+
+void Substitution(void* tmp1, void* tmp2, size_t num);
+
+}
 
 int main() {
+
 	srand(time(NULL));
 
-	int max = 10;		//要素数を50で固定
+	int max = 20;		//要素数を50で固定
 
 	int array[max];			//ソートする配列を定義
 
-	int copy[max];			//作業する配列を定義
+	int copy[max];
 
 	//ソート前
 	cout << "ソート前\n";
@@ -43,7 +49,7 @@ int main() {
 	}
 
 	//マージソート呼び出し
-	mergesort(&array,&copy,0 ,max - 1, sizeof(int),
+	mergesort(&array,&copy,0 ,max-1, sizeof(int),
 			reinterpret_cast<int (*)(const void*, const void*)>(int_result));
 
 		//ソート後
@@ -58,6 +64,25 @@ int main() {
 	}
 
 	return 0;
+}
+
+namespace {
+
+//入れ替え関数
+//仮引数 共通のオブジェクトを指すポインタ 2つ オブジェクトの要素数
+//返却値 無し
+
+void Substitution(void* tmp1, void* tmp2, size_t num)
+{
+	unsigned char* obj1 = reinterpret_cast<unsigned char*>(tmp1);	//変数を仮に unsigned char型のポインタに置き換える
+	unsigned char* obj2 = reinterpret_cast<unsigned char*>(tmp2);	//変数を仮に unsigned char型のポインタに置き換える
+
+	//要素数が0になるまで続く その間 ポインタは それぞれ進む
+	for(; num--; obj1++,obj2++) {
+
+		*obj1 = *obj2;
+	}
+}
 }
 
 //関数 比較関数 tmp1 tmp2 で同じかを判別して返却します
@@ -87,46 +112,48 @@ int int_result(const int* tmp1, const int* tmp2) {
 //仮引数 オブジェクトの先頭要素のポインタ base,オブジェクトの要素数、オブジェクトの型の大きさ size,比較関数
 //返却値 無し
 
-void mergesort(void* base,void* copy,size_t p_zero ,size_t nmenb,size_t size,
+static void mergesort(void* base,void* copy,size_t p_zero ,size_t nmenb,size_t size,
 		int (*compar)(const void*, const void*)) {
 
-	char* ptr = reinterpret_cast<char*>(base);//先頭要素を変更しない宣言をして char 型のポイントにする
+	const char* ptr = reinterpret_cast<const char*>(base);//先頭要素を変更しない宣言をして char 型のポイントにする
 
-	char* copy_p = reinterpret_cast<char*>(copy);//先頭要素を変更しない宣言をして char 型のポイントにする
+	const char* copy_p = reinterpret_cast<const char*>(copy);//先頭要素を変更しない宣言をして char 型のポイントにする
 
-	size_t point_l = p_zero;							//左カーソル
-	size_t point_r = nmenb - 1;							//右カーソル
-
-	if(point_l >= point_r) {
+	if(p_zero >= nmenb) {
 
 		return;
 	}
 
-	size_t point_m = (point_l + point_r) / 2;			//中央値
+	size_t point_m = (p_zero + nmenb) / 2;			//中央値
 
-	mergesort(const_cast<void*>(reinterpret_cast<const void*>(&ptr[point_l * size])),
+	mergesort(const_cast<void*>(reinterpret_cast<const void*>(&ptr[p_zero * size])),
 
-			const_cast<void*>(reinterpret_cast<const void*>(&copy_p[point_l * size])),
+			const_cast<void*>(reinterpret_cast<const void*>(&copy_p[p_zero * size])),
 
-			point_l,point_m,size,compar);
+			p_zero,point_m,size,compar);
 
 	mergesort(const_cast<void*>(reinterpret_cast<const void*>(&ptr[point_m * size])),
 
 			const_cast<void*>(reinterpret_cast<const void*>(&copy_p[point_m * size])),
 
-			point_m+1,point_r,size,compar);
+			point_m+1,nmenb,size,compar);
 
-	for(size_t i = p_zero; i <= point_m; i++ ) {
+	for(size_t i = p_zero; i < point_m; i++ ) {
 
-		*(copy_p + i * size) = *(ptr + i * size);
+		Substitution(
+				const_cast<void*>(reinterpret_cast<const void*>(&*(copy_p + i * size))),
+
+				const_cast<void*>(reinterpret_cast<const void*>(&*(ptr + i * size))), size);
 	}
 
 	size_t j = nmenb;
 
-	for(size_t i = point_m + 1 ; i < nmenb; i++ ) {
+	for(size_t i = point_m; i < nmenb; i++ ) {
 
-		*(copy_p + i * size) = *(ptr + j * size);
+		Substitution(
+				const_cast<void*>(reinterpret_cast<const void*>(&*(copy_p + i * size))),
 
+				const_cast<void*>(reinterpret_cast<const void*>(&*(ptr + j * size))), size);
 		j--;
 	}
 
@@ -141,13 +168,23 @@ void mergesort(void* base,void* copy,size_t p_zero ,size_t nmenb,size_t size,
 
 						reinterpret_cast<const char*>(&*(copy_p + select_r * size))) > 0) {
 
-			*(ptr + set * size) = *(copy_p + (select_l) * size);
+			Substitution(
+					const_cast<void*>(reinterpret_cast<const void*>(&ptr[set
+							* size])),
+
+					const_cast<void*>(reinterpret_cast<const void*>(&copy_p[select_l
+							* size])), size);
 
 			select_l++;
 
 		} else {
 
-			*(ptr + set * size) = *(copy_p + (select_r) * size);
+			Substitution(
+					const_cast<void*>(reinterpret_cast<const void*>(&ptr[set
+							* size])),
+
+					const_cast<void*>(reinterpret_cast<const void*>(&ptr[select_r
+							* size])), size);
 
 			select_r--;
 		}
