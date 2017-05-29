@@ -15,7 +15,7 @@
 using namespace std;
 
 //関数宣言
-void mergesort(void* base,void* copy,size_t p_zero ,size_t nmenb, size_t size,
+void mergesort(void* base,void* copy,size_t p_zero ,size_t nmenb,size_t size,
 		int (*compar)(const void*, const void*));
 int int_result(const int* tmp1, const int* tmp2);
 namespace {
@@ -41,8 +41,7 @@ int main() {
 
 		array[i] = rand() % 20;		//0 ～ 99 の間で乱数を発生
 
-		copy[i] = 0;
-
+		copy[i] = array[i];
 		//配列の要素をすべて表示します
 		cout << "array[" << setw(2) << i << "] = " << setw(2) << array[i] << "\n";
 	}
@@ -79,9 +78,7 @@ void sub_stitution(void* tmp1, void* tmp2, size_t num)
 	//要素数が0になるまで続く その間 ポインタは それぞれ進む
 	for(; num--; obj1++,obj2++) {
 
-		unsigned char obj3 = *obj2;
-
-		*obj1 = obj3;				//obj1 と obj2を入れ替え
+		*obj1 = *obj2;				//obj1 と obj2を入れ替え
 	}
 }
 }
@@ -113,18 +110,15 @@ int int_result(const int* tmp1, const int* tmp2) {
 //仮引数 オブジェクトの先頭要素のポインタ base,オブジェクトの要素数、オブジェクトの型の大きさ size,比較関数
 //返却値 無し
 
-void mergesort(void* base,void* copy,size_t p_zero ,size_t nmenb, size_t size,
+void mergesort(void* base,void* copy,size_t p_zero ,size_t nmenb,size_t size,
 		int (*compar)(const void*, const void*)) {
 
 	char* ptr = reinterpret_cast<char*>(base);//先頭要素を変更しない宣言をして char 型のポイントにする
 
 	char* copy_p = reinterpret_cast<char*>(copy);//先頭要素を変更しない宣言をして char 型のポイントにする
 
-
 	size_t point_l = p_zero;							//左カーソル
 	size_t point_r = nmenb;							//右カーソル
-
-	cout << point_l << " " << point_r << "\n";
 
 	if(point_l >= point_r) {
 
@@ -145,39 +139,35 @@ void mergesort(void* base,void* copy,size_t p_zero ,size_t nmenb, size_t size,
 
 			point_m+1,point_r,size,compar);
 
+	for (size_t i = point_l; i <= point_m; i++) {
+
+		*(copy_p + i) = *(ptr + i);
+	}
+
+	size_t j = nmenb;
+
+	for (size_t i = point_m + 1; i <= point_r; i++, j--) {
+
+		*(copy_p + i) = *(ptr + j);
+	}
+
 	size_t select_l = p_zero; /* i とj は作業領域のデーターを */
 	size_t select_r = nmenb; /* k は配列の要素を指している */
-	size_t set = p_zero;
 
-	for (; set < select_r; set++) {
+	for (size_t set = p_zero; set < nmenb; set++) {
 
-		if (compar(reinterpret_cast<const char*>(&ptr[(select_l) * size]),
+		if (compar(reinterpret_cast<const char*>(&copy_p[(select_l)]),
 
 				//比較関数で拾い要素を入れ替える
 
-						reinterpret_cast<const char*>(&ptr[(select_r) * size]))
+						reinterpret_cast<const char*>(&copy_p[(select_r)])) >= 0) {
 
-						> 0) {
-
-			sub_stitution(
-					const_cast<void*>(reinterpret_cast<const void*>(&ptr[set
-							* size])),
-
-					const_cast<void*>(reinterpret_cast<const void*>(&ptr[select_l
-							* size])), size);
-
-			select_l++;
+			//ptr[set * size] = copy_p[(select_l++) * size];
 
 		} else {
 
-			sub_stitution(
-					const_cast<void*>(reinterpret_cast<const void*>(&ptr[set
-							* size])),
+			//ptr[set * size] = copy_p[(select_r--) * size];
 
-					const_cast<void*>(reinterpret_cast<const void*>(&ptr[select_r
-							* size])), size);
-
-			select_r--;
 		}
 	}
 }
