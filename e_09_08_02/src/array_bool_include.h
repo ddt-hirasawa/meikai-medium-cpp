@@ -54,87 +54,61 @@ int& Array<bool>::set_size(int num_) {
 	return num_array;
 }
 
-//bitベクトル
-class BitOfByteRef {
+//コンストラクタ
+Array<bool>::BitOfByteRef::BitOfByteRef(BYTE& vec_, int idx_) :
 
-	BYTE& vec;		//参照先BYTE
+//コンストラクタ初期化子により初期化
 
-	int idx;		//参照先BYTEのビット番号
+vec(vec_), idx(idx_) {
 
-public:
+}
 
-	//コンストラクタ
-	BitOfByteRef(BYTE& vec_, int idx_) :
+//真偽を取得
+Array<bool>::BitOfByteRef::operator bool() const {
 
-			//コンストラクタ初期化子により初期化
+//論理積により、idx番目のbitが１の場合 true
 
-			vec(vec_), idx(idx_) {
+	return (vec >> idx) & 1U;
+}
 
-	}
+//真偽を設定
+Array<bool>::BitOfByteRef& Array<bool>::BitOfByteRef::operator =(bool bit) {
 
-	//真偽を取得
-	operator bool() const {
+	//bool型の true ならば
 
-		//論理積により、idx番目のbitが１の場合 true
+	if (bit) {
 
-		return (vec >> idx) & 1U;
+		vec |= 1U << idx;	//論理和により vec は１になる
 
-	}
+	} else {
 
-	//真偽を設定
-
-	BitOfByteRef::BitOfByteRef& operator =(bool bit) {
-
-		//bool型の true ならば
-
-		if (bit) {
-
-			vec |= 1U << idx;	//論理和により vec は１になる
-
-		} else {
-
-			vec &= ~(1U << idx);	//論理積により 0 がかけられ vec は0になる
-
-		}
-
-		return *this;			//真偽を返却
+		vec &= ~(1U << idx);	//論理積により 0 がかけられ vec は0になる
 
 	}
 
-};
+	return *this;			//真偽を返却
 
-//例外クラス
-template<class Array>
-class IdxRngArray {
+}
 
-	const Array* ident;		//配列クラスのポインタ
 
-	int index;				//例外を検出した配列の添字
+//コンストラクタ
+Array<bool>::IdxRngArray::IdxRngArray(const Array* ident_, int index_) :
 
-public:
+	//コンストラクタ初期化子により初期化
 
-	//コンストラクタ
+	ident(ident_), index(index_) {
 
-	IdxRngArray(const Array* ident_, int index_) :
+}
 
-			//コンストラクタ初期化子により初期化
+//例外を検出した配列の添字を返却する
+int Array<bool>::IdxRngArray::Index() const {
 
-			ident(ident_), index(index_) {
+	return index;
+}
 
-	}
-
-	//例外を検出した配列の添字を返却する
-
-	int Index() const {
-
-		return index;
-
-	}
-
-};
 
 //明示的コンストラクタ
-Array<bool>::Array(int sz, bool v) :
+Array<bool>::Array(int sz, bool v = bool()) :
 
 //依存する部分 long long型は64bitなので 8byte の配列にナル
 
@@ -152,7 +126,7 @@ Array<bool>::Array(int sz, bool v) :
 
 		//変更動作を見るためにfalse -> true に変更
 
-		ptr[i] = true;		//ポインタの指す配列部分に代入
+		ptr[i] = v;		//ポインタの指す配列部分に代入
 
 	}
 
@@ -166,17 +140,15 @@ Array<bool>::~Array() {
 }
 
 //bool型の要素数を返却するメンバ関数
-
-template<class Array>
-int Array::size() const {
+int Array<bool>::size() const {
 
 	return num_array;			//データメンバbool型の要素数
 
 }
 
 //添字演算子関数
-template<class Array>
-BitOfByteRef Array::operator [](int i) {
+
+Array<bool>::BitOfByteRef Array<bool>::operator[](int i) {
 
 	//例外発生 のとき 例外を投げる
 
@@ -190,9 +162,7 @@ BitOfByteRef Array::operator [](int i) {
 }
 
 //添字演算子関数 bool 版
-
-template<class Array>
-bool Array::operator [](int i) const {
+bool Array<bool>::operator [](int i) const {
 
 	//例外発生 のとき 例外を投げる
 
@@ -203,6 +173,59 @@ bool Array::operator [](int i) const {
 	}
 
 	return (ptr[i / CHAR_BITS] >> (i & (CHAR_BITS - 1)) & 1U) == 1;
+}
+
+//代入演算子 =
+Array& Array<bool>::operator =(const Array& tmp) {
+
+	//自分自身ならば 0 を返す
+	if(&tmp != this) {
+
+		//bool型の配列を格納する配列の要素数が異なる場合
+		if(num_bool != tmp.num_bool) {
+
+			delete[] ptr;				//今確保している領域を解放
+
+			num_bool = tmp.num_bool;	//代入元と要素数を同じにする
+
+			ptr = new BYTE[num_bool];	//代入元と同じ分の領域を確保する
+		}
+
+		num_array = tmp.num_array;					//bool型の配列の要素数を同じにする
+
+		//確保した配列分ポインタの指す配列部分に代入を行う
+		for(int i=0; i < num_bool; i++) {
+
+			ptr[i] = tmp.ptr[i];					//ポインタの指す配列部分に代入
+		}
+	}
+
+	return *this;
+}
+
+//コピーコンストラクタ
+Array<bool>::Array(const Array& tmp) {
+
+	//自分自身ならば 0 を返す
+	if (&tmp == this) {
+
+		num_array = 0;		//要素数０
+		ptr = NULL;		//ポインタはNULLを指す
+
+		//異なる場合
+	} else {
+
+		num_array = tmp.num_array;			//コピー元と要素数を同じにする
+		num_bool = tmp.num_bool;			//コピー元と要素数を同じにする
+
+		ptr = new BYTE[num_bool];			//コピー元と同じ分の領域を確保する
+
+		//確保した配列分ポインタの指す配列部分に代入を行う
+		for (int i = 0; i < num_bool; i++) {
+
+			ptr[i] = tmp.ptr[i];					//ポインタの指す配列部分に代入
+		}
+	}
 }
 
 #endif /* ARRAY_BOOL_INCLUDE_H_ */
