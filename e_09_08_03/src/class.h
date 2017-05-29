@@ -31,85 +31,40 @@ public:
 	public:
 
 		//コンストラクタ
-		IdxRngArray(const FixedArray* ident_, int index_) :
-			ident(ident_),index(index_){
-		}
+		IdxRngArray(const FixedArray* ident_, int index_);
 
 		//例外を検出した配列の添字を返却する
-		int Index() const {
-
-			return index;
-		}
+		int Index() const;
 	};
 
 	//明示的コンストラクタ
-	explicit FixedArray(const Type& array_tmp = Type()) {
-
-		//配列の固定長分代入を行う
-		for(int i=0; i < N; i++) {
-
-			vec[i] = array_tmp;		//Typeによりデフォルト値が与えられる
-		}
-	}
+	explicit FixedArray(const Type& array_tmp);
 
 	//コピーコンストラクタ
-	FixedArray(const FixedArray& tmp_array) {
-
-		//初期化子が自分自身でなければ代入をお粉う
-		if(&tmp_array != this) {
-
-			//固定長分代入を行う
-			for(int i=0; i < N; i++) {
-
-				vec[i] = tmp_array.vec[i];	//代入により同じ配列になる
-			}
-		}
-	}
+	FixedArray(const FixedArray& tmp_array);
 
 	//固定長を返却するメンバ関数
-	int size() const {
+	int size() const;
 
-		return N;
-	}
+	//添字演算子関数
+	Type& operator [] (int select);
+	//添字演算子関数
+	const Type& operator [] (int select) const;
 
 	//代入演算子 =
-	FixedArray& operator = (const FixedArray& tmp_array) {
+	FixedArray& operator =(const FixedArray& tmp_array) {
 
-		//固定長分代入を行う
-		for(int i=0; i < N; i++) {
+	//固定長分代入を行う
+	for (int i = 0; i < N; i++) {
 
-			vec[i] = tmp_array.vec[i];		//代入により同じ配列になる
-		}
+		vec[i] = tmp_array.vec[i];		//代入により同じ配列になる
+	}
 
-		//thisポインタにより反映させる
+	//thisポインタにより反映させる
 		return *this;
-	}
-
-	//添字演算子関数
-	Type& operator [] (int select) {
-
-		//配列の要素が要素の範囲外であれば例外とする
-		if(select < 0 || N <= select) {
-
-			//例外クラス生成
-			throw IdxRngArray(this, select);
-		}
-		//例外が無い場合、配列の値を返却
-		return vec[select];
-	}
-	//添字演算子関数
-	const Type& operator [] (int select) const {
-
-		//配列の要素が要素の範囲外であれば例外とする
-		if(select < 0 || N <= select) {
-			//例外クラス生成
-			throw IdxRngArray(this, select);
-		}
-		//例外が無い場合、配列の値を返却
-		return vec[select];
 	}
 };
 
-
+#include"class_include.h"
 
 #endif /* CLASS_H_ */
