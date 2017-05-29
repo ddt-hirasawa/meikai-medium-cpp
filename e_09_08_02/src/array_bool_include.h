@@ -106,7 +106,6 @@ int Array<bool>::IdxRngArray::Index() const {
 	return index;
 }
 
-
 //明示的コンストラクタ
 Array<bool>::Array(int sz, bool v = bool()) :
 
@@ -127,9 +126,7 @@ Array<bool>::Array(int sz, bool v = bool()) :
 		//変更動作を見るためにfalse -> true に変更
 
 		ptr[i] = v;		//ポインタの指す配列部分に代入
-
 	}
-
 }
 
 //デストラクタ
@@ -175,33 +172,6 @@ bool Array<bool>::operator [](int i) const {
 	return (ptr[i / CHAR_BITS] >> (i & (CHAR_BITS - 1)) & 1U) == 1;
 }
 
-//代入演算子 =
-Array& Array<bool>::operator =(const Array& tmp) {
-
-	//自分自身ならば 0 を返す
-	if(&tmp != this) {
-
-		//bool型の配列を格納する配列の要素数が異なる場合
-		if(num_bool != tmp.num_bool) {
-
-			delete[] ptr;				//今確保している領域を解放
-
-			num_bool = tmp.num_bool;	//代入元と要素数を同じにする
-
-			ptr = new BYTE[num_bool];	//代入元と同じ分の領域を確保する
-		}
-
-		num_array = tmp.num_array;					//bool型の配列の要素数を同じにする
-
-		//確保した配列分ポインタの指す配列部分に代入を行う
-		for(int i=0; i < num_bool; i++) {
-
-			ptr[i] = tmp.ptr[i];					//ポインタの指す配列部分に代入
-		}
-	}
-
-	return *this;
-}
 
 //コピーコンストラクタ
 Array<bool>::Array(const Array& tmp) {

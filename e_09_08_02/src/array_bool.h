@@ -67,7 +67,6 @@ public:
 	public:
 
 		//コンストラクタ
-
 		IdxRngArray(const Array* ident_, int index_);
 
 		//例外を検出した配列の添字を返却する
@@ -76,7 +75,7 @@ public:
 	};
 
 	//明示的コンストラクタ
-	explicit Array(int sz, bool v);
+	Array(int sz, bool v);
 
 	//デストラクタ
 	~Array();
@@ -107,11 +106,36 @@ public:
 	//添字演算子関数 bool 版
 	bool operator [](int i) const;
 
-	//代入演算子 =
-	Array& operator = (const Array& tmp);
-
 	//コピーコンストラクタ
 	Array(const Array& tmp);
+
+	//代入演算子 =
+	Array& operator =(const Array& tmp) {
+
+		//自分自身ならば 0 を返す
+		if(&tmp != this) {
+
+			//bool型の配列を格納する配列の要素数が異なる場合
+			if(num_bool != tmp.num_bool) {
+
+				delete[] ptr;				//今確保している領域を解放
+
+				num_bool = tmp.num_bool;	//代入元と要素数を同じにする
+
+				ptr = new BYTE[num_bool];	//代入元と同じ分の領域を確保する
+			}
+
+			num_array = tmp.num_array;					//bool型の配列の要素数を同じにする
+
+			//確保した配列分ポインタの指す配列部分に代入を行う
+			for(int i=0; i < num_bool; i++) {
+
+				ptr[i] = tmp.ptr[i];					//ポインタの指す配列部分に代入
+			}
+		}
+
+		return *this;
+	}
 };
 
 #include"Array_bool_include.h"
