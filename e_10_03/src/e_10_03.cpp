@@ -15,31 +15,72 @@ using namespace std;
 
 int main()
 {
-	const int width  = 3; 		//行の変数
-	const int length = 6;		//列の変数
+	const int line  = 3; 		//行の変数
+	const int col = 6;			//列の変数
+	int set_col;				//List10-11用
 	Date now_time(-1);			//日付現在時刻
-
-	Date* ptr = &now_time;
+	Date* ptr = &now_time;		//日付クラスのポインタ
 
 	//Vectorで配列を作成 コンテナの中にint型のコンテナがある
 	//					コンテナの個数  <- の中にあるコンテナの個数
-	vector<vector<Date*> >   array(width, vector<Date*>(length));
+	//List10-10
+	vector<vector<Date*> >   array(line, vector<Date*>(col));
+
+	//List10-11
+	vector<vector<Twin<int>* > >   array_twin;
 
 	//行分ループ処理
-	for(int i=0; i < width; i++) {
+	for(int i=0; i < line; i++) {
 		//列分ループ処理
-		for(int j=0; j < length; j++) {
+		for(int j=0; j <  col; j++) {
 
-			 array[i][j] = ptr;
+			 array[i][j] = ptr;	//オブジェクト本体はNG　ポインタを代入する　Vectorがポインタ配列だから
+		}
+	}
+	cout << "日付クラス\n";
+
+	//行分ループ処理
+	for(int i=0; i < line; i++) {
+		//列分ループ処理
+		for(int j=0; j < col; j++) {
+
+			//各配列に今日の日付が代入されていることになる
+			cout << "[" << i << "][" << j << "] = " << *array[i][j] << "\n";
 		}
 	}
 
-	for(int i=0; i < width; i++) {
+	cout << line << "行分の配列の列数を決めてください\n";
 
+	for(int i=0; i < line; i++) {
 
-		for(int j=0; j < length; j++) {
+		cout << i << "行目の列数 : ";
+		cin >> set_col;
 
-			cout << "[" << i << "][" << j << "] = " << *array[i][j] << "\n";
+		array_twin.push_back(vector<Twin<int>* >(set_col));
+	}
+
+	Twin<int> tmp(10,100);		//オブジェクトを添字で初期化
+	Twin<int>* ptr_twin = &tmp;				//オブジェクトのポインタを定義し代入の準備
+
+	//行分ループ処理
+	for(int i=0; i < line; i++) {
+
+		int len = array_twin[i].size();
+		//列分ループ処理
+		for(int j=0; j < len; j++) {
+
+			array_twin[i][j] = ptr_twin;	//オブジェクト本体はNG　ポインタを代入する　Vectorがポインタ配列だから
+		}
+	}
+
+	//行分ループ処理
+	for(int i=0; i < line; i++) {
+
+		int len = array_twin[i].size();
+		//列分ループ処理
+		for(int j=0; j < len; j++) {
+
+			cout << "[" << i << "][" << j << "] = " << *array_twin[i][j] << "\n";
 		}
 	}
 
