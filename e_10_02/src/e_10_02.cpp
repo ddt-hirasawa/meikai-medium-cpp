@@ -9,6 +9,9 @@
 #include<string>
 #include<vector>
 #include<string>
+#include<utility>
+#include<algorithm>
+#include<cstdlib>
 #include<iostream>
 
 using namespace std;
@@ -31,15 +34,15 @@ int main()
 
 	vector<string> tmp3(test3,test3 + sizeof(test3) / sizeof(test3[0]));
 
-	print_vector(tmp1);
-	//print_vector(tmp2);
-	//print_vector(tmp3);
+	print_vector(tmp1);		//int
+	print_vector(tmp2);		//double
+	print_vector(tmp3);		//string それぞれで同じ関数を呼び出す
 
 	return 0;
 }
 
 
-template <class T, class Allocator>
+template <class T,class Allocator >
 //関数 ベクトルtmp の全要素を表示する
 //仮引数 Vectorオブジェクト
 //返却値 無し
@@ -49,8 +52,7 @@ void print_vector(const vector<T,Allocator>& tmp) {
 	cout << "{";
 
 	//コンテナに格納された数分表示を行う
-
-	for(vector<T, Allocator>::size_type i = 0;i < tmp.size(); i++) {
+	for(typename vector<T,Allocator>::size_type i = 0;i < tmp.size(); i++) {
 
 		cout << tmp[i];				//コンテナに格納された順に表示
 
