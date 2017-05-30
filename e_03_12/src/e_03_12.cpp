@@ -20,7 +20,7 @@ static void mergesort(void* base,void* copy,size_t p_zero ,size_t nmenb,size_t s
 int int_result(const int* tmp1, const int* tmp2);
 namespace {
 
-void Substitution(void* tmp1, void* tmp2, size_t num);
+void memswap(void* tmp1, void* tmp2, size_t num);
 
 }
 
@@ -72,7 +72,7 @@ namespace {
 //仮引数 共通のオブジェクトを指すポインタ 2つ オブジェクトの要素数
 //返却値 無し
 
-void Substitution(void* tmp1, void* tmp2, size_t num)
+void memswap(void* tmp1, void* tmp2, size_t num)
 {
 	unsigned char* obj1 = reinterpret_cast<unsigned char*>(tmp1);	//変数を仮に unsigned char型のポインタに置き換える
 	unsigned char* obj2 = reinterpret_cast<unsigned char*>(tmp2);	//変数を仮に unsigned char型のポインタに置き換える
@@ -80,7 +80,12 @@ void Substitution(void* tmp1, void* tmp2, size_t num)
 	//要素数が0になるまで続く その間 ポインタは それぞれ進む
 	for(; num--; obj1++,obj2++) {
 
-		*obj1 = *obj2;
+
+		unsigned char obj3 = *obj1;	//ポインタの仮置き場
+
+		*obj1 = *obj2;				//obj1 と obj2を入れ替え
+
+		*obj2 = obj3;				//obj2 に保管していた値 obj3を代入する
 	}
 }
 }
@@ -140,20 +145,20 @@ static void mergesort(void* base,void* copy,size_t p_zero ,size_t nmenb,size_t s
 
 	for(size_t i = p_zero; i < point_m; i++ ) {
 
-		Substitution(
-				const_cast<void*>(reinterpret_cast<const void*>(&*(copy_p + i * size))),
+		memswap(
+				const_cast<void*>(reinterpret_cast<const void*>(&copy_p[i * size])),
 
-				const_cast<void*>(reinterpret_cast<const void*>(&*(ptr + i * size))), size);
+				const_cast<void*>(reinterpret_cast<const void*>(&ptr[i * size])), size);
 	}
 
 	size_t j = nmenb;
 
 	for(size_t i = point_m; i < nmenb; i++ ) {
 
-		Substitution(
-				const_cast<void*>(reinterpret_cast<const void*>(&*(copy_p + i * size))),
+		/*memswap(
+				const_cast<void*>(reinterpret_cast<const void*>(&copy_p[i * size])),
 
-				const_cast<void*>(reinterpret_cast<const void*>(&*(ptr + j * size))), size);
+				const_cast<void*>(reinterpret_cast<const void*>(&ptr[j * size])), size);*/
 		j--;
 	}
 
@@ -168,23 +173,23 @@ static void mergesort(void* base,void* copy,size_t p_zero ,size_t nmenb,size_t s
 
 						reinterpret_cast<const char*>(&*(copy_p + select_r * size))) > 0) {
 
-			Substitution(
+			/*memswap(
 					const_cast<void*>(reinterpret_cast<const void*>(&ptr[set
 							* size])),
 
 					const_cast<void*>(reinterpret_cast<const void*>(&copy_p[select_l
-							* size])), size);
+							* size])), size);*/
 
 			select_l++;
 
 		} else {
 
-			Substitution(
+			/*memswap(
 					const_cast<void*>(reinterpret_cast<const void*>(&ptr[set
 							* size])),
 
 					const_cast<void*>(reinterpret_cast<const void*>(&ptr[select_r
-							* size])), size);
+							* size])), size);*/
 
 			select_r--;
 		}
