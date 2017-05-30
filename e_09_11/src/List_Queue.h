@@ -16,9 +16,12 @@
 #include"class.h"
 
 //線形リストによるキュークラス
-template <class Type> class ListQueue : public Queue<Type> {
+template<class Type>
+class ListQueue : public Queue<Type> {
 
-	template <class Type> class Node {
+	template <class Queue>
+
+	class Node {
 
 		friend class ListQueue<Type>;	//
 		Type* data_queue;				//キューのデータ
@@ -51,7 +54,7 @@ public:
 		Node<TYpe>* ptr = top_node;		//先頭ノードへのポインタを生成
 
 		//先頭とダミーノードが異なる限り続く
-		while(ptr != dummy_node) {
+		while(top_node != dummy_node) {
 
 			//ポインタで次の後続ポインタを指す
 			Node<Type>* next_queue = ptr->next_queue;
@@ -76,13 +79,13 @@ public:
 		//例外を拾うため try
 		try {
 
-			top_node = new Node<Type>(new Type<tmp>, ptr);	//先頭ノードから領域を確保
+			top_node = new Node<Type> (new Type<tmp>, ptr);	//先頭ノードから領域を確保
 
 			//領域を確保しそこなったら例外
-		} catch (const bad_alloc&) {
+		} catch (const bad_alloc& ) {
 
 			//例外クラス生成
-			throw OverFlow();
+			throw Queue<Type>::OverFlow();
 		}
 	}
 

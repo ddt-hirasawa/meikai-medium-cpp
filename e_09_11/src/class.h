@@ -14,15 +14,10 @@
 #include<cstdlib>
 #include<limits>
 
-//クラステンプレート
+//抽象クラステンプレート
 template<class Type>
 //キュー
 class Queue {
-
-	int queue_size;			//キューの容量
-	int queue_ptr;			//キューのポインタ
-	Type* queue;			//キューの本体
-
 public:
 
 	//満杯スタックへのプッシュを例外
@@ -31,19 +26,14 @@ public:
 	//空のスタックからのプッシュを例外
 	class Empty {};
 
-	//明示的コンストラクタ
-	explicit Queue(int queue_);
-
 	//デストラクタ
-	~Queue();
+	virtual ~Queue() = 0;
 
 	//プッシュ
-	Type& push(const Type& tmp);
+	virtual void push(const Type& tmp) = 0;
 
 	//ポップ
-	Type pop();
+	virtual Type pop() const = 0;
 };
-
-#include"class_include.h"
 
 #endif /* CLASS_H_ */

@@ -9,47 +9,77 @@
 //#include <queue>
 #include <iostream>
 #include"class.h"
+#include"List_Queue.h"
+#include"Fixed_length.h"
 
 using namespace std;
 
 int main()
 {
-	try {
+	ListQueue<int>* queue_int = new ListQueue<int>();
 
-		Queue<int> queue(10);		//キュー int型で箱10個
+	while(1) {
 
-		//キューに添え字 0 ～ 9 を順にプッシュしていく
-		for(int i=0; i< 10; i++) {
+		int menu;			//プッシュ ポップの選択
 
-			//プッシュする値を表示
-			cout << i << "をプッシュします\n";
+		//0で終了
+		cout << "プッシュ -> 1 ポップ -> 2 終了 -> 0";
+		cin >> menu;
 
-			queue.push(i);			//添え字をプッシュ
+		//0が入力されたときwhileループから抜ける
+		if(0 == menu) {
+			break;
 		}
 
-		cout << "\n";				//プッシュとポップを区切ります
+		//スイッチ文で分岐
+		switch(menu) {
 
-		//キューからポップしていきます
-		for(int i=0; i< 11; i++) {
+		int tmp;	//pushする値を決める変数
 
-			//先入れ先出しなので入れた順位出てきます
-			cout << queue.pop() << "をポップします\n";
+		//プッシュ
+		case 1 :
+
+			//プッシュするデータを決定
+			cout << "データ : ";
+			cin >> tmp;
+
+			try{
+
+				//アロー演算子でクラスのメンバ関数を呼び出す
+				queue_int->push(tmp);
+
+			//例外 基底クラスのOVERFLOW
+			} catch (const Queue<int>::OverFlow&) {
+
+				//警告文
+				cout << "オーバーフロー発生";
+
+				//whileループから脱却
+				break;
+			}
+			break;
+
+		//ポップ
+		case 2 :
+
+			try {
+
+				tmp = queue_int->pop();
+
+				cout << tmp << "をポップしました\n";
+
+			} catch (const Queue<int>::Empty&) {
+
+				//警告文
+				cout << "空です";
+
+				break;
+			}
+
 		}
-
-	}
-	//例外発生 満杯
-	catch(const Queue<int>::OverFlow&) {
-
-
-		cout << "満杯のキューにプッシュしようとしました\n";
-
-	}
-	//例外発生 空
-	catch(const Queue<int>::Empty&) {
-
-		cout << "空のキューからポップしようとしました\n";
 	}
 
+	delete queue_int;
 
 	return 0;
 }

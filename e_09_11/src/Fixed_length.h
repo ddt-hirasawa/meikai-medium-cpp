@@ -40,7 +40,7 @@ public:
 		if(size <= ptr) {
 
 			//例外クラス生成
-			throw OverFlow();
+			throw Queue<Type>::OverFlow();
 		}
 		Queue_Body[ptr++] = tmp;	//キューに代入
 	}
@@ -52,7 +52,7 @@ public:
 		if(ptr <= 0) {
 
 			//例外クラス生成
-			throw Empty();
+			throw Queue<Type>::Empty();
 		}
 		return Queue_Body[size - (ptr--)];	//キューから取り出し
 	}
