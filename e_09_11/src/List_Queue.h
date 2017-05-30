@@ -25,12 +25,12 @@ class ListQueue : public Queue<Type> {
 
 		friend class ListQueue<Type>;	//
 		Type* data_queue;				//キューのデータ
-		Type* next_queue;				//キューの後続ポインタ
+		Node* next_queue;				//キューの後続ポインタ
 
 	public:
 
 		//コンストラクタ
-		Node(Type* data_queue_ , Type* next_queue_) :
+		Node(Type* data_queue_ , Node* next_queue_) :
 
 			//データと後続ポインタを初期化
 			data_queue(data_queue_),next_queue(next_queue_) {
@@ -43,28 +43,24 @@ class ListQueue : public Queue<Type> {
 public:
 
 	//コンストラクタ
-	ListQueue() {
-
+	ListQueue()
+	{
 		top_node = dummy_node = new Node<Type>(NULL, NULL);		//先頭、ダミーノードをNULLで初期化
 	}
 
 	//デストラクタ
-	~ListQueue() {
+	~ListQueue(){
 
-		Node<TYpe>* ptr = top_node;		//先頭ノードへのポインタを生成
+		Node<Type>* ptr = top_node;		//先頭ノードへのポインタを生成
 
 		//先頭とダミーノードが異なる限り続く
 		while(top_node != dummy_node) {
-
-			//ポインタで次の後続ポインタを指す
-			Node<Type>* next_queue = ptr->next_queue;
 
 			//ポインタで指す領域を解放
 			delete ptr->data_queue;
 			//生成したポインタを破棄
 			delete ptr;
 
-			ptr = next_queue;
 		}
 
 		//ダミーノードを破棄
@@ -72,20 +68,20 @@ public:
 	}
 
 	//プッシュ
-	void push(const Type& tmp) {
+	void push(const Type& tmp){
 
 		Node<Type>* ptr = top_node;		//先頭ノードへのポインタを生成
 
 		//例外を拾うため try
-		try {
+		try{
 
-			top_node = new Node<Type> (new Type<tmp>, ptr);	//先頭ノードから領域を確保
+			top_node = new Node<Type>(new Type(tmp), ptr);	//先頭ノードから領域を確保
 
-			//領域を確保しそこなったら例外
-		} catch (const bad_alloc& ) {
+		//領域を確保しそこなったら例外
+		} catch (const std::bad_alloc& ) {
 
 			//例外クラス生成
-			throw Queue<Type>::OverFlow();
+			throw Queue<int>::OverFlow();
 		}
 	}
 
@@ -96,19 +92,18 @@ public:
 		if(top_node == dummy_node) {
 
 			//例外クラス生成
-			throw Empty();
+			throw Queue<int>::Empty();
 
 		} else {
 
-			Node<Type>* ptr = top_node->next_queue;	//先頭ノードへのポインタを生成する
-													//先頭ノードはキューの後続ポインタを指す
+			Node<Type>* ptr = top_node->next_queue;
 
 			Type temp = *(top_node->data_queue);	//キューのデータを取り出す
 
 			delete top_node->data_queue;			//先頭ノードが指すデータを破棄
 			delete top_node;						//先頭ノードを破棄
 
-			top_node = ptr;							//先頭ノードを戻す
+			top_node = ptr;
 
 			return temp;							//値を取り出す
 		}

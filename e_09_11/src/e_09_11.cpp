@@ -16,7 +16,7 @@ using namespace std;
 
 int main()
 {
-	ListQueue<int>* queue_int = new ListQueue<int>();
+	Queue<int>* queue_int = new ListQueue<int>();
 
 	while(1) {
 

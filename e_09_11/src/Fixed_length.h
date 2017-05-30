@@ -46,7 +46,7 @@ public:
 	}
 
 	//ポップ
-	Type pop() {
+	Type& pop() {
 
 		//キューが空
 		if(ptr <= 0) {

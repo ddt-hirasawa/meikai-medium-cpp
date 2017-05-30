@@ -30,10 +30,15 @@ public:
 	virtual ~Queue() = 0;
 
 	//プッシュ
-	virtual void push(const Type& tmp) = 0;
+	virtual void push(const Type& tmp)  = 0;
 
 	//ポップ
-	virtual Type pop() const = 0;
+	virtual Type& pop() = 0;
 };
+
+//仮想デストラクタ
+template <class Type>
+Queue <Type>::~Queue(){
+}
 
 #endif /* CLASS_H_ */
