@@ -18,7 +18,9 @@ int main()
 {
 	Queue<int>* queue_int = new ListQueue<int>();
 
-	while(1) {
+	int cnt = 10;			//無限ループ回避のため10回を限度にします
+
+	while(cnt--) {
 
 		int menu;			//プッシュ ポップの選択
 
