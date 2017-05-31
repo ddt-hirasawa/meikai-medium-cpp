@@ -106,7 +106,7 @@ public:
 	//explicit Array(long long sz,bool v = bool()) :
 
 		//コンストラクタ初期化子によりbool型の配列の要素数とその配列を格納する配列の要素数を初期化
-		num(sz),num_bool(sizeof(sz)) {
+		num(sz),num_bool(size_of(sz)) {
 
 		ptr = new BYTE[num_bool];		//新たに、bool型の配列を格納する配列の領域を確保
 
