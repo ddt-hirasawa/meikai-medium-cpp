@@ -33,10 +33,10 @@ int main()
 			//宣言 double型の値を入力
 			cout << "double型の値 ["  << i << "] : ";
 			//値を入力
-			cin >> read_write[i];
+			cin  >> read_write[i];
 
 			//バイナリーモードで書き込み
-			file.write(reinterpret_cast<const char*>(&read_write[i]), sizeof(double));
+			file.write(reinterpret_cast<char*>(&*read_write), sizeof(double));
 
 			file << '\n';
 		}
@@ -59,7 +59,7 @@ int main()
 		for(int i=0; i < max; i++) {
 
 			//バイナリーモードで読み込み
-			file_open.read(reinterpret_cast<char*>(&read_write[i]), sizeof(double));
+			file_open.read(reinterpret_cast<char*>(&*read_write), sizeof(double));
 
 			//配列の値を表示するのみ
 			cout << "double型の値 ["  << i << "] : " << setprecision(20) << read_write[i] << "\n";
