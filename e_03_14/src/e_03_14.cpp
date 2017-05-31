@@ -36,7 +36,7 @@ int main()
 	{ "SHIBATA", 170, 52 },
 	{ "TAKAOKA", 180, 70 },
 	{ "NANGOH", 172, 63 },
-	{"SUGIYAMA", 165, 50 }, };
+	{"SUGIYAMA", 165, 90 }, };
 
 	const char* Person:: *ptr_name;	//クラスオブジェクト 名前へのポインタ
 
