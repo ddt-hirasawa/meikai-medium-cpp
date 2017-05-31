@@ -14,36 +14,26 @@ using namespace std;
 
 int main()
 {
-	Date now(-1);			//日付クラス 現在時刻で初期化
+	const int max = 5;			//回数 5回が限度
 
-	//現在時刻を表示
-	cout << now;
+	vector<Date> now_time;	//ベクタークラスオブジェクト生成 int型 空オブジェクト
 
-	vector<int> now_time;	//ベクタークラスオブジェクト生成 int型 空オブジェクト
+	//コンテナにプッシュする用のループ
+	for(int i=0; i < max; i++) {
 
-	now_time.push_back(now.open_year());	//コンテナに西暦を格納
-	now_time.push_back(now.open_month());	//コンテナに月を格納
-	now_time.push_back(now.open_day());		//コンテナに日を格納
-	now_time.push_back(now.open_hour());	//コンテナに時を格納
-	now_time.push_back(now.open_min());		//コンテナに分を格納
-	now_time.push_back(now.open_sec());		//コンテナに秒を格納
+		Date now(-1);				//現在時刻 クラスオブジェクト
 
-	cout << "西暦";
+		now_time.push_back(now);	//現在時刻をプッシュします
+
+		cout << "プッシュ\n";
+	}
+
+	cout << "ポップ開始\n";
 
 	//コンテナに格納した分ループしポップします
 	for(vector<int>::size_type i=0; i < now_time.size(); i++) {
 
-		cout << now_time[i];		//先入れ先出し構造のため入れた順で西暦から
-
-		//語尾に単位を付けます
-		switch(i) {
-		case 0 : cout << "年"; break;
-		case 1 : cout << "月"; break;
-		case 2 : cout << "日"; break;
-		case 3 : cout << "時"; break;
-		case 4 : cout << "分"; break;
-		case 5 : cout << "秒";
-		}
+		cout << i + 1 << "回目 : " << now_time[i];		//先入れ先出し構造のため入れた順で西暦から
 	}
 
 	return 0;
