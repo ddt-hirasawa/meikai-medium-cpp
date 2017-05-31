@@ -60,5 +60,4 @@ template <class Type> inline std::ostream& operator << (std::ostream& stream,con
 	return stream << "[ " << tmp.first_get() << "," << tmp.second_get() << " ]";
 }
 
-
 #endif /* CLASS_H_ */

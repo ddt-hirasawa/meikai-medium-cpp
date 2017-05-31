@@ -6,11 +6,13 @@
 作成者 平澤敬介
 */
 
+#ifndef DATA_H
+#define DATA_H_
+
 #include<utility>
 #include<algorithm>
 #include<iostream>
 #include<ctime>
-#include"class.h"
 
 //	1  2  3  4  5  6  7  8  9  10 11 12 月の末日
 const int dmax[] = {31,28,31,30,31,30,31,31,30,31,30,31};
@@ -83,3 +85,4 @@ inline std::ostream& operator << (std::ostream& stream,const Date<Type>& tmp) {
 template <class Type>
 inline std::istream& operator >> (std::istream& stream,Type& tmp);
 
+#endif /* CLASS_H_ */

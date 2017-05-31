@@ -7,7 +7,7 @@
 */
 
 #include"class.h"
-#include"date.h"
+#include"data.h"
 #include<iostream>
 
 using namespace std;
