@@ -40,15 +40,8 @@ int main() {
 		//0 1 以外ならばやり直しです
 	} while (select != 0 && select != 1);
 
-	//関数配列の0番目を代入します 乗算
-	func_select = func_array[0];
-
-	//List3-8 に準じます
-	if (select) {
-
-		//関数配列の1番目を代入します 加算
-		func_select = func_array[1];
-	}
+	//関数配列のselect番目を代入します
+	func_select = func_array[select];
 
 	//中身は 乗算 加算に分かれます
 	output(func_select);
