@@ -15,14 +15,15 @@
 using namespace std;
 
 int main() {
+
 	//図形 クラスの三角形 抽象クラスでまとめます
 	Geometry* select[] = {
 
-	new Tri_left_under(LEN),			//左下直角2等辺3角形
-	new Tri_left_up(LEN),				//左上直角2等辺3角形
-	new Tri_right_under(LEN),			//右下直角2等辺3角形
-	new Tri_right_up(LEN)				//右上直角2等辺3角形
-			};
+			new Tri_left_under(LEN),			//左下直角2等辺3角形
+			new Tri_left_up(LEN),				//左上直角2等辺3角形
+			new Tri_right_under(LEN),			//右下直角2等辺3角形
+			new Tri_right_up(LEN)				//右上直角2等辺3角形
+	};
 
 	const int element = sizeof(select) / sizeof(select[0]);	//図形の種類をsizeof演算子により出す
 
@@ -37,8 +38,7 @@ int main() {
 
 		//クロスキャストを使いTwoDimensionalにある面積を返却する関数を呼び出す
 		//クロスキャスト 動的キャストで基底クラスを共有する派生クラス間のポインタを変換する
-		cout << "面積 : " << dynamic_cast<TwoDimensional*>(select[i])->get_area()
-				<< "\n";
+		cout << "面積 : " << dynamic_cast<TwoDimensional*>(select[i])->get_area() << "\n";
 	}
 
 	//確保している領域を解放し処理を終える
