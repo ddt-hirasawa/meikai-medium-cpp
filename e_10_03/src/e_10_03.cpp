@@ -19,7 +19,6 @@ int main()
 	const int col = 6;			//列の変数
 	int set_col;				//List10-11用
 	Date now_time(-1);			//日付現在時刻
-	Date* ptr = &now_time;		//日付クラスのポインタ
 
 	//Vectorで配列を作成 コンテナの中にint型のコンテナがある
 	//					コンテナの個数  <- の中にあるコンテナの個数
@@ -34,7 +33,7 @@ int main()
 		//列分ループ処理
 		for(int j=0; j <  col; j++) {
 
-			 array[i][j] = ptr;	//オブジェクト本体はNG　ポインタを代入する　Vectorがポインタ配列だから
+			 array[i][j] = &now_time;	//オブジェクト本体はNG　ポインタを代入する　Vectorがポインタ配列だから
 		}
 	}
 	cout << "日付クラス\n";
@@ -60,7 +59,6 @@ int main()
 	}
 
 	Twin<int> tmp(10,100);		//オブジェクトを添字で初期化
-	Twin<int>* ptr_twin = &tmp;				//オブジェクトのポインタを定義し代入の準備
 
 	//行分ループ処理
 	for(int i=0; i < line; i++) {
@@ -69,7 +67,7 @@ int main()
 		//列分ループ処理
 		for(int j=0; j < len; j++) {
 
-			array_twin[i][j] = ptr_twin;	//オブジェクト本体はNG　ポインタを代入する　Vectorがポインタ配列だから
+			array_twin[i][j] = &tmp;	//オブジェクト本体はNG　ポインタを代入する　Vectorがポインタ配列だから
 		}
 	}
 
