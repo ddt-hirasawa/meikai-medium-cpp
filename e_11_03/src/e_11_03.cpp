@@ -41,10 +41,11 @@ int main(int argc, const char** argv)
 	//新たにプッシュ用の文字列を定義
 	const char* test1[] = { "eclipse_cmdline",
 							"Visual_Studio_cmdline",
-							"eclipse_Vsual_Studio"};
+							"eclipse_Vsual_Studio",
+							"Visual_Studio",
+							"eclipse"};
 
 	main_cmd = strptary_to_vec(test1, sizeof(test1) / sizeof(test1[0]));		//新たにコンテナに文字列をプッシュしなおします
-
 
 	//コンテナにある文字列分繰り返し表示を行います
 	for(vector<string>::size_type i=0; i < main_cmd.size(); i++) {
@@ -55,13 +56,46 @@ int main(int argc, const char** argv)
 
 	cout << "文字列をシャッフル\n";
 
-	random_shuffle(main_cmd.begin(),main_cmd.end());
+	vector<string> main_cmd_copy(main_cmd);	//作業用 にコピー
 
-	//全要素を表示する関数の呼び出し
-	print(main_cmd.begin(),main_cmd.end());
+	//シャッフルを呼び出す 文字列が3つだとシャッフルされない last - first -1 回 swap されるから
+	random_shuffle(main_cmd_copy.begin(),main_cmd_copy.end());
+
+	//コンテナにある文字列分繰り返し表示を行います
+	for(vector<string>::size_type i=0; i < main_cmd_copy.size(); i++) {
+
+		//コマンドラインに1つしか文字列が無いので1回のみ
+		cout << i << "番目 : " << main_cmd_copy[i] << "\n";
+	}
+
+	cout << "文字列をソート\n";
+
+	//昇順にソート
+	sort(main_cmd_copy.rbegin(),main_cmd_copy.rend());
+
+	//ソートされた文字列群の表示
+	print(main_cmd_copy.begin(),main_cmd_copy.end());
 
 	return 0;
 }
+
+//関数 表示を行う
+//仮引数 コンテナ
+//返却値 無し
+
+template <class Type>
+struct put1 :public unary_function<const Type&, void> {
+
+	void operator () (const Type& tmp) {
+
+		static int cnt = 0;		//呼び出した順番をカウント
+
+		cout << cnt++ << "番目 : ";
+
+		//ポインタの指す文字列を表示
+		cout << tmp << "\n";
+	}
+};
 
 //関数 全要素を表示する
 //仮引数 vector の オブジェクト
@@ -69,15 +103,10 @@ int main(int argc, const char** argv)
 template <class InputIterator>
 void print(InputIterator first,InputIterator last) {
 
-	int cnt = 0;
-
 	//反復子により先頭から末尾まで走査する
-	for(InputIterator i = first; i < last; i++) {
-
-		cout << cnt++ << "番目 : "<< *i << " ";
+	for_each(first,last,put1<typename iterator_traits<InputIterator>::value_type>() );
 
 		cout << "\n";
-	}
 }
 
 //関数 与えられたポインタから文字列をプッシュする
@@ -95,4 +124,4 @@ vector<string> strptary_to_vec(const char** ptr,int num) {
 		tmp.push_back(ptr[i]);
 	}
 	return tmp;
-}
+};
