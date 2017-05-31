@@ -22,17 +22,23 @@ void print_vector(const vector<T, Allocator>& tmp);
 
 int main()
 {
-	int test1[] = {1,2,3,4,5};
+	int test1[] = {1,2,3,4,5};												//int型 コンテナ格納用配列
 
-	vector<int> tmp1(test1,test1 + sizeof(test1) / sizeof(test1[0]));
+	vector<int> tmp1(test1,test1 + sizeof(test1) / sizeof(test1[0]));		//int型の大きさでコンテナを定義
 
-	double test2[] = {2.3, 1.9, 3.4, 6.5,2.4};
+	cout << "tmp1のコンテナの先頭のポインタ : " << (test1 + sizeof(test1) / sizeof(test1[0])) << "\n";
 
-	vector<double> tmp2(test2,test2 + sizeof(test2) / sizeof(test2[0]));
+	double test2[] = {2.3, 1.9, 3.4, 6.5,2.4};								//double型 コンテナ格納用配列
 
-	string test3[] = {"abc","def","123456789","asdfgh"};
+	vector<double> tmp2(test2,test2 + sizeof(test2) / sizeof(test2[0]));	//double型の大きさでコンテナを定義
 
-	vector<string> tmp3(test3,test3 + sizeof(test3) / sizeof(test3[0]));
+	cout << "tmp2のコンテナの先頭のポインタ : " << (test2 + sizeof(test2) / sizeof(test2[0])) << "\n";
+
+	string test3[] = {"abc","def","123456789","asdfgh"};					//string型 コンテナ格納用配列
+
+	vector<string> tmp3(test3,test3 + sizeof(test3) / sizeof(test3[0]));	//string型の大きさでコンテナを定義
+
+	cout << "tmp3のコンテナの先頭のポインタ : " << (test3 + sizeof(test3) / sizeof(test3[0])) << "\n";
 
 	print_vector(tmp1);		//int
 	print_vector(tmp2);		//double
@@ -49,6 +55,7 @@ template <class T,class Allocator >
 
 void print_vector(const vector<T,Allocator>& tmp) {
 
+	//括弧で区切ります
 	cout << "{";
 
 	//コンテナに格納された数分表示を行う
@@ -59,10 +66,12 @@ void print_vector(const vector<T,Allocator>& tmp) {
 		//空になる直前まで点とスペースで区切る
 		if(i < tmp.size() - 1) {
 
+			//点で値を区切ります
 			cout << ", ";
 		}
 	}
 
+	//括弧で区切ります
 	cout << "}\n";
 }
 
