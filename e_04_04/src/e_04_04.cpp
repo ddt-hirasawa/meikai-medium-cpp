@@ -67,7 +67,7 @@ void open_date_member(const Member* ptr) {
 
 void open_date_resign(const ResigningMember* ptr) {
 
-	cout << "退会済み : " << ptr->get_number() << "\n";
+	cout << "退会済み : " << ptr->get_number() << "\n"
 
-			//<< ptr->get_weight(); アロー演算子は使えない ポインタの値が不正だから？
+			<< ptr->get_weight(); //アロー演算子は使えない ポインタの値が不正だから？
 }

@@ -25,8 +25,6 @@ public:
 
 		//コンストラクタ初期化子により データメンバを初期化
 		full_name(name),number(number_),weight(weight_) {
-
-		set_weight(weight_);			//データメンバの体重を設定
 	}
 
 	//ゲッタ データメンバの名前を返す

@@ -29,7 +29,7 @@ public:
 	}
 
 	//データメンバは与えられているが、退会済みなので実際はデータは破棄されている設定
-	double get_weight() {
+	double get_weight() const {
 
 		//データがありません
 		std::cout << "NO DATE\n";
