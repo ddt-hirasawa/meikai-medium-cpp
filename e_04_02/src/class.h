@@ -95,6 +95,7 @@ public:
 	 */
 	Derived( int test1, int test2, int test3) :
 
+		//基底クラスから初期化するように変更
 		Base(test3),data1(test1),data2(test2)
 	{
 		say();
