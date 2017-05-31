@@ -8,8 +8,8 @@
 
 #include<iostream>
 #include"class.h"
-#include"derivation.h"
 #include"derivation1.h"
+#include"derivation2.h"
 
 using namespace std;
 
@@ -19,15 +19,15 @@ using namespace std;
 int main() {
 	Geometry* tmp[] = {
 
-	new Point(),					//点クラス
+			new Point(),					//点クラス
 			new HorzLine(wid),				//水平直線クラス
 			new VertLine(hid),				//垂直直線クラス
 			new Square(wid, hid),			//四角形クラス
 			new Tri_left_under(wid, hid),	//追加した3角形クラス
-			new Tri_left_up(wid, hid),	//演習6-1 からクローン to_string debug をそれぞれ追加し
+			new Tri_left_up(wid, hid),		//演習6-1 からクローン to_string debug をそれぞれ追加し
 			new Tri_right_under(wid, hid),	//抽象クラスのメンバ関数とほぼ同じにしました
 			new Tri_right_up(wid, hid),		//異なっているのは純粋仮想デストラクタがないことのみ
-												//派生先はmain内でdelete[]で削除
+											//派生先はmain内でdelete[]で削除
 			};
 
 	int select;								//キーボード入力で表示する図形を選択します

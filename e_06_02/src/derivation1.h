@@ -10,199 +10,41 @@
 #define DERIVATION1_H_
 
 #include<iostream>
-#include<sstream>
-#include<string>
-#include<typeinfo>
 #include"class.h"
 
-//点 クラス
-class Point : public Geometry {
+//三角形クラス 左下2等辺三角形
+class Tri_left_under : public Geometry {
 
-public:
-
-	//描画
-	void draw() const {
-
-		std::cout << "+\n";
-	}
-
-	//複製
-	Point* clone() const {
-
-		//クラスオブジェクトのポインタを返却
-		return new Point;
-	}
-
-	//文字列表現
-	std::string to_string() const {
-
-		//文字列 そのものを返却
-		return "Point";
-	}
-
-	//デバッグ用情報表示
-	void debug() const {
-
-		//基底クラスのデバッグの呼び出し
-		Geometry::debug();
-	}
-};
-
-//直線 クラス
-class Line : public Geometry {
-
-public:
-	int length;
+	int width;			//幅
+	int height;			//高さ
 
 public:
 
 	//コンストラクタ
-	Line(int len) :
+	Tri_left_under(int wid,int hid) :
 
-		//コンストラクタ初期化子による初期化
-		length(len) {
-
-	}
-
-	//ゲッタ 長さを返却
-	int get_len() const {
-
-		return length;
-	}
-
-	//セッタ 長さを指定
-	void set_len(int len) {
-
-		//データメンバに代入
-		length = len;
-	}
-
-	//デバッグ用情報表示
-	void debug() const {
-
-		//基底クラスのデバッグの呼び出し
-		Geometry::debug();
-
-		std::cout << "Length : " << length << "\n";
-	}
-};
-
-//水平直線 クラス
-class HorzLine : public Line {
-
-public:
-
-	//コンストラクタ
-	HorzLine(int len) :
-
-		//コンストラクタ初期化子によりクラスオブジェクトを初期化
-		Line(len) {
-
-	}
-
-	//複製
-	virtual HorzLine* clone() const {
-
-		return new HorzLine(length);
-	}
-	//描画
-	void draw() const {
-
-		//指定された長さ分繰り返し表示を行う
-		for(int i=0; i < length; i++) {
-
-			std::cout << "-";
-		}
-		std::cout << "\n";
-	}
-
-	//文字列表現
-	std::string to_string() const {
-
-		//string ヘッダの抽出子
-		std::ostringstream ostream;
-
-		//表示する文字を指定
-		ostream << "HorzLine(length : " << length << " )\n";
-
-		return ostream.str();
-	}
-};
-
-//垂直直線 クラス
-class VertLine : public Line {
-
-public:
-
-	//コンストラクタ
-	VertLine(int len) :
-
-		//コンストラクタ初期化子によりクラスオブジェクトを初期化
-		Line(len) {
-
-	}
-
-	//複製
-	virtual VertLine* clone() const {
-
-		return new VertLine(length);
-	}
-	//描画
-	void draw() const {
-
-		//指定された長さ分繰り返し表示を行う
-		for(int i=0; i < length; i++) {
-
-			std::cout << "|\n";
-		}
-	}
-
-	//文字列表現
-	std::string to_string() const {
-
-		//string ヘッダの抽出子
-		std::ostringstream ostream;
-
-		//表示する文字を指定
-		ostream << "VertLine(length : " << length << " )\n";
-
-		return ostream.str();
-	}
-};
-
-class Square : public Geometry{
-
-	int width;		//幅
-	int height;		//高さ
-
-public:
-
-	//コンストラクタ
-	Square(int wid,int hid) :
-
-		//コンストラクタ初期化子による初期化
 		width(wid),height(hid) {
+
 	}
 
 	//複製
-	Square* clone() const {
+	Tri_left_under* clone() const {
 
-		return new Square(width,height);
+		return new Tri_left_under(width,height);
 	}
 
-	//描画
+	//メンバ関数 描絵
 	void draw() const {
 
-		//高さ分の表示を行うループ処理
+		//高さ分表示を行うためのループ
 		for(int i=1; i <= height; i++) {
 
-			//幅分の表示を行うループ処理
-			for(int j=1; j <= width; j++) {
+			//幅分表示を行うためのループ
+			for(int j=1; j <= i; j++) {
 
-				//1cm -> * となる
+				//1cm -> * とする
 				std::cout << '*';
 			}
-
 			std::cout << "\n";
 		}
 	}
@@ -214,7 +56,7 @@ public:
 		std::ostringstream ostream;
 
 		//表示する文字を指定
-		ostream << "Square(width : " << width << " , height : " << height << " )\n";
+		ostream << "Tri_left_under(width : " << width << ", height : " << height << ")\n";
 
 		return ostream.str();
 	}
@@ -228,13 +70,205 @@ public:
 		std::cout << "width  : " << width << "\n";
 		std::cout << "height : " << height << "\n";
 	}
-
 };
 
-//挿入子
-inline std::ostream& operator << (std::ostream& stream , const Geometry& tmp) {
+//三角形クラス 左上2等辺三角形
+class Tri_left_up : public Geometry {
 
-	return stream << tmp.to_string();
-}
+	int width;			//幅
+	int height;			//高さ
+
+public:
+	//コンストラクタ
+	Tri_left_up(int wid,int hid) :
+
+		width(wid),height(hid) {
+
+	}
+
+	//複製
+	Tri_left_up* clone() const {
+
+		return new Tri_left_up(width,height);
+	}
+
+	//メンバ関数 描絵
+	void draw() const {
+
+		//高さ分表示を行うためのループ
+		for(int i=1; i <= height; i++) {
+
+			//幅分表示を行うためのループ
+			for(int j=1; j < i; j++) {
+
+				//1cm -> * とする
+				std::cout << ' ';
+			}
+
+			//幅分表示を行うためのループ
+			for(int j=1; j <= width - i + 1; j++) {
+
+				//1cm -> * とする
+				std::cout << '*';
+			}
+			std::cout << "\n";
+		}
+	}
+	//文字列表現
+	std::string to_string() const {
+
+		//string ヘッダの抽出子
+		std::ostringstream ostream;
+
+		//表示する文字を指定
+		ostream << "Tri_left_up(width : " << width << ", height : " << height << ")\n";
+
+		return ostream.str();
+	}
+
+	//デバッグ用情報表示
+	void debug() const {
+
+		//基底クラスのデバッグの呼び出し
+		Geometry::debug();
+
+		std::cout << "width  : " << width << "\n";
+		std::cout << "height : " << height << "\n";
+	}
+};
+
+//三角形クラス 右下2等辺三角形
+class Tri_right_under : public Geometry {
+
+	int width;			//幅
+	int height;			//高さ
+
+public:
+	//コンストラクタ
+	Tri_right_under(int wid,int hid) :
+
+		width(wid),height(hid) {
+
+	}
+
+	//複製
+	Tri_right_under* clone() const {
+
+		return new Tri_right_under(width,height);
+	}
+
+	//メンバ関数 描絵
+	void draw() const {
+
+		//高さ分表示を行うためのループ
+		for(int i=1; i <= height; i++) {
+
+			//幅分表示を行うためのループ
+			for(int j=width; j > i; j--) {
+
+				//1cm -> * とする
+				std::cout << ' ';
+			}
+
+			//幅分表示を行うためのループ
+			for(int j=1; j <= i; j++) {
+
+				//1cm -> * とする
+				std::cout << '*';
+			}
+			std::cout << "\n";
+		}
+	}
+
+	//文字列表現
+	std::string to_string() const {
+
+		//string ヘッダの抽出子
+		std::ostringstream ostream;
+
+		//表示する文字を指定
+		ostream << "Tri_right_uuder(width : " << width << ", height : " << height << ")\n";
+
+		return ostream.str();
+	}
+
+	//デバッグ用情報表示
+	void debug() const {
+
+		//基底クラスのデバッグの呼び出し
+		Geometry::debug();
+
+		std::cout << "width  : " << width << "\n";
+		std::cout << "height : " << height << "\n";
+	}
+};
+
+//三角形クラス 右上2等辺三角形
+class Tri_right_up : public Geometry {
+
+	int width;			//幅
+	int height;			//高さ
+
+public:
+	//コンストラクタ
+	Tri_right_up(int wid,int hid) :
+
+		width(wid),height(hid) {
+
+	}
+
+	//複製
+	Tri_right_up* clone() const {
+
+		return new Tri_right_up(width,height);
+	}
+
+	//メンバ関数 描絵
+	void draw() const {
+
+		//高さ分表示を行うためのループ
+		for(int i=1; i <= height; i++) {
+
+			//幅分表示を行うためのループ
+			for(int j=1; j < i; j++) {
+
+				//1cm -> * とする
+				std::cout << ' ';
+			}
+
+			//幅分表示を行うためのループ
+			for(int j=width; j >= i; j--) {
+
+				//1cm -> * とする
+				std::cout << '*';
+			}
+			std::cout << "\n";
+		}
+	}
+
+	//文字列表現
+	std::string to_string() const {
+
+		//string ヘッダの抽出子
+		std::ostringstream ostream;
+
+		//表示する文字を指定
+		ostream << "Tri_right_up(width : " << width << ", height : " << height << ")\n";
+
+		return ostream.str();
+	}
+
+	//デバッグ用情報表示
+	void debug() const {
+
+		//基底クラスのデバッグの呼び出し
+		Geometry::debug();
+
+		std::cout << "width  : " << width << "\n";
+		std::cout << "height : " << height << "\n";
+	}
+};
 
 #endif /* DERIVATION1_H_ */
+
+
