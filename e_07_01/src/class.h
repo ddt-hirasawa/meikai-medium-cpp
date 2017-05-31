@@ -12,7 +12,7 @@
 
 #include<iostream>
 
-//基底クラス 1
+//基底クラス A
 class TestA {
 
 	int test;	//変数の定義
@@ -24,11 +24,11 @@ public:
 
 		test(10){
 
-		std::cout << "基底クラス 1 生成 データメンバ : " << test << "\n";
+		std::cout << "基底クラス A 生成 データメンバ : " << test << "\n";
 	}
 };
 
-//基底クラス
+//基底クラス B
 class TestB {
 
 	int test;	//変数の定義
@@ -40,11 +40,11 @@ public:
 
 		test(11){
 
-		std::cout << "基底クラス 2 生成 データメンバ : " << test << "\n";
+		std::cout << "基底クラス B 生成 データメンバ : " << test << "\n";
 	}
 };
 
-//派生クラス 1
+//派生クラス A
 class TestX : TestA , TestB{
 public:
 	int test;	//変数の定義
@@ -56,11 +56,11 @@ public:
 
 		test = 12;
 
-		std::cout << "派生クラス 1 生成 データメンバ : " << test << "\n";
+		std::cout << "派生クラス A 生成 データメンバ : " << test << "\n";
 	}
 };
 
-//派生クラス 2
+//派生クラス B
 class TestY : TestB , TestA{
 public:
 	int test;	//変数の定義
@@ -71,7 +71,7 @@ public:
 		TestB(), TestA(){
 
 		test = 13;
-		std::cout << "派生クラス 2 生成 データメンバ : " << test << "\n";
+		std::cout << "派生クラス B 生成 データメンバ : " << test << "\n";
 	}
 };
 
@@ -89,7 +89,7 @@ public:
 		TestX(),TestY(){
 
 		test = 14;
-		std::cout << "完成クラス 1 生成 データメンバ : " << test << "\n";
+		std::cout << "完成クラス A 生成 データメンバ : " << test << "\n";
 	}
 };
 
