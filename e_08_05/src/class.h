@@ -27,7 +27,7 @@ public:
 	//例外が発生した場合 例外の理由を表示します
 	virtual void display() const {
 
-		std::cout << "数値演算例外発生\n";
+		std::cout << "数値演算例外\n";
 	}
 
 	//仮想関数 演習部分
@@ -43,13 +43,13 @@ public:
 	//例外が発生した場合 例外の理由を表示します
 	virtual void display() const {
 
-		std::cout << "0による演算発生\n";
+		std::cout << "0による除算\n";
 	}
 
 	//仮想関数 演習部分
 	virtual std::string what() const {
 
-		std::string answer =  "0による演算発生\n";
+		std::string answer =  "0による除算\n";
 
 		return answer;
 	}
@@ -77,7 +77,7 @@ public:
 	//例外が発生した場合 例外の理由を表示します
 	virtual void display() const {
 
-		std::cout << tmp << " : 数値演算例外発生\n";
+		std::cout << "オーバーフロー (値は " << tmp << " )\n";
 	}
 
 	//仮想関数 演習部分
@@ -86,7 +86,7 @@ public:
 		std::ostringstream stream;		//sstreamに定義されている文字列変換
 
 		//変数も含めてすべて文字列になる
-		stream << tmp << " : 数値演算例外発生\n";
+		stream  << "オーバーフロー (値は " << tmp << " )\n";
 
 		return stream.str();
 	}
@@ -114,7 +114,7 @@ public:
 	//例外が発生した場合 例外の理由を表示します
 	virtual void display() const {
 
-		std::cout << tmp << " : 数値演算例外発生\n";
+		std::cout << "アンダーフロー (値は " << tmp << " )\n";
 	}
 
 	//仮想関数 演習部分
@@ -123,7 +123,7 @@ public:
 		std::ostringstream stream;		//sstreamに定義されている文字列変換
 
 		//変数も含めてすべて文字列になる
-		stream << tmp << " : 数値演算例外発生\n";
+		stream << "アンダーフロー (値は " << tmp << " )\n";
 
 		return stream.str();
 	}
