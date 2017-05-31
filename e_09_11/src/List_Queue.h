@@ -98,7 +98,7 @@ public:
 
 			Node<Type>* ptr = top_node->next_queue;
 
-			Type temp = *(top_node->data_queue);	//キューのデータを取り出す
+			Type& temp = *(top_node->data_queue);	//キューのデータを取り出す
 
 			delete top_node->data_queue;			//先頭ノードが指すデータを破棄
 			delete top_node;						//先頭ノードを破棄
