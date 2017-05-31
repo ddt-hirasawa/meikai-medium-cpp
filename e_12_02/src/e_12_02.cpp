@@ -40,3 +40,7 @@ bool file_exist(const char* filename) {
 
 	return file.is_open();			//オープンできたか？
 }
+/*
+ *  Debug 内の .gitignore を探索したところ true が返却 その後、ファイルを開いて
+ *  見たとこを中身が空になっていることを確認しました
+ */
