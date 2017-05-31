@@ -37,8 +37,17 @@ bool file_exist(const char* filename) {
 
 	ifstream file(filename);		//入力ストリームとしてオープン
 
-	return file.is_open();			//オープンできたか？
+	//return file.is_open();			//オープンできたか？
 
 	//return file;
-	//return !file.fail();
+	return !file.fail();
 }
+/* eclipse からではなくコマンドプロトから実行して確認しました
+ * 探すファイル名は e_12_01.exe で演習で置き換えて実行してもすべて探索できました
+ *
+ *
+ *	return file; -> ファイル自体を返却し ファイルがあれば  1  無ければ  0  になる
+ *
+ *	return !file.fail(); -> fail は失敗という意味なので ファイル探しに失敗すれば true
+ *	ファイルがある場合 false  その反転なのであれば true 無ければ false
+ */
