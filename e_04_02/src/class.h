@@ -65,8 +65,8 @@ class Derived : public Base {
 
 	//データメンバ クラスを含む 3つ
 	int derived_tmp;
-    Menb date1;
-	Menb date2;
+    Menb data1;
+	Menb data2;
 
 	//関数 表示を行う
 	void say() {
@@ -93,14 +93,10 @@ public:
 	 * また、デストラクタの動作はコンストラクタの逆順で 尚且つ、大きなクラスから破棄されていき
 	 * 基底クラスは最後に破棄されます
 	 */
-	Derived( int test1, int test2, int test3) {
+	Derived( int test1, int test2, int test3) :
 
-		date1 = Menb(test1);
-
-		date2 = Menb(test2);
-
-		Base tmp(test3);
-
+		Base(test3),data1(test1),data2(test2)
+	{
 		say();
 	}
 
