@@ -6,10 +6,10 @@
 作成者 平澤敬介
 */
 
-#include"class1.h"
-#include"class2.h"
-#include"class3.h"
-#include"class4.h"
+#include"Sphere.h"
+#include"Cone.h"
+#include"Cube.h"
+#include"Cylinder.h"
 #include"three.h"
 #include"stereo.h"
 #include<istream>

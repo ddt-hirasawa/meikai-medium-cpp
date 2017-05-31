@@ -6,29 +6,31 @@
 作成者 平澤敬介
 */
 
-#ifndef CLASS1_H_
-#define CLASS1_H_
+#ifndef CONE_H_
+#define CONE_H_
 
 #include"stereo.h"
 #include"three.h"
 
-//球体	立体抽象クラス 3次元抽象クラスを基底クラスとする
-class Sphere : public Stereo, public ThreeDimensional{
+//円錐	立体抽象クラス 3次元抽象クラスを基底クラスとする
+class Cone : public Stereo, public ThreeDimensional{
 
-	double radius;			//球体の半径をデータメンバとします
+	double radius;			//円錐の半径をデータメンバとします
+
+	double height;			//円錐の高さをデータメンバとしま
 
 public:
 
 	//コンストラクタ
-	Sphere(double r) :
+	Cone(double r,double h) :
 
 		//コンストラクタ初期化子で初期化
-		radius(r) {}
+		radius(r), height(h) {}
 
 	//クローン 同じオブジェクトを 確保しそのポインタを返却
-	Sphere* clone() const {
+	Cone* clone() const {
 
-		return new Sphere(radius);
+		return new Cone(radius,height);
 	}
 
 	//文字列で立体の名称を返却
@@ -36,7 +38,10 @@ public:
 
 		std::ostringstream stream;
 
-		stream << "Sphere(radius : " << radius << " )";
+		//円錐の半径を出力
+		stream << "Cone(radius : " << radius << " )";
+		//円錐の高さを出力
+		stream << "Cone(height : " << height << " )";
 
 		return stream.str();
 	}
@@ -46,17 +51,17 @@ public:
 
 		//アドレスや型の情報を表示
 		Stereo::debug();
-		//球体の半径を表示
+		//円錐の半径を表示
 		std::cout << "radius : " << radius << "\n";
+		//円錐の高さを表示
+		std::cout << "height : " << height << "\n";
  	}
 
 	//体積を返却する関数 体積はそれぞれの公式により求めます
 	double get_region() const {
 
-		return 4 * radius * radius * radius * PAI / 3;
+		return PAI * radius * radius * height / 3;
 	}
 };
 
-
-
-#endif /* CLASS1_H_ */
+#endif /* CONE_H_ */

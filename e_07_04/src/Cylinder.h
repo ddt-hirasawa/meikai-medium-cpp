@@ -6,8 +6,8 @@
 作成者 平澤敬介
 */
 
-#ifndef CLASS4_H_
-#define CLASS4_H_
+#ifndef CYLINDER_H_
+#define CYLINDER_H_
 
 #include"stereo.h"
 #include"three.h"
@@ -66,4 +66,4 @@ public:
 
 
 
-#endif /* CLASS4_H_ */
+#endif /* CYLINDER_H_ */

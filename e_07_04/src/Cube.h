@@ -6,8 +6,8 @@
 作成者 平澤敬介
 */
 
-#ifndef CLASS3_H_
-#define CLASS3_H_
+#ifndef CUBE_H_
+#define CUBE_H_
 
 #include"stereo.h"
 #include"three.h"
@@ -70,4 +70,4 @@ public:
 	}
 };
 
-#endif /* CLASS3_H_ */
+#endif /* CUBE_H_ */
