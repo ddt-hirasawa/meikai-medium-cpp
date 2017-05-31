@@ -50,8 +50,8 @@ public:
 		return tmp1;
 	}
 
-	//第一データメンバのゲッタ
-	Type first_char_get() const {
+	//第一データメンバのゲッタ char型
+	char first_char_get() const {
 
 		return tmp1;
 	}
@@ -68,7 +68,7 @@ public:
 		return tmp2;
 	}
 
-	//第二データメンバのゲッタ
+	//第二データメンバのゲッタ char型
 	char second_char_get() const {
 
 		return tmp2;
@@ -106,7 +106,8 @@ public:
 		//if文で検出し
 		if(tmp1 < tmp2) {
 
-			//コンパイラにより提供されるデフォルト関数
+			//標準ライブラリより提供されるデフォルト関数
+			//理解が浅かったです
 			std::swap(tmp1,tmp2);
 		}
 	}
