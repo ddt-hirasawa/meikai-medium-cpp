@@ -15,7 +15,7 @@
 using namespace std;
 
 //関数宣言
-static void mergesort(void* base,void* copy,size_t p_zero ,size_t nmenb,size_t size,
+static void mergesort(void* base,void* copy1,void* copy2,size_t p_zero ,size_t nmenb,size_t size,
 		int (*compar)(const void*, const void*));
 int int_result(const int* tmp1, const int* tmp2);
 namespace {
@@ -28,11 +28,12 @@ int main() {
 
 	srand(time(NULL));
 
-	int max = 20;		//要素数を50で固定
+	const int max = 20;		//要素数を50で固定
 
-	int array[max];			//ソートする配列を定義
+	int array[max];		//ソートする配列を定義
 
-	int copy[max];
+	int copy1[max / 2] = {0};
+	int copy2[max / 2] = {0};
 
 	//ソート前
 	cout << "ソート前\n";
@@ -42,14 +43,12 @@ int main() {
 
 		array[i] = rand() % 20;		//0 ～ 99 の間で乱数を発生
 
-		copy[i] = array[i];
-
 		//配列の要素をすべて表示します
 		cout << "array[" << setw(2) << i << "] = " << setw(2) << array[i] << "\n";
 	}
 
 	//マージソート呼び出し
-	mergesort(&array,&copy,0 ,max-1, sizeof(int),
+	mergesort(&array,&copy1,&copy2,0 ,max,sizeof(int),
 			reinterpret_cast<int (*)(const void*, const void*)>(int_result));
 
 		//ソート後
@@ -59,9 +58,14 @@ int main() {
 	for (int i = 0; i < max; i++) {
 
 		//配列の要素をすべて表示します
-		cout << "array[" << setw(2) << i << "] = " << setw(2) << array[i]
-				<< "\n";
+		cout << "array[" << setw(2) << i << "] = " << setw(2) << array[i] << "\n";
 	}
+
+	for (int i = 0; i < max / 2; i++)
+	cout << " copy[" << setw(2) << i << "] = " << setw(2) << copy1[i]<<"\n";
+
+	for (int i = 0; i < max / 2; i++)
+	cout << " copy[" << setw(2) << i << "] = " << setw(2) << copy2[i] << "\n";
 
 	return 0;
 }
@@ -80,8 +84,7 @@ void memswap(void* tmp1, void* tmp2, size_t num)
 	//要素数が0になるまで続く その間 ポインタは それぞれ進む
 	for(; num--; obj1++,obj2++) {
 
-
-		unsigned char obj3 = *obj1;	//ポインタの仮置き場
+		unsigned char obj3 = *obj2;	//ポインタの仮置き場
 
 		*obj1 = *obj2;				//obj1 と obj2を入れ替え
 
@@ -117,82 +120,108 @@ int int_result(const int* tmp1, const int* tmp2) {
 //仮引数 オブジェクトの先頭要素のポインタ base,オブジェクトの要素数、オブジェクトの型の大きさ size,比較関数
 //返却値 無し
 
-static void mergesort(void* base,void* copy,size_t p_zero ,size_t nmenb,size_t size,
+static void mergesort(void* base,void* copy1,void* copy2,size_t p_zero ,size_t nmenb,size_t size,
 		int (*compar)(const void*, const void*)) {
 
-	const char* ptr = reinterpret_cast<const char*>(base);//先頭要素を変更しない宣言をして char 型のポイントにする
+	char* ptr = reinterpret_cast<char*>(base);//先頭要素を変更しない宣言をして char 型のポイントにする
 
-	const char* copy_p = reinterpret_cast<const char*>(copy);//先頭要素を変更しない宣言をして char 型のポイントにする
+	char* copy_p1 = reinterpret_cast<char*>(copy1);//先頭要素を変更しない宣言をして char 型のポイントにする
+	char* copy_p2 = reinterpret_cast<char*>(copy2);//先頭要素を変更しない宣言をして char 型のポイントにする
 
+	//再帰の折り返し部分
 	if(p_zero >= nmenb) {
 
+		//何もせずに戻る
 		return;
 	}
 
 	size_t point_m = (p_zero + nmenb) / 2;			//中央値
 
-	mergesort(const_cast<void*>(reinterpret_cast<const void*>(&ptr[p_zero * size])),
+	//再帰 中央より前
+	mergesort(const_cast<void*>(reinterpret_cast<const void*>(&ptr[p_zero])),
 
-			const_cast<void*>(reinterpret_cast<const void*>(&copy_p[p_zero * size])),
+			const_cast<void*>(reinterpret_cast<const void*>(&copy_p1[p_zero])),
+
+			const_cast<void*>(reinterpret_cast<const void*>(&copy_p2[p_zero])),
 
 			p_zero,point_m,size,compar);
 
-	mergesort(const_cast<void*>(reinterpret_cast<const void*>(&ptr[point_m * size])),
+	//再帰 中央より後ろ
+	mergesort(const_cast<void*>(reinterpret_cast<const void*>(&ptr[point_m])),
 
-			const_cast<void*>(reinterpret_cast<const void*>(&copy_p[point_m * size])),
+			const_cast<void*>(reinterpret_cast<const void*>(&copy_p1[point_m])),
+
+			const_cast<void*>(reinterpret_cast<const void*>(&copy_p2[point_m])),
 
 			point_m+1,nmenb,size,compar);
 
-	for(size_t i = p_zero; i < point_m; i++ ) {
+	//前部分の代入部分
+	/*for(size_t i = p_zero; i < point_m; i++ ) {
 
+		if(&copy_p[i * size] != '\0' && &ptr[i * size] != '\0')
 		memswap(
 				const_cast<void*>(reinterpret_cast<const void*>(&copy_p[i * size])),
 
 				const_cast<void*>(reinterpret_cast<const void*>(&ptr[i * size])), size);
+
+
 	}
 
-	size_t j = nmenb;
+	/*for(size_t i = point_m; i < --j; i++) {
 
-	for(size_t i = point_m; i < nmenb; i++ ) {
-
-		/*memswap(
+		if(&copy_p[i * size] != '\0' && &ptr[j * size] != '\0')
+		memswap(
 				const_cast<void*>(reinterpret_cast<const void*>(&copy_p[i * size])),
 
-				const_cast<void*>(reinterpret_cast<const void*>(&ptr[j * size])), size);*/
-		j--;
+				const_cast<void*>(reinterpret_cast<const void*>(&ptr[j * size])), size);
+	}*/
+
+	for(size_t i = p_zero; i <= point_m * size; i++ ) {
+
+		*(copy_p1 + i) = *(ptr + i);
+
+		copy_p2[nmenb * size / 2 - i]  = ptr[i + point_m * size];
+
 	}
 
-	size_t select_l = p_zero; /* i とj は作業領域のデーターを */
-	size_t select_r = nmenb; /* k は配列の要素を指している */
+	size_t select_l = p_zero;
+	size_t select_r = nmenb;
 
-	for (size_t set = p_zero; set < nmenb; set++) {
+	/*for (size_t set = p_zero; set < nmenb; set++) {
 
-		if (compar(reinterpret_cast<const char*>(&*(copy_p + select_l * size)),
+		if (compar(reinterpret_cast<const char*>(&copy_p[select_l * size]),
 
 				//比較関数で拾い要素を入れ替える
 
-						reinterpret_cast<const char*>(&*(copy_p + select_r * size))) > 0) {
+						reinterpret_cast<const char*>(&copy_p[select_r * size])) > 0 ) {
 
-			/*memswap(
+			if(&copy_p[select_r * size] != '\0' && &copy_p[select_l * size] != '\0') {
+
+
+			memswap(
 					const_cast<void*>(reinterpret_cast<const void*>(&ptr[set
 							* size])),
 
 					const_cast<void*>(reinterpret_cast<const void*>(&copy_p[select_l
-							* size])), size);*/
+							* size])), size);
 
 			select_l++;
 
 		} else {
 
-			/*memswap(
+			memswap(
 					const_cast<void*>(reinterpret_cast<const void*>(&ptr[set
 							* size])),
 
 					const_cast<void*>(reinterpret_cast<const void*>(&ptr[select_r
-							* size])), size);*/
+							* size])), size);
 
 			select_r--;
 		}
-	}
+
+
+		}
+	}*/
+
 }
 
